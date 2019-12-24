@@ -22,6 +22,7 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 open class BaseActivity : RxAppCompatActivity() {
 
 
+    var mLoadingView: LoadingView? = null
 
 
 
@@ -65,10 +66,17 @@ open class BaseActivity : RxAppCompatActivity() {
 
 
     protected fun closeLoadingView() {
+        mLoadingView?.run {
+            if(this.isShown){
+               this.close()
+            }
+        }
     }
 
     protected fun showErrorLoadingView() {
-
+        mLoadingView?.run {
+            this.onError()
+        }
     }
 
 
@@ -79,9 +87,8 @@ open class BaseActivity : RxAppCompatActivity() {
 
     // 真正的把 loading page 显示到我们屏幕上
     private fun showLoadingView(@LoadingView.Mode mode : Int,parent : ViewGroup){
-        val loadingView = LayoutInflater.from(this).inflate(R.layout.mvp_layout_loading, parent, false) as LoadingView;
-        loadingView.showMode(mode)
-        parent.addView(loadingView)
+        mLoadingView = LoadingView.inject(parent);
+        mLoadingView!!.showMode(mode)
     }
 
 
