@@ -40,4 +40,23 @@ public class BaseFragment extends RxFragment {
     }
 
 
+
+    protected void showPopLoadingView(){
+
+    }
+
+    protected void showFullLoadingView(){
+
+    }
+
+
+    protected void closeLoadingView(){
+
+    }
+
+    protected void showErrorLoadingView(){
+
+    }
+
+
 }

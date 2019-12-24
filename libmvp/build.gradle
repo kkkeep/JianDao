@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
@@ -37,12 +39,16 @@ dependencies {
     implementation deps.retrofitX.retrofit2
     implementation deps.retrofitX.retrofit_converter_gson
     implementation deps.retrofitX.retrofit2_adapter_rxjava
-    implementation deps.retrofitX.retrofit2_rxjava_components
+    api deps.retrofitX.retrofit2_rxjava_components
 
     implementation deps.rxJavaX.rxjava
     implementation deps.rxJavaX.rxAndroid
 
   //  implementation 'com.github.Cutta:GifView:1.4'
     implementation deps.other.gifView
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+
+
 
 }
