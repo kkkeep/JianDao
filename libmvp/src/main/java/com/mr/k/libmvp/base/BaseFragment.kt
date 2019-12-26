@@ -16,6 +16,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.ContentFrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
+import com.mr.k.libmvp.R
 
 import com.mr.k.libmvp.manager.MvpFragmentManager
 import com.mr.k.libmvp.widget.LoadingView
@@ -24,20 +25,20 @@ import com.trello.rxlifecycle2.components.support.RxFragment
 /*
  * created by Cherry on 2019-12-20
  **/
-abstract class BaseFragment : RxFragment() ,BaseLoading {
+abstract class BaseFragment : RxFragment(), BaseLoading {
 
 
     override var mLoadingView: LoadingView? = null;
 
 
-   private lateinit var mHostActivity: Activity
+    private lateinit var mHostActivity: Activity
 
     abstract val layoutId: Int
 
-    val isAddBackStack: Boolean
+    open val isAddBackStack: Boolean
         get() = true
 
-    val action: Action
+    open val action: Action
         get() = Action.Hide
 
 
@@ -48,14 +49,17 @@ abstract class BaseFragment : RxFragment() ,BaseLoading {
     }
 
     @SuppressLint("ResourceType")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         doOnCreate(inflater, container, savedInstanceState)
 
         val view: View
 
         val rootView = inflater.inflate(layoutId, container, false)
-
 
 
         val parentName = rootView.javaClass.simpleName
@@ -77,7 +81,7 @@ abstract class BaseFragment : RxFragment() ,BaseLoading {
 
         }
 
-        if(view.id == View.NO_ID){
+        if (view.id == View.NO_ID) {
             view.id = 0x10000000
         }
 
@@ -88,15 +92,20 @@ abstract class BaseFragment : RxFragment() ,BaseLoading {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView(view,savedInstanceState)
+        initView(view, savedInstanceState)
         loadData()
     }
 
-   protected  open fun doOnCreate(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {}
+    protected open fun doOnCreate(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) {
+    }
 
-   protected open fun loadData() {}
+    protected open fun loadData() {}
 
-     protected open fun initView(view : View, savedInstanceState: Bundle?){}
+    protected open fun initView(view: View, savedInstanceState: Bundle?) {}
 
     protected fun showToast(@StringRes id: Int) {
         Toast.makeText(context, id, Toast.LENGTH_SHORT).show()
@@ -112,22 +121,27 @@ abstract class BaseFragment : RxFragment() ,BaseLoading {
         Remove, Detach, Hide
     }
 
-
+/*
     override fun getDefaultRootVieId(): Int {
         return view!!.id
-    }
+    }*/
 
     override fun <T : View> getViewById(id: Int): T? {
 
-        var v : T?  =  view!!.findViewById(id)
+        var v: T? = view!!.findViewById(id)
 
-        if(v == null){
-           v = mHostActivity.findViewById<T>(id);
+        if (v == null) {
+            v = mHostActivity.findViewById<T>(id);
         }
         return v
 
     }
 
+
+    open fun getEnter() = R.anim.common_page_right_in
+    open fun getExit() = R.anim.common_page_left_out
+    open fun popExit() = R.anim.common_page_right_out
+    open fun popEnter() = R.anim.common_page_left_in
 
 
 }

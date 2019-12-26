@@ -1,8 +1,10 @@
 package com.mr.k.libmvp.base
 
+import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.fragment.app.Fragment
 import com.mr.k.libmvp.widget.LoadingView
 
 
@@ -53,10 +55,18 @@ interface BaseLoading{
 
     fun <T : View> getViewById(id : Int) : T?
 
-    fun getDefaultRootVieId() : Int
+    fun getDefaultRootVieId() : Int{
+        if(this is Activity){
+            return android.R.id.content
+        }else{
+            val fragment = this as Fragment
+            return fragment.view!!.id;
+        }
+    }
 
     //
    open fun getParentForLoading(@IdRes viewId : Int = android.R.id.content) : ViewGroup {
+
         return getViewById(viewId)!!
     }
 

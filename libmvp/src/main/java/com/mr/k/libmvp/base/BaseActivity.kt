@@ -21,7 +21,10 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
  * created by Cherry on 2019-12-20
  **/
 open class BaseActivity : RxAppCompatActivity(),BaseLoading{
-    override fun getDefaultRootVieId(): Int = android.R.id.content
+
+
+
+  /*  override fun getDefaultRootVieId(): Int = android.R.id.content*/
 
 
     override fun <T : View> getViewById(id: Int): T {

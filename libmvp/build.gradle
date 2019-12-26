@@ -34,16 +34,16 @@ dependencies {
     implementation  deps.androidX.constraintlayout
 
 
-    implementation deps.okhttp3X.logging_interceptor
-    implementation deps.okhttp3X.okhttp3
+    api deps.okhttp3X.logging_interceptor
+    api deps.okhttp3X.okhttp3
 
-    implementation deps.retrofitX.retrofit2
-    implementation deps.retrofitX.retrofit_converter_gson
-    implementation deps.retrofitX.retrofit2_adapter_rxjava
+    api deps.retrofitX.retrofit2
+    api deps.retrofitX.retrofit_converter_gson
+    api deps.retrofitX.retrofit2_adapter_rxjava
     api deps.retrofitX.retrofit2_rxjava_components
 
-    implementation deps.rxJavaX.rxjava
-    implementation deps.rxJavaX.rxAndroid
+    api deps.rxJavaX.rxjava
+    api deps.rxJavaX.rxAndroid
 
   //  implementation 'com.github.Cutta:GifView:1.4'
     implementation deps.other.gifView
