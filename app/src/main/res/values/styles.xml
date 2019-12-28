@@ -15,5 +15,23 @@
     </style>
 
 
+    <style name="JianDao" parent="AppTheme"/>
+
+    <style name="JianDao.LineHorizontal">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_marginStart">42dp</item>
+        <item name="android:layout_marginEnd">42dp</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="android:background">@color/gray_7</item>
+    </style>
+
+    <style name="JianDao.AutoEditText">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textColorHint">@color/gray_CCCCCC</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
 </resources>

@@ -18,9 +18,9 @@
     <color name="gray_5">#e6e6e6</color>
     <color name="gray_6">#999999</color>
     <color name="gray_7">#D6D8DA</color>
-    <color name="gray_8">#cccccc</color>
+    <color name="gray_CCCCCC">#cccccc</color>
     <color name="gray_9">#F7F7F7</color>
-    <color name="gray_10">#9B9C9E</color>
+    <color name="gray_9B9C9E">#9B9C9E</color>
     <color name="gray_11">#F4F4F4</color>
 
     <color name="red">#FF0000</color>
