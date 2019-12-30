@@ -1,9 +1,10 @@
-package com.jy.jiandao;
+package com.jy.jiandao.auth;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import com.jy.jiandao.auth.login.VerificationLoginFragment;
 import com.jy.jiandao.auth.register.RegisterFragment;
 import com.mr.k.libmvp.base.BaseActivity;
 import com.mr.k.libmvp.manager.MvpFragmentManager;
@@ -18,6 +19,6 @@ public class AuthActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
        // setContentView(R.layout.activity_auth);
 
-        MvpFragmentManager.addOrShowFragment(getSupportFragmentManager(), RegisterFragment.class, android.R.id.content );
+        MvpFragmentManager.addOrShowFragment(getSupportFragmentManager(), VerificationLoginFragment.class,null, android.R.id.content );
     }
 }

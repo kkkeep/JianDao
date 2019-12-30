@@ -10,9 +10,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jy.jiandao.R;
+import com.jy.jiandao.auth.login.PasswordLoginFragment;
+import com.jy.jiandao.auth.login.VerificationLoginFragment;
 import com.mr.k.libmvp.base.BaseMvpFragment;
 import com.mr.k.libmvp.base.IBaseMvpPresenter;
 import com.mr.k.libmvp.base.IBaseMvpView;
+import com.mr.k.libmvp.manager.MvpFragmentManager;
 import com.mr.k.libmvp.widget.EditCleanButton;
 
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +34,9 @@ public class RegisterFragment extends BaseMvpFragment<RegisterContract.IRegister
     private Button mBtnNext;
 
     private TextView mTvGetCode;
+
+    private TextView mTvVCLogin;
+    private TextView mTvPsdLogin;
 
 
     @Override
@@ -80,6 +86,16 @@ public class RegisterFragment extends BaseMvpFragment<RegisterContract.IRegister
         });
 
 
+        mTvVCLogin = view.findViewById(R.id.auth_register_tv_code_login);
+        mTvVCLogin.setOnClickListener(v -> {
+            MvpFragmentManager.addOrShowFragment(getFragmentManager(), VerificationLoginFragment.class,this,android.R.id.content);
+        });
+        mTvPsdLogin = view.findViewById(R.id.auth_register_tv_psd_login);
+
+        mTvPsdLogin.setOnClickListener( v->{
+            MvpFragmentManager.addOrShowFragment(getFragmentManager(), PasswordLoginFragment.class,this,android.R.id.content);
+        });
+
 
     }
 
@@ -88,15 +104,9 @@ public class RegisterFragment extends BaseMvpFragment<RegisterContract.IRegister
         return new RegisterPresenter();
     }
 
-    @Override
-    public int getEnter() {
-        return 0;
-    }
 
-    @Override
-    public boolean isAddBackStack() {
-        return false;
-    }
+
+
 
     @Override
     public void onSmsCodeResult(String msg, boolean success) {
@@ -110,9 +120,10 @@ public class RegisterFragment extends BaseMvpFragment<RegisterContract.IRegister
     @Override
     public void onVerifySmsCodeResult(String msg, boolean success) {
         if(success){
-            showToast("注册成功");
+            showToast("验证码成功");
+            MvpFragmentManager.addOrShowFragment(getFragmentManager(), SetPsdFragment.class,this,android.R.id.content);
         }else{
-            showToast("注册失败" + msg);
+            showToast("验证码失败" + msg);
         }
     }
 }

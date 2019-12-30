@@ -118,7 +118,7 @@ abstract class BaseFragment : RxFragment(), BaseLoading {
 
     // 显示一个fragment 时，对上一个fragment 做的处理
     enum class Action {
-        Remove, Detach, Hide
+        Remove, Detach, Hide,NONE
     }
 
 /*
@@ -136,6 +136,7 @@ abstract class BaseFragment : RxFragment(), BaseLoading {
         return v
 
     }
+
 
 
     open fun getEnter() = R.anim.common_page_right_in

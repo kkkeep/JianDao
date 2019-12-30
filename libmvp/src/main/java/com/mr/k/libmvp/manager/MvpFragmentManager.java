@@ -2,6 +2,7 @@ package com.mr.k.libmvp.manager;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -19,15 +20,22 @@ import java.lang.ref.SoftReference;
 public class MvpFragmentManager {
 
 
-    private static SoftReference<BaseFragment> mPreFragmentReference = new SoftReference<>(null);
+    /**
+     *
+     * @param fragmentManager
+     * @param next 将要显示的fragment
+     * @param current // 当前显示的fragment，也就是要对其 hide，detach，或者 remove  或者不足任何操作
+     * @param containerId
+     * @return
+     */
+    public static BaseFragment addOrShowFragment(FragmentManager fragmentManager, Class<? extends BaseFragment> next, BaseFragment current, int containerId) {
 
-    public static BaseFragment addOrShowFragment(FragmentManager fragmentManager, Class<? extends BaseFragment> aClass, int containerId){
-
-        return addOrShowFragment(fragmentManager, aClass, containerId, null,null);
+        return addOrShowFragment(fragmentManager, next, current, containerId, null, null);
     }
-    public static BaseFragment addOrShowFragment(FragmentManager fragmentManager, Class<? extends BaseFragment> aClass, int containerId, Bundle args){
 
-        return addOrShowFragment(fragmentManager, aClass, containerId, null,args);
+    public static BaseFragment addOrShowFragment(FragmentManager fragmentManager, Class<? extends BaseFragment> next, BaseFragment current, int containerId, Bundle args) {
+
+        return addOrShowFragment(fragmentManager, next, current, containerId, null, args);
     }
 
     /**
@@ -47,10 +55,10 @@ public class MvpFragmentManager {
      * 回退栈
      */
 
-    public static BaseFragment addOrShowFragment(FragmentManager fragmentManager, Class<? extends BaseFragment> aClass, int containerId,String tag, Bundle args) {
+    public static BaseFragment addOrShowFragment(FragmentManager fragmentManager, Class<? extends BaseFragment> next, BaseFragment current, int containerId, String tag, Bundle args) {
 
-        if(TextUtils.isEmpty(tag)){
-            tag = getFragmentTag(aClass);
+        if (TextUtils.isEmpty(tag)) {
+            tag = getFragmentTag(next);
         }
 
         BaseFragment baseFragment = null;
@@ -65,29 +73,24 @@ public class MvpFragmentManager {
 
             if (fragment == null) {
 
-                baseFragment = aClass.newInstance(); // new  一个 fragment 实例
+                baseFragment = next.newInstance(); // new  一个 fragment 实例
 
                 baseFragment.setArguments(args); // 设置参数
 
-
-                fragmentTransaction.setCustomAnimations(baseFragment.getEnter(),baseFragment.getExit(),baseFragment.popEnter(), baseFragment.popExit());
+                fragmentTransaction.setCustomAnimations(baseFragment.getEnter(), baseFragment.getExit(), baseFragment.popEnter(), baseFragment.popExit());
 
                 fragmentTransaction.add(containerId, baseFragment, tag); // add 一个 fragment 并且 打一个 tag,方便下一次查找
 
-                handLastFragment(fragmentManager, fragmentTransaction, baseFragment);// 隐藏之前的，否则有可能有重叠现象
+                handLastFragment(fragmentManager, fragmentTransaction, baseFragment, current);// 隐藏之前的，否则有可能有重叠现象
 
                 if (baseFragment.isAddBackStack()) { // 是否加入回退栈
                     fragmentTransaction.addToBackStack(tag); // 加入回退栈，记住加入回退栈的是事物本身，而不是不fragment 加入到了回退栈
                 }
                 fragmentTransaction.commit();
 
-                mPreFragmentReference = new SoftReference<>(baseFragment);
-
-
             } else {
                 // fragment 能被复用，就不需要 new 一个 新的
                 baseFragment = (BaseFragment) fragment;
-
                 int count = fragmentManager.getBackStackEntryCount();
                 FragmentManager.BackStackEntry stackEntry = null;
                 for (int i = 0; i < count; i++) {
@@ -98,24 +101,30 @@ public class MvpFragmentManager {
                         return baseFragment;
                     }
                 }
+
+
                 if (count > 0) { // 清空回退栈
                     fragmentManager.popBackStackImmediate(fragmentManager.getBackStackEntryAt(0).getName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 } else {
 
+
+                    if (!baseFragment.isAdded()) {
+                        fragmentTransaction.add(containerId, baseFragment, tag);
+                        if (baseFragment.isAddBackStack()) { // 是否加入回退栈
+                            fragmentTransaction.addToBackStack(tag); // 加入回退栈，记住加入回退栈的是事物本身，而不是不fragment 加入到了回退栈
+                        }
+                    }
                     if (baseFragment.isDetached()) {
                         fragmentTransaction.attach(baseFragment);
                     } else if (baseFragment.isHidden()) {
                         fragmentTransaction.show(baseFragment);
                     }
+                    handLastFragment(fragmentManager, fragmentTransaction, baseFragment, current);
 
-                    handLastFragment(fragmentManager, fragmentTransaction, baseFragment);
                     baseFragment.setArguments(args);
                     fragmentTransaction.commit();
-
-                    mPreFragmentReference = new SoftReference<>(baseFragment);
                 }
 
-                //}
             }
 
         } catch (Exception e) {
@@ -127,33 +136,27 @@ public class MvpFragmentManager {
     }
 
 
-    private static void handLastFragment(FragmentManager fragmentManager, FragmentTransaction fragmentTransaction, BaseFragment fragment) {
+    private static void handLastFragment(FragmentManager fragmentManager, FragmentTransaction fragmentTransaction, BaseFragment fragment, BaseFragment preFragment) {
 
-        if (mPreFragmentReference != null && mPreFragmentReference.get() != null) {
-            BaseFragment f = mPreFragmentReference.get();
-
-            if(fragmentManager.findFragmentByTag(getFragmentTag(f.getClass())) != f){
-                return;
+        if (preFragment == null || fragment.getAction() == BaseFragment.Action.NONE) {
+            return;
+        }
+        if (fragment.getAction() == BaseFragment.Action.Hide) {
+            if (!preFragment.isHidden()) {
+                fragmentTransaction.hide(preFragment);
             }
-            if (fragment.getAction() == BaseFragment.Action.Hide) {
-                if (!f.isHidden()) {
-                    fragmentTransaction.hide(f);
-                }
-            } else if (fragment.getAction() == BaseFragment.Action.Remove) {
-                if (f.isAdded()) {
-                    fragmentTransaction.remove(f);
-                }
-            } else if (fragment.getAction() == BaseFragment.Action.Detach) {
-                if (!f.isDetached()) {
-                    fragmentTransaction.detach(f);
-                }
+        } else if (fragment.getAction() == BaseFragment.Action.Remove) {
+            if (preFragment.isAdded()) {
+                fragmentTransaction.remove(preFragment);
+            }
+        } else if (fragment.getAction() == BaseFragment.Action.Detach) {
+            if (!preFragment.isDetached()) {
+                fragmentTransaction.detach(preFragment);
             }
         }
-
     }
 
-
-    private static String getFragmentTag(Class< ? extends BaseFragment> aClass){
+    private static String getFragmentTag(Class<? extends BaseFragment> aClass) {
         return aClass.getName();
     }
 }

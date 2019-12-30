@@ -7,4 +7,6 @@
     <string name="text_auth_next_step">下一步</string>
     <string name="text_auth_code_login">验证码登录</string>
     <string name="text_auth_tv_psd_login">密码登录</string>
+    <string name="text_auth_password_login">密码登录</string>
+    <string name="text_auth_register_now">立即注册</string>
 </resources>
