@@ -56,12 +56,12 @@ public class RegisterFragment extends BaseMvpFragment<RegisterContract.IRegister
 
         mTvGetCode = view.findViewById(R.id.auth_register_tv_get_verification_code);
 
-        mTvGetCode.setOnClickListener(new View.OnClickListener() {
+       /* mTvGetCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.getSmsCode(mEdtPhoneNum.getText().toString());
             }
-        });
+        });*/
         mEdtVerification.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -95,6 +95,7 @@ public class RegisterFragment extends BaseMvpFragment<RegisterContract.IRegister
         mTvPsdLogin.setOnClickListener( v->{
             MvpFragmentManager.addOrShowFragment(getFragmentManager(), PasswordLoginFragment.class,this,android.R.id.content);
         });
+
 
 
     }

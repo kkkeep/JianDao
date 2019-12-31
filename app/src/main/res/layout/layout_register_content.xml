@@ -87,13 +87,17 @@
         app:layout_constraintEnd_toStartOf="@+id/auth_register_tv_get_verification_code"
         app:layout_constraintStart_toStartOf="@+id/line2" />
 
-    <TextView
+    <com.mr.k.libmvp.widget.CountDownView
         android:id="@+id/auth_register_tv_get_verification_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_auth_get_verification_code"
         android:textColor="@color/gray_9B9C9E"
+        app:countDownText="倒计时:"
+        app:countDownTextColor="@color/red"
+        app:countDownCount="10"
         android:textSize="13dp"
+        app:countDownInterval="1"
         app:layout_constraintBottom_toBottomOf="@+id/auth_register_edt_verification_code"
         app:layout_constraintEnd_toEndOf="@+id/line2"
         app:layout_constraintTop_toTopOf="@+id/auth_register_edt_verification_code" />

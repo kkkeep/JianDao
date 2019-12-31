@@ -19,6 +19,6 @@ public class AuthActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
        // setContentView(R.layout.activity_auth);
 
-        MvpFragmentManager.addOrShowFragment(getSupportFragmentManager(), VerificationLoginFragment.class,null, android.R.id.content );
+        MvpFragmentManager.addOrShowFragment(getSupportFragmentManager(), RegisterFragment.class,null, android.R.id.content );
     }
 }
