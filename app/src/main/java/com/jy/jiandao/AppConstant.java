@@ -30,6 +30,7 @@ public interface AppConstant {
 
          String AUTH_REGISTER_MOBILE = "mobile";
          String AUTH_REGISTER_TYPE = "type";
+         String VERIFICATION_CODE = "sms_code";
     }
 
 

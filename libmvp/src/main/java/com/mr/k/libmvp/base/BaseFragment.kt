@@ -96,6 +96,18 @@ abstract class BaseFragment : RxFragment(), BaseLoading {
         loadData()
     }
 
+
+    @JvmOverloads
+    protected fun <V : View>bindView(@IdRes id: Int,listener: View.OnClickListener? = null) : V{
+
+        val view = view!!.findViewById<V>(id);
+
+        listener?.apply {
+            view.setOnClickListener(this);
+        }
+        return view
+
+    }
     protected open fun doOnCreate(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -107,6 +119,10 @@ abstract class BaseFragment : RxFragment(), BaseLoading {
 
     protected open fun initView(view: View, savedInstanceState: Bundle?) {}
 
+
+    protected fun back(){
+        activity?.onBackPressed()
+    }
     protected fun showToast(@StringRes id: Int) {
         Toast.makeText(context, id, Toast.LENGTH_SHORT).show()
     }

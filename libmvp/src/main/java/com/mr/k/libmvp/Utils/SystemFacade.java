@@ -1,6 +1,7 @@
 package com.mr.k.libmvp.Utils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -46,6 +47,7 @@ import java.util.Random;
 /*
  * created by Cherry on 2019-06-18
  **/
+@SuppressLint("MissingPermission")
 public class SystemFacade {
 
     public static boolean hasFroyo() {
@@ -652,16 +654,16 @@ public class SystemFacade {
         //使用rgb混合生成一种新的颜色,Color.rgb生成的是一个int数
         return Color.rgb(red,green, blue);
     }
-    public static boolean isValidSmsCodeNumber(String phoneNumber){
-        if(TextUtils.isEmpty(phoneNumber)){
+    public static boolean isValidSmsCodeNumber(String code){
+        if(TextUtils.isEmpty(code)){
             return false;
         }
 
-        if(phoneNumber.trim().length() <  4 || phoneNumber.trim().length() > 6){
+        if(code.trim().length() <  4 || code.trim().length() > 6){
             return false;
         }
 
-        if(!phoneNumber.matches("^[0-9]\\d*$")){
+        if(!code.matches("^[0-9]\\d*$")){
             return false;
         }
 

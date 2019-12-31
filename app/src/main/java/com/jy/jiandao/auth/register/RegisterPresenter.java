@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import static com.jy.jiandao.AppConstant.RequestKey.AUTH_REGISTER_MOBILE;
 import static com.jy.jiandao.AppConstant.RequestKey.AUTH_REGISTER_TYPE;
+import static com.jy.jiandao.AppConstant.RequestKey.VERIFICATION_CODE;
 
 /*
  * created by Cherry on 2019-12-27
@@ -51,6 +52,24 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.IRegisterV
 
     @Override
     public void verifySmsCode(String phoneNumber, String code) {
+        HashMap<String,String> hashMap = ParamsUtils.getCommonParams();
+        hashMap.put(AUTH_REGISTER_MOBILE, phoneNumber);
+        hashMap.put(AUTH_REGISTER_TYPE,"1");
+        hashMap.put(VERIFICATION_CODE,code);
+        mRepository.verifySmsCode(hashMap, new IBaseCallBack<String>() {
+            @Override
+            public void onSuccess(String data) {
+                if(mView != null){
+                    mView.onVerifySmsCodeResult(data, true);
+                }
+            }
 
+            @Override
+            public void onFail(String msg) {
+                if(mView != null){
+                    mView.onVerifySmsCodeResult(msg, false);
+                }
+            }
+        });
     }
 }

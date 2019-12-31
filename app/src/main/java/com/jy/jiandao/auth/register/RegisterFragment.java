@@ -10,11 +10,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jy.jiandao.R;
+import com.jy.jiandao.auth.BaseAuthFragment;
 import com.jy.jiandao.auth.login.PasswordLoginFragment;
 import com.jy.jiandao.auth.login.VerificationLoginFragment;
-import com.mr.k.libmvp.base.BaseMvpFragment;
-import com.mr.k.libmvp.base.IBaseMvpPresenter;
-import com.mr.k.libmvp.base.IBaseMvpView;
+import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.manager.MvpFragmentManager;
 import com.mr.k.libmvp.widget.EditCleanButton;
 
@@ -24,19 +23,13 @@ import org.jetbrains.annotations.Nullable;
 /*
  * created by Cherry on 2019-12-27
  **/
-public class RegisterFragment extends BaseMvpFragment<RegisterContract.IRegisterPresenter> implements RegisterContract.IRegisterView {
+public class RegisterFragment extends BaseAuthFragment<RegisterContract.IRegisterPresenter> implements RegisterContract.IRegisterView, View.OnClickListener {
 
 
     private EditText mEdtPhoneNum;
     private EditCleanButton mBtnCleanPhoneNum;
-
     private EditText mEdtVerification;
     private Button mBtnNext;
-
-    private TextView mTvGetCode;
-
-    private TextView mTvVCLogin;
-    private TextView mTvPsdLogin;
 
 
     @Override
@@ -47,57 +40,71 @@ public class RegisterFragment extends BaseMvpFragment<RegisterContract.IRegister
 
     @Override
     protected void initView(@NotNull View view, @Nullable Bundle savedInstanceState) {
-        mBtnCleanPhoneNum = view.findViewById(R.id.auth_register_iv_clean);
-        mEdtPhoneNum   = view.findViewById(R.id.auth_register_edt_phone_num);
+        mBtnCleanPhoneNum = bindView(R.id.auth_register_iv_clean);
+        mEdtPhoneNum = bindView(R.id.auth_register_edt_phone_num);
+        mEdtVerification = bindView(R.id.auth_register_edt_verification_code);
+        mBtnNext = bindView(R.id.auth_register_btn_next_step, this);
+        bindView(R.id.auth_register_tv_get_verification_code, this);
+        bindView(R.id.auth_register_tv_code_login, this);
+        bindView(R.id.auth_register_tv_psd_login, this);
+
+
         mBtnCleanPhoneNum.bindEditText(mEdtPhoneNum);
-
-        mEdtVerification = view.findViewById(R.id.auth_register_edt_verification_code);
-        mBtnNext = view.findViewById(R.id.auth_register_btn_next_step);
-
-        mTvGetCode = view.findViewById(R.id.auth_register_tv_get_verification_code);
-
-       /* mTvGetCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getSmsCode(mEdtPhoneNum.getText().toString());
-            }
-        });*/
         mEdtVerification.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mBtnNext.setEnabled(TextUtils.isEmpty(mEdtVerification.getText().toString().trim()));
-
+                mBtnNext.setEnabled(!TextUtils.isEmpty(mEdtVerification.getText().toString().trim()));
             }
 
             @Override
-            public void afterTextChanged(Editable s) { }
-        });
-
-
-
-        mBtnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.verifySmsCode(mEdtPhoneNum.getText().toString(), mEdtVerification.getText().toString());
+            public void afterTextChanged(Editable s) {
             }
         });
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.auth_register_tv_get_verification_code: {
+                String phoneNum = mEdtPhoneNum.getText().toString().trim();
 
-        mTvVCLogin = view.findViewById(R.id.auth_register_tv_code_login);
-        mTvVCLogin.setOnClickListener(v -> {
-            MvpFragmentManager.addOrShowFragment(getFragmentManager(), VerificationLoginFragment.class,this,android.R.id.content);
-        });
-        mTvPsdLogin = view.findViewById(R.id.auth_register_tv_psd_login);
+                if(SystemFacade.isValidPhoneNumber(phoneNum)){
+                    mPresenter.getSmsCode(phoneNum);
+                }else{
+                    showToast(R.string.error_invalid_phone_num);
+                }
 
-        mTvPsdLogin.setOnClickListener( v->{
-            MvpFragmentManager.addOrShowFragment(getFragmentManager(), PasswordLoginFragment.class,this,android.R.id.content);
-        });
+                break;
+            }
+            case R.id.auth_register_btn_next_step: {
+                String phoneNum = mEdtPhoneNum.getText().toString().trim();
+                if(SystemFacade.isValidPhoneNumber(phoneNum)){
+                    mPresenter.getSmsCode(phoneNum);
+                }else{
+                    showToast(R.string.error_invalid_phone_num);
+                }
 
+                String code = mEdtVerification.getText().toString().trim();
+                if(SystemFacade.isValidSmsCodeNumber(code)){
+                    mPresenter.verifySmsCode(phoneNum,code);
+                }
 
+                break;
+            }
+            case R.id.auth_register_tv_code_login: {
+                MvpFragmentManager.addOrShowFragment(getFragmentManager(), VerificationLoginFragment.class, this, android.R.id.content);
+                break;
+            }
+            case R.id.auth_register_tv_psd_login: {
+                MvpFragmentManager.addOrShowFragment(getFragmentManager(), PasswordLoginFragment.class, this, android.R.id.content);
+                break;
+            }
 
+        }
     }
 
     @Override
@@ -106,24 +113,22 @@ public class RegisterFragment extends BaseMvpFragment<RegisterContract.IRegister
     }
 
 
-
-
-
     @Override
     public void onSmsCodeResult(String msg, boolean success) {
-        if(success){
+        if (success) {
             showToast("获取验证码成功");
-        }else{
+        } else {
             showToast("获取验证码失败" + msg);
         }
     }
 
     @Override
     public void onVerifySmsCodeResult(String msg, boolean success) {
-        if(success){
-            showToast("验证码成功");
-            MvpFragmentManager.addOrShowFragment(getFragmentManager(), SetPsdFragment.class,this,android.R.id.content);
-        }else{
+        if (success) {
+            Bundle bundle = new Bundle();
+            bundle.putString("phone", mEdtPhoneNum.getText().toString().trim());
+            MvpFragmentManager.addOrShowFragment(getFragmentManager(), SetPsdFragment.class, this, android.R.id.content,bundle);
+        } else {
             showToast("验证码失败" + msg);
         }
     }

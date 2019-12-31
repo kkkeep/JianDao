@@ -37,7 +37,7 @@ dependencies {
     implementation  deps.androidX.appcompat
     implementation  deps.androidX.constraintlayout
     implementation project(path: ':libmvp')
-
+    implementation project(path: ':libumeng')
 
 
 }

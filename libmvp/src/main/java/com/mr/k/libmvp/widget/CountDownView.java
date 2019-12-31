@@ -3,9 +3,12 @@ package com.mr.k.libmvp.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -20,6 +23,7 @@ public class CountDownView extends AppCompatTextView {
     private static final String TAG= "CountDownView";
 
     private CountDownTimer mCountDownTimer;
+    private OnClickListener mRealListener; // 使用中在外面调用时设置的监听器
 
     private String mText; // 没有开始计时显示的文本
     private String mCountDownText; //开始倒计时 显示的文本
@@ -50,15 +54,35 @@ public class CountDownView extends AppCompatTextView {
 
         mCount = typedArray.getInt(R.styleable.CountDownView_countDownCount, 60);
         mCountDownColor = typedArray.getColor(R.styleable.CountDownView_countDownTextColor, Color.BLACK);
-        mColor = getPaint().getColor();
+        mColor =  getTextColors().getDefaultColor();
         mInterval = typedArray.getInt(R.styleable.CountDownView_countDownInterval,1);
 
         typedArray.recycle();
 
-        setOnClickListener(v -> {
+        super.setOnClickListener(v -> {
             start();
+            if(mRealListener != null){
+                mRealListener.onClick(v);
+            }
         });
     }
+
+
+    @Override
+    public void setOnClickListener(@Nullable OnClickListener l) {
+        mRealListener = l;
+    }
+
+
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if(mCountDownTimer != null){
+            mCountDownTimer.cancel();
+        }
+    }
+
 
 
     public void start() {
@@ -81,7 +105,7 @@ public class CountDownView extends AppCompatTextView {
                     //setText(mCountDownText + millisUntilFinished);
                     Logger.d("%s %s",TAG,millisUntilFinished);
 
-                    setText(mCountDownText + mTempCount-- + "s");
+                    setText(mCountDownText == null ? (mTempCount-- + "s") :mCountDownText + (mTempCount-- + "s")  );
                     setEnabled(false);
                     if(mCountDownColor != 0){
                         setTextColor(mCountDownColor);

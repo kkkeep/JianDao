@@ -65,7 +65,7 @@ public class RegisterRepository implements RegisterContract.IRegisterMode {
 
                     @Override
                     public void onNext(HttpResult<String> userHttpResult) {
-                        if(userHttpResult.code == 0){
+                        if(userHttpResult.code == 1){
                             callBack.onSuccess(userHttpResult.data);
                         }else{
                             callBack.onFail(userHttpResult.message);
