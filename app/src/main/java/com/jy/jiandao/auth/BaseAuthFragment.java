@@ -68,17 +68,20 @@ public abstract class BaseAuthFragment<P extends IBaseMvpPresenter> extends Base
                 break;
             }
             case R.id.auth_iv_wechat_login:{
+                showToast("微信登录");
                 UMShareAPI umShareAPI = UMShareAPI.get(getActivity());
                 umShareAPI.getPlatformInfo(getActivity(),SHARE_MEDIA.QQ,umAuthListener);
                 break;
             }
             case R.id.auth_iv_qq_login:{
+                showToast("qq登录");
                 UMShareAPI umShareAPI = UMShareAPI.get(getActivity());
                 umShareAPI.getPlatformInfo(getActivity(),SHARE_MEDIA.WEIXIN,umAuthListener);
                 break;
             }
 
             case R.id.auth_iv_sina_login:{
+                showToast("sina登录");
                 UMShareAPI umShareAPI = UMShareAPI.get(getActivity());
                 umShareAPI.getPlatformInfo(getActivity(),SHARE_MEDIA.SINA,umAuthListener);
                 break;

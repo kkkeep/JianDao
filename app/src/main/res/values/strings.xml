@@ -13,4 +13,6 @@
     <string name="text_auth_confirm_password">确认密码</string>
     <string name="text_auth_register">注册</string>
     <string name="error_invalid_phone_num">无效手机号</string>
+    <string name="error_invalid_sms_code_num">验证码错误</string>
+    <string name="text_auth_register_set_user_agreement">注册即是同意见道的用户协议和隐私声明</string>
 </resources>

@@ -31,6 +31,12 @@ public interface AppConstant {
          String AUTH_REGISTER_MOBILE = "mobile";
          String AUTH_REGISTER_TYPE = "type";
          String VERIFICATION_CODE = "sms_code";
+         String AUTH_REGISTER_PASSWORD = "password";
+         String AUTH_REGISTER_CONFIRM_PASSWORD = "affirm_password";
+    }
+
+    interface IntentKey{
+        String PHONE_NUMBER = "phone";
     }
 
 

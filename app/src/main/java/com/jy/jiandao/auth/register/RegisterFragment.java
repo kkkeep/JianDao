@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.R;
 import com.jy.jiandao.auth.BaseAuthFragment;
 import com.jy.jiandao.auth.login.PasswordLoginFragment;
@@ -81,19 +82,20 @@ public class RegisterFragment extends BaseAuthFragment<RegisterContract.IRegiste
                 break;
             }
             case R.id.auth_register_btn_next_step: {
-                onVerifySmsCodeResult("", true);
+                //onVerifySmsCodeResult("", true);
 
-               /* String phoneNum = mEdtPhoneNum.getText().toString().trim();
-                if(SystemFacade.isValidPhoneNumber(phoneNum)){
-                    mPresenter.getSmsCode(phoneNum);
-                }else{
+                String phoneNum = mEdtPhoneNum.getText().toString().trim();
+                if(!SystemFacade.isValidPhoneNumber(phoneNum)){
                     showToast(R.string.error_invalid_phone_num);
+                    return;
                 }
 
                 String code = mEdtVerification.getText().toString().trim();
                 if(SystemFacade.isValidSmsCodeNumber(code)){
                     mPresenter.verifySmsCode(phoneNum,code);
-                }*/
+                }else{
+                    showToast(R.string.error_invalid_sms_code_num);
+                }
 
                 break;
             }
@@ -140,7 +142,7 @@ public class RegisterFragment extends BaseAuthFragment<RegisterContract.IRegiste
     public void onVerifySmsCodeResult(String msg, boolean success) {
         if (success) {
             Bundle bundle = new Bundle();
-            bundle.putString("phone", mEdtPhoneNum.getText().toString().trim());
+            bundle.putString(AppConstant.IntentKey.PHONE_NUMBER, mEdtPhoneNum.getText().toString().trim());
             MvpFragmentManager.addOrShowFragment(getFragmentManager(), SetPsdFragment.class, this, android.R.id.content,bundle);
         } else {
             showToast("验证码失败" + msg);
