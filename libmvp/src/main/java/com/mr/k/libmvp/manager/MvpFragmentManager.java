@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 
 
 import com.mr.k.libmvp.base.BaseFragment;
@@ -91,6 +92,8 @@ public class MvpFragmentManager {
             } else {
                 // fragment 能被复用，就不需要 new 一个 新的
                 baseFragment = (BaseFragment) fragment;
+
+
                 int count = fragmentManager.getBackStackEntryCount();
                 FragmentManager.BackStackEntry stackEntry = null;
                 for (int i = 0; i < count; i++) {
@@ -106,9 +109,11 @@ public class MvpFragmentManager {
                 if (count > 0) { // 清空回退栈
                     fragmentManager.popBackStackImmediate(fragmentManager.getBackStackEntryAt(0).getName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 } else {
-
-
                     if (!baseFragment.isAdded()) {
+
+                        if(baseFragment.getLifecycle().getCurrentState() != Lifecycle.State.INITIALIZED){
+                            return null;
+                        }
                         fragmentTransaction.add(containerId, baseFragment, tag);
                         if (baseFragment.isAddBackStack()) { // 是否加入回退栈
                             fragmentTransaction.addToBackStack(tag); // 加入回退栈，记住加入回退栈的是事物本身，而不是不fragment 加入到了回退栈

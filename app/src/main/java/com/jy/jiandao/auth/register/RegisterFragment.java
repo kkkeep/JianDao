@@ -81,7 +81,9 @@ public class RegisterFragment extends BaseAuthFragment<RegisterContract.IRegiste
                 break;
             }
             case R.id.auth_register_btn_next_step: {
-                String phoneNum = mEdtPhoneNum.getText().toString().trim();
+                onVerifySmsCodeResult("", true);
+
+               /* String phoneNum = mEdtPhoneNum.getText().toString().trim();
                 if(SystemFacade.isValidPhoneNumber(phoneNum)){
                     mPresenter.getSmsCode(phoneNum);
                 }else{
@@ -91,7 +93,7 @@ public class RegisterFragment extends BaseAuthFragment<RegisterContract.IRegiste
                 String code = mEdtVerification.getText().toString().trim();
                 if(SystemFacade.isValidSmsCodeNumber(code)){
                     mPresenter.verifySmsCode(phoneNum,code);
-                }
+                }*/
 
                 break;
             }
@@ -111,6 +113,18 @@ public class RegisterFragment extends BaseAuthFragment<RegisterContract.IRegiste
     public RegisterContract.IRegisterPresenter createPresenter() {
         return new RegisterPresenter();
     }
+
+
+    @Override
+    public boolean isAddBackStack() {
+        return false;
+    }
+
+    @Override
+    public int getEnter() {
+        return 0;
+    }
+
 
 
     @Override
