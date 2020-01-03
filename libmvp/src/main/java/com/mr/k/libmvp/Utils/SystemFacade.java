@@ -115,6 +115,10 @@ public class SystemFacade {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
     }
 
+    public static boolean hasQ() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+    }
+
 
     /**
      * 获取屏幕高度

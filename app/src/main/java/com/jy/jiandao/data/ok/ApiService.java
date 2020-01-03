@@ -13,6 +13,7 @@ import retrofit2.http.POST;
 
 import static com.jy.jiandao.AppConstant.Url.CHECK_VERIFICATION_CODE;
 import static com.jy.jiandao.AppConstant.Url.GET_VERIFICATION_CODE;
+import static com.jy.jiandao.AppConstant.Url.PASSWORD_LOGIN;
 import static com.jy.jiandao.AppConstant.Url.USER_REGISTER;
 
 /*
@@ -20,8 +21,11 @@ import static com.jy.jiandao.AppConstant.Url.USER_REGISTER;
  **/
 public interface ApiService {
 
-    @POST
-    Observable<HttpResult<String>> login(@FieldMap Map<String,String> params);
+    @POST(PASSWORD_LOGIN)
+    @FormUrlEncoded
+    Observable<HttpResult<User>> login(@FieldMap Map<String,String> params);
+
+
     @POST(GET_VERIFICATION_CODE)
     @FormUrlEncoded
     Observable<HttpResult<String>> getVerificationCode(@FieldMap Map<String,String> params);

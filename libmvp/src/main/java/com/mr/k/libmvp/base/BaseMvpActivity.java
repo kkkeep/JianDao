@@ -31,4 +31,5 @@ public abstract class BaseMvpActivity<P extends IBaseMvpPresenter> extends BaseA
         }
 
     }
+
 }

@@ -46,5 +46,6 @@ public class RegisterSetPresenter extends BasePresenter<RegisterContract.IRegist
                 }
             }
         });
+
     }
 }

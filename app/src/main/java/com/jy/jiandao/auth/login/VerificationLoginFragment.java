@@ -46,14 +46,14 @@ public class VerificationLoginFragment extends BaseMvpFragment {
         return null;
     }
 
-    @Override
-    public boolean isAddBackStack() {
-        return false;
-    }
 
     @Override
     public int getEnter() {
         return 0;
     }
 
+    @Override
+    public boolean isAddBackStack() {
+        return false;
+    }
 }

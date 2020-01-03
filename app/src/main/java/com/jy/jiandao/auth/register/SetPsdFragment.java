@@ -158,6 +158,8 @@ public class SetPsdFragment extends BaseAuthFragment<RegisterContract.IRegisterS
     @Override
     public void onClick(View v) {
 
+        RegisterFragment fragment = null;
+
         switch (v.getId()){
 
             case R.id.auth_register_set_btn_register:{
@@ -184,6 +186,7 @@ public class SetPsdFragment extends BaseAuthFragment<RegisterContract.IRegisterS
                 MvpFragmentManager.addOrShowFragment(getFragmentManager(), PasswordLoginFragment.class,this,android.R.id.content);
                 break;
             }
+
 
 
 

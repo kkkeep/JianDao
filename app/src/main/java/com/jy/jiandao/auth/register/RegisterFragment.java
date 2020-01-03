@@ -82,9 +82,9 @@ public class RegisterFragment extends BaseAuthFragment<RegisterContract.IRegiste
                 break;
             }
             case R.id.auth_register_btn_next_step: {
-                //onVerifySmsCodeResult("", true);
+                onVerifySmsCodeResult("", true);
 
-                String phoneNum = mEdtPhoneNum.getText().toString().trim();
+              /*  String phoneNum = mEdtPhoneNum.getText().toString().trim();
                 if(!SystemFacade.isValidPhoneNumber(phoneNum)){
                     showToast(R.string.error_invalid_phone_num);
                     return;
@@ -95,7 +95,7 @@ public class RegisterFragment extends BaseAuthFragment<RegisterContract.IRegiste
                     mPresenter.verifySmsCode(phoneNum,code);
                 }else{
                     showToast(R.string.error_invalid_sms_code_num);
-                }
+                }*/
 
                 break;
             }
@@ -117,15 +117,7 @@ public class RegisterFragment extends BaseAuthFragment<RegisterContract.IRegiste
     }
 
 
-    @Override
-    public boolean isAddBackStack() {
-        return false;
-    }
 
-    @Override
-    public int getEnter() {
-        return 0;
-    }
 
 
 

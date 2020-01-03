@@ -17,6 +17,7 @@ public interface AppConstant {
         String GET_VERIFICATION_CODE = "/api/sms/sendsms";
         String USER_REGISTER = "/api/user/register";
         String CHECK_VERIFICATION_CODE = "/api/sms/checksmscode";
+        String PASSWORD_LOGIN = "/api/user/login";
     }
 
 
@@ -33,6 +34,9 @@ public interface AppConstant {
          String VERIFICATION_CODE = "sms_code";
          String AUTH_REGISTER_PASSWORD = "password";
          String AUTH_REGISTER_CONFIRM_PASSWORD = "affirm_password";
+         String PASSWORD_LOGIN_USER_NAME = "username";
+         String PASSWORD_LOGIN_PASSWORD = AUTH_REGISTER_PASSWORD;
+
     }
 
     interface IntentKey{

@@ -4,7 +4,6 @@ import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.repository.RegisterRepository;
 import com.jy.jiandao.utils.ParamsUtils;
 import com.mr.k.libmvp.base.BasePresenter;
-import com.mr.k.libmvp.base.BaseRepository;
 import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.base.IBaseMvpPresenter;
 
