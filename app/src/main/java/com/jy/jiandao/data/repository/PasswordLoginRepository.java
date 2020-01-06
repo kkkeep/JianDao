@@ -24,7 +24,7 @@ public class PasswordLoginRepository extends BaseRepository implements PasswordL
     public void login(LifecycleProvider provider, Map<String, String> params, IBaseCallBack<User> callBack) {
 
         observer(JDDataService.getApiService().login(params),userHttpResult -> {
-            if(userHttpResult.code == 1 && userHttpResult.data != null){
+            if(userHttpResult.code == 2 && userHttpResult.data != null){
                 return Observable.just(userHttpResult.data);
             }else{
                 return Observable.error(new NullPointerException());

@@ -123,7 +123,7 @@ public class PasswordLoginFragment extends BaseAuthFragment<PasswordLoginContrac
                 }
                 mPresenter.login(phoneNum,password);
 
-                getActivity().finish();
+              //  getActivity().finish();
                 break;
             }
 
