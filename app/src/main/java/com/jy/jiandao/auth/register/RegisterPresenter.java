@@ -6,6 +6,7 @@ import com.jy.jiandao.utils.ParamsUtils;
 import com.mr.k.libmvp.base.BasePresenter;
 import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.base.IBaseMvpPresenter;
+import com.mr.k.libmvp.exception.ResultException;
 
 import java.util.HashMap;
 
@@ -39,9 +40,9 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.IRegisterV
             }
 
             @Override
-            public void onFail(String msg) {
+            public void onFail(ResultException msg) {
                 if(mView != null){
-                    mView.onSmsCodeResult(msg, false);
+                    mView.onSmsCodeResult(msg.getMessage(), false);
                 }
             }
         });
@@ -64,9 +65,9 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.IRegisterV
             }
 
             @Override
-            public void onFail(String msg) {
+            public void onFail(ResultException msg) {
                 if(mView != null){
-                    mView.onVerifySmsCodeResult(msg, false);
+                    mView.onVerifySmsCodeResult(msg.getMessage(), false);
                 }
             }
         });

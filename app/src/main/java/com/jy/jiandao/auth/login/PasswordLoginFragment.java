@@ -135,7 +135,7 @@ public class PasswordLoginFragment extends BaseAuthFragment<PasswordLoginContrac
         if(user != null){
             showToast("登录成功");
         }else{
-            showToast("登录失败");
+            showToast( msg);
         }
     }
 

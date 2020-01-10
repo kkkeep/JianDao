@@ -5,6 +5,7 @@ import com.jy.jiandao.data.HttpResult;
 import com.jy.jiandao.data.entity.User;
 import com.jy.jiandao.data.ok.JDDataService;
 import com.mr.k.libmvp.base.IBaseCallBack;
+import com.mr.k.libmvp.exception.ResultException;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.util.Map;
@@ -22,14 +23,10 @@ public class PasswordLoginRepository extends BaseRepository implements PasswordL
 
     @Override
     public void login(LifecycleProvider provider, Map<String, String> params, IBaseCallBack<User> callBack) {
-
-        observer(JDDataService.getApiService().login(params),userHttpResult -> {
-            if(userHttpResult.code == 2 && userHttpResult.data != null){
-                return Observable.just(userHttpResult.data);
-            }else{
-                return Observable.error(new NullPointerException());
-            }
-        },callBack);
-
+        observer(JDDataService.getApiService().login(params), this::getConvertObservable,callBack);
     }
+
+
+
+
 }

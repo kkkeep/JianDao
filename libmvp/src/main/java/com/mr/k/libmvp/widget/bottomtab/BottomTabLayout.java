@@ -44,10 +44,12 @@ public class BottomTabLayout extends ConstraintLayout {
                 @Override
                 public void onClick(View v) {
                     BottomTab tab = (BottomTab) v;
-                    tab.select(true);
-                    unSelectOther(tab);
+
+                    tab.select(true); // 让自己变成选中
+
+                    unSelectOther(tab);// 让其他几个变成未选中
                     if(mOnTabSelectListener != null){
-                        mOnTabSelectListener.select(indexOfChild(v));
+                        mOnTabSelectListener.select(v.getId());
                     }
                 }
             });
@@ -55,20 +57,29 @@ public class BottomTabLayout extends ConstraintLayout {
     }
 
     /**
-     * position 必须重1 开始
-     * @param position
+     * 让指定id 的BottomTab 变为选中
      */
-    public void select(int position){
-        BottomTab tab = (BottomTab) getChildAt(position);
+    public void select(int id){
+        BottomTab tab = findViewById(id);
         tab.getOnClickListener().onClick(tab);
     }
 
+    /**
+     * 为指定 id 的 BottomTab 设置 title
+     * @param id
+     * @param title
+     */
+    public void setTitle(int id ,String title){
+        BottomTab tab = findViewById(id);
+        tab.setTitle(title);
+    }
 
 
     private void unSelectOther(BottomTab tab) {
         View child;
         for (int i = 0; i < getChildCount(); i++) {
             child = getChildAt(i);
+            // 变量所有是BottomTab 的自view，除开自己以外，并且是选中状态的 view,才让他变成为选中
             if(child instanceof BottomTab && child != tab && ((BottomTab) child).isSelect()){
                 ((BottomTab) child).select(false);
             }
@@ -78,6 +89,6 @@ public class BottomTabLayout extends ConstraintLayout {
 
 
     public interface OnTabSelectListener{
-        void select(int position);
+        void select(int id);
     }
 }

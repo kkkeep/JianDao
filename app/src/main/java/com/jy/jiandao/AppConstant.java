@@ -18,6 +18,7 @@ public interface AppConstant {
         String USER_REGISTER = "/api/user/register";
         String CHECK_VERIFICATION_CODE = "/api/sms/checksmscode";
         String PASSWORD_LOGIN = "/api/user/login";
+        String COLUMN_LIST = "/api/column/columnmanagelist";
     }
 
 

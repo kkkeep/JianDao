@@ -2,6 +2,7 @@ package com.jy.jiandao.data.repository;
 
 import com.jy.jiandao.data.HttpResult;
 import com.mr.k.libmvp.base.IBaseCallBack;
+import com.mr.k.libmvp.exception.ResultException;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -18,7 +19,7 @@ public class BaseRepository {
 
 
     protected <D> void observer(Observable<HttpResult<D>> observable, Function<HttpResult<D>, ObservableSource<D>> function, IBaseCallBack<D> callBack) {
-        observable.flatMap(function).subscribeOn(Schedulers.io())
+        observable.flatMap(this::getConvertObservable).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<D>() {
                     @Override
@@ -33,7 +34,12 @@ public class BaseRepository {
 
                     @Override
                     public void onError(Throwable e) {
-                        callBack.onFail(e.getMessage());
+                        if(e instanceof ResultException){
+                            callBack.onFail((ResultException) e);
+                        }else{
+                            callBack.onFail(new ResultException(e));
+                        }
+
                     }
 
                     @Override
@@ -41,6 +47,17 @@ public class BaseRepository {
 
                     }
                 });
+    }
 
+    protected <D> Observable<D>  getConvertObservable(HttpResult<D> httpResult){
+        if(httpResult.code == 1){
+            if(httpResult.data != null){
+                return Observable.just(httpResult.data);
+            }else{
+                return Observable.error(new ResultException(ResultException.SERVER_ERROR));
+            }
+        }else{
+            return Observable.error(new ResultException(httpResult.message));
+        }
     }
 }

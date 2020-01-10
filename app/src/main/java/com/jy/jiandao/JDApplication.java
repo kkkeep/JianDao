@@ -3,6 +3,7 @@ package com.jy.jiandao;
 import android.app.Application;
 
 import com.jy.jiandao.data.ok.ApiService;
+import com.jy.jiandao.data.ok.converter.MyGsonConverterFactory;
 import com.mr.k.libmvp.oknet.DataService;
 
 /*
@@ -14,7 +15,7 @@ public class JDApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        DataService.init(ApiService.class, AppConstant.BASE_URL);
+        DataService.init(ApiService.class, AppConstant.BASE_URL, MyGsonConverterFactory.create());
 
     }
 }

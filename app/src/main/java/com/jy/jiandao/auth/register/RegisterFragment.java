@@ -126,7 +126,7 @@ public class RegisterFragment extends BaseAuthFragment<RegisterContract.IRegiste
         if (success) {
             showToast("获取验证码成功");
         } else {
-            showToast("获取验证码失败" + msg);
+            showToast( msg);
         }
     }
 

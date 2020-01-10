@@ -6,6 +6,7 @@ import com.jy.jiandao.data.repository.RegisterSetRepository;
 import com.jy.jiandao.utils.ParamsUtils;
 import com.mr.k.libmvp.base.BasePresenter;
 import com.mr.k.libmvp.base.IBaseCallBack;
+import com.mr.k.libmvp.exception.ResultException;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.util.Map;
@@ -40,9 +41,9 @@ public class RegisterSetPresenter extends BasePresenter<RegisterContract.IRegist
             }
 
             @Override
-            public void onFail(String msg) {
+            public void onFail(ResultException msg) {
                 if(mView  != null){
-                    mView.onRegisterResult(null , msg);
+                    mView.onRegisterResult(null , msg.getMessage());
                 }
             }
         });

@@ -2,6 +2,7 @@ package com.jy.jiandao.data.ok;
 
 import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.HttpResult;
+import com.jy.jiandao.data.entity.ColumnData;
 import com.jy.jiandao.data.entity.User;
 
 import java.util.Map;
@@ -9,9 +10,12 @@ import java.util.Map;
 import io.reactivex.Observable;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.QueryMap;
 
 import static com.jy.jiandao.AppConstant.Url.CHECK_VERIFICATION_CODE;
+import static com.jy.jiandao.AppConstant.Url.COLUMN_LIST;
 import static com.jy.jiandao.AppConstant.Url.GET_VERIFICATION_CODE;
 import static com.jy.jiandao.AppConstant.Url.PASSWORD_LOGIN;
 import static com.jy.jiandao.AppConstant.Url.USER_REGISTER;
@@ -38,5 +42,10 @@ public interface ApiService {
     @POST(USER_REGISTER)
     @FormUrlEncoded
     Observable<HttpResult<User>> register(@FieldMap Map<String,String> params);
+
+
+
+    @GET(COLUMN_LIST)
+    Observable<HttpResult<ColumnData>> getColumnList(@QueryMap Map<String,String> params);
 
 }

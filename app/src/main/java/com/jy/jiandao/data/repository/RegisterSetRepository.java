@@ -5,6 +5,7 @@ import com.jy.jiandao.data.HttpResult;
 import com.jy.jiandao.data.entity.User;
 import com.jy.jiandao.data.ok.JDDataService;
 import com.mr.k.libmvp.base.IBaseCallBack;
+import com.mr.k.libmvp.exception.ResultException;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.util.Map;
@@ -25,14 +26,7 @@ public class RegisterSetRepository extends BaseRepository implements RegisterCon
 
     @Override
     public void register(LifecycleProvider provider, Map<String, String> params, IBaseCallBack<User> callBack) {
-
-            observer(JDDataService.getApiService().register(params), userHttpResult -> {
-                if(userHttpResult.code == 1 && userHttpResult.data != null){
-                    return Observable.just(userHttpResult.data);
-                }else{
-                    return Observable.error(new NullPointerException());
-                }
-            },callBack);
+            observer(JDDataService.getApiService().register(params),this::getConvertObservable,callBack);
 
 
     }

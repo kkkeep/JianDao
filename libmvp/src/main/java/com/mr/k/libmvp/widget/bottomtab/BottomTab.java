@@ -45,9 +45,12 @@ public class BottomTab extends LinearLayout {
     }
 
     public void select(boolean select) {
+      //加入当期那tab 已经是选中状态了，外面再次调用该方法并且传入 true,那么是不是没有必要在改变状态。
         if (mIcon.isChecked() == select) {
             return;
         }
+
+
         mIcon.setChecked(select);
 
         if (select) {

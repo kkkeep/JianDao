@@ -6,6 +6,7 @@ import com.jy.jiandao.data.repository.PasswordLoginRepository;
 import com.jy.jiandao.utils.ParamsUtils;
 import com.mr.k.libmvp.base.BasePresenter;
 import com.mr.k.libmvp.base.IBaseCallBack;
+import com.mr.k.libmvp.exception.ResultException;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.util.Map;
@@ -43,9 +44,9 @@ public class PasswordLoginPresenter extends BasePresenter<PasswordLoginContract.
             }
 
             @Override
-            public void onFail(String msg) {
+            public void onFail(ResultException msg) {
                 if(mView != null){
-                    mView.onLoginResult(null, msg);
+                    mView.onLoginResult(null, msg.getMessage());
                 }
             }
         });
