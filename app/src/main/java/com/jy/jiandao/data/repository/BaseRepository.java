@@ -19,7 +19,7 @@ public class BaseRepository {
 
 
     protected <D> void observer(Observable<HttpResult<D>> observable, Function<HttpResult<D>, ObservableSource<D>> function, IBaseCallBack<D> callBack) {
-        observable.flatMap(this::getConvertObservable).subscribeOn(Schedulers.io())
+        observable.flatMap(function).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<D>() {
                     @Override
