@@ -38,6 +38,7 @@ dependencies {
     implementation  deps.androidX.constraintlayout
     implementation project(path: ':libmvp')
     implementation project(path: ':libumeng')
+    implementation project(path: ':libbanner')
 
 
 }

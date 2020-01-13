@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="KBanner">
+        <attr name="bannerIndicatorRadio" format="dimension|reference"/>
+        <attr name="bannerIndicatorColor" format="color|reference"/>
+        <attr name="bannerIndicatorSelectColor" format="color|reference"/>
+    </declare-styleable>
+</resources>

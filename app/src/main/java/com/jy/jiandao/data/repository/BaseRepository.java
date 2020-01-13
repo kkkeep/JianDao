@@ -39,14 +39,13 @@ public class BaseRepository {
                         }else{
                             callBack.onFail(new ResultException(e));
                         }
-
                     }
 
                     @Override
                     public void onComplete() {
 
-                    }
-                });
+            }
+        });
     }
 
     protected <D> Observable<D>  getConvertObservable(HttpResult<D> httpResult){

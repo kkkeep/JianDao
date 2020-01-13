@@ -1,2 +1,2 @@
-include ':app', ':libmvp',':libumeng'
+include ':app', ':libmvp',':libumeng', ':libbanner'
 rootProject.name='JianDao'
