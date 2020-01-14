@@ -19,6 +19,7 @@ public interface AppConstant {
         String CHECK_VERIFICATION_CODE = "/api/sms/checksmscode";
         String PASSWORD_LOGIN = "/api/user/login";
         String COLUMN_LIST = "/api/column/columnmanagelist";
+        String GET_NEWS = "/app/v_1_3/article/recommendlist";
     }
 
 

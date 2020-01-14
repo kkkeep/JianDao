@@ -3,6 +3,7 @@ package com.jy.jiandao.data.ok;
 import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.HttpResult;
 import com.jy.jiandao.data.entity.ColumnData;
+import com.jy.jiandao.data.entity.NewsData;
 import com.jy.jiandao.data.entity.User;
 
 import java.util.Map;
@@ -16,6 +17,7 @@ import retrofit2.http.QueryMap;
 
 import static com.jy.jiandao.AppConstant.Url.CHECK_VERIFICATION_CODE;
 import static com.jy.jiandao.AppConstant.Url.COLUMN_LIST;
+import static com.jy.jiandao.AppConstant.Url.GET_NEWS;
 import static com.jy.jiandao.AppConstant.Url.GET_VERIFICATION_CODE;
 import static com.jy.jiandao.AppConstant.Url.PASSWORD_LOGIN;
 import static com.jy.jiandao.AppConstant.Url.USER_REGISTER;
@@ -47,5 +49,10 @@ public interface ApiService {
 
     @GET(COLUMN_LIST)
     Observable<HttpResult<ColumnData>> getColumnList(@QueryMap Map<String,String> params);
+
+
+    @POST(GET_NEWS)
+    @FormUrlEncoded
+    Observable<HttpResult<NewsData>> getNews(@FieldMap Map<String,String> params);
 
 }
