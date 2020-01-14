@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="KBanner">
-        <attr name="bannerIndicatorRadio" format="dimension|reference"/>
+        <attr name="bannerIndicatorHeight" format="dimension|reference"/> <!--指示器圆点半径-->
         <attr name="bannerIndicatorColor" format="color|reference"/>
+        <attr name="bannerIndicatorMarginEnd" format="dimension|reference"/>
         <attr name="bannerIndicatorSelectColor" format="color|reference"/>
+        <attr name="bannerIndicatorEnable" format="boolean"/> <!--是否显示指示器-->
+
+        <attr name="bannerTitleTextColor" format="color|reference"/>
+        <attr name="bannerTitleTextSize" format="dimension|reference"/>
+        <attr name="bannerTitleMarginStart" format="dimension|reference"/>
+        <attr name="bannerTitleMarginEnd" format="dimension|reference"/>
+        <attr name="bannerTitleMarginTop" format="dimension|reference"/>
+        <attr name="bannerTitleMarginBottom" format="dimension|reference"/>
+        <attr name="bannerIndicatorStyle">
+            <enum name="circle" value="1"/>
+            <enum name="progress" value="2"/>
+        </attr>
+
+
+
+
     </declare-styleable>
 </resources>

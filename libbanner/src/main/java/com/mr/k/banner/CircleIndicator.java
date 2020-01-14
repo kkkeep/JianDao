@@ -9,9 +9,9 @@ import android.view.View;
 /*
  * created by Cherry on 2020-01-13
  **/
-public class CircleIndicator extends View {
+public class CircleIndicator extends View implements Indicator{
 
-    private static final int MAX_COUNT = 5;
+    private static final int MAX_COUNT = 8;
     private Paint mPaint;
     private int radio; // 圆点半径
     private int color;
@@ -23,8 +23,11 @@ public class CircleIndicator extends View {
     private int currentPosition;
     private int originalCount; // 实际小圆点应该有的个数
 
-    public CircleIndicator(Context context) {
+    public CircleIndicator(Context context,int radio,int color,int selectedColor) {
         super(context);
+        this.radio = radio;
+        this.color = color;
+        this.selectedColor = selectedColor;
         init();
     }
 
@@ -32,25 +35,10 @@ public class CircleIndicator extends View {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setStyle(Paint.Style.FILL);
-
-        radio = Utils.dip2px(getContext(), 3);
-        color = Color.BLACK;
-        selectedColor = Color.GREEN;
-
-
     }
 
-
-    public void setRadio(int radio) {
-        this.radio = radio;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-    public void setSelectedColor(int selectedColor) {
-        this.selectedColor = selectedColor;
+    public void setHeight(int height) {
+        this.radio = height / 2;
     }
 
 
@@ -58,7 +46,7 @@ public class CircleIndicator extends View {
         this.count = Math.min(count, MAX_COUNT);
         this.originalCount = count;
 
-        width = (count * 2 * radio) + (count - 1) * radio;
+        width = (this.count * 2 * radio) + (this.count - 1) * radio;
         height = 2 * radio;
         requestLayout();
 
@@ -67,7 +55,7 @@ public class CircleIndicator extends View {
     /**
      *
      * @param position 表示viewpager 真实的position ,不是取余后的
-     * @param index 表示取余后的，也就是第一次进来显示第几个
+     * @param index 表示viewpager 真实的position 取余后的，也就是第一次进来显示第几个
      */
     public void setCurrentItem(int position, int index) {
         currentPosition = Integer.MAX_VALUE / 2;
@@ -105,6 +93,7 @@ public class CircleIndicator extends View {
         super.onDraw(canvas);
         // 0 * (2 * radio) + 0 (radio) + radio    1 * (2 * radio) + 1* radio + radio,3  2 * (2 * radio) + 2 * radio + radio
 
+       // canvas.drawColor(Color.BLUE);
         int startX = 0;
         for (int i = 0; i < count; i++) {
             startX = i * (2 * radio) + i * radio + radio;

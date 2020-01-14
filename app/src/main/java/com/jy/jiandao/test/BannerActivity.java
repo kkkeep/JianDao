@@ -2,6 +2,8 @@ package com.jy.jiandao.test;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,9 +43,20 @@ public class BannerActivity extends AppCompatActivity {
 
         mKBanner.setAdapter(new KBanner.KBannerAdapter<Banner>() {
             @Override
-            public void fillBannerItemData(KBanner banner, ImageView imageView, Banner data, int position) {
+            public void fillBannerItemData(KBanner banner, ImageView imageView,Banner data, int position) {
                 imageView.setImageResource(data.url);
+            }
 
+            @Override
+            public String getTitleString(Banner data, int position) {
+                return data.title;
+            }
+        });
+
+        mKBanner.setOnItemClickListener(new KBanner.OnItemClickListener() {
+            @Override
+            public void onClick(Object data, int position) {
+                Toast.makeText(BannerActivity.this, banners.get(position).title, Toast.LENGTH_SHORT).show();
             }
         });
 
