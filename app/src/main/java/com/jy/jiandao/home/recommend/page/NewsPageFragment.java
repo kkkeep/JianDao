@@ -3,6 +3,7 @@ package com.jy.jiandao.home.recommend.page;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jy.jiandao.R;
@@ -20,8 +21,12 @@ import org.jetbrains.annotations.Nullable;
  **/
 public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresenter> implements NewsContract.INewsView {
 
+    public static final String PARAMS_COLUMN_ID = "columnId";
+
     private RecyclerView mNewsRecyclerView;
     private SmartRefreshLayout mSmartRefreshLayout;
+
+    private NewsPageAdapter mPageAdapter;
 
     private String mColumnId;// 频道id
     private int mStart;
@@ -39,9 +44,24 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
         mNewsRecyclerView = root.findViewById(R.id.home_recommend_news_list);
         mSmartRefreshLayout = root.findViewById(R.id.home_recommend_news_refresh_layout);
 
+        mPageAdapter = new NewsPageAdapter();
+
+
+        mNewsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+        mNewsRecyclerView.setAdapter(mPageAdapter);
+
 
     }
 
+    @Override
+    public void setArguments(@androidx.annotation.Nullable Bundle args) {
+        super.setArguments(args);
+        if(args != null){
+            mColumnId = args.getString(PARAMS_COLUMN_ID);
+        }
+    }
 
     @Override
     protected void loadData() {
@@ -52,6 +72,14 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
 
     @Override
     public void onNewsResult(NewsData newsData, String msg) {
+
+        if(newsData != null){
+
+            mPageAdapter.setData(newsData.getBannerList(),newsData.getFlashList(),newsData.getArticleList());
+
+        }else{
+            showToast(msg);
+        }
 
     }
 

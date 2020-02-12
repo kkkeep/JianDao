@@ -1,5 +1,6 @@
 package com.jy.jiandao.home.recommend.page;
 
+import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.entity.NewsData;
 import com.jy.jiandao.data.repository.NewsPageRepository;
 import com.jy.jiandao.utils.ParamsUtils;
@@ -26,6 +27,12 @@ public class NewsPagePresenter extends BasePresenter<NewsContract.INewsView> imp
     @Override
     public void getNews(String id, int start, int number, int pointTime) {
         Map<String,String> params = ParamsUtils.getCommonParams();
+
+
+        params.put(AppConstant.RequestKey.RECOMMOND_NEWS_COLUMN_ID,id);
+        params.put(AppConstant.RequestKey.RECOMMOND_NEWS_START_,String.valueOf(start));
+        params.put(AppConstant.RequestKey.RECOMMOND_NEWS_NUMBER,String.valueOf(number));
+        params.put(AppConstant.RequestKey.RECOMMOND_NEWS_POINT_TIME,String.valueOf(pointTime));
 
         mRepository.getNews((LifecycleProvider) mView, params, new IBaseCallBack<NewsData>() {
             @Override

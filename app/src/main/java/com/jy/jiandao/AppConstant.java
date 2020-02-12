@@ -39,6 +39,13 @@ public interface AppConstant {
          String PASSWORD_LOGIN_USER_NAME = "username";
          String PASSWORD_LOGIN_PASSWORD = AUTH_REGISTER_PASSWORD;
 
+
+         String RECOMMOND_NEWS_COLUMN_ID = "id";
+         String RECOMMOND_NEWS_START_ = "start";
+         String RECOMMOND_NEWS_NUMBER = "number";
+         String RECOMMOND_NEWS_POINT_TIME = "point_time";
+
+
     }
 
     interface IntentKey{

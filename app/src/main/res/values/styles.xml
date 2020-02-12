@@ -26,6 +26,12 @@
         <item name="android:background">@color/gray_7</item>
     </style>
 
+    <style name="JianDao.LineHorizontal.NewsItem">
+        <item name="android:layout_marginStart">15dp</item>
+        <item name="android:layout_marginEnd">15dp</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+    </style>
+
     <style name="JianDao.AutoEditText">
         <item name="android:background">@color/transparent</item>
         <item name="android:textColorHint">@color/gray_CCCCCC</item>
@@ -33,4 +39,17 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+
+
+    <style name="JianDao.NewsTitleStyle">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/black_282B2E</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">2</item>
+    </style>
+    <style name="JianDao.NewsLabel">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/gray_9B9C9E</item>
+    </style>
 </resources>

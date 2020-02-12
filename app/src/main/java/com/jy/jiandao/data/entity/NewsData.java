@@ -20,9 +20,9 @@ public class NewsData {
     private int flash_id;
 
 
-    private List banner_list;
-    private List flash_list;
-    private List article_list;
+    private List<Banner> banner_list;
+    private List<Flash> flash_list;
+    private List<News> article_list;
 
 
     public long getPointTime() {

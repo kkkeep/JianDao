@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/item_news_big_pic_iv_pic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintDimensionRatio="1.8:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/ic_auth_sina" />
+
+    <TextView
+        android:id="@+id/item_news_big_pic_tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        tools:text="TextView"
+        style="@style/JianDao.NewsTitleStyle"
+        app:layout_constraintEnd_toEndOf="@+id/item_news_big_pic_iv_pic"
+        app:layout_constraintStart_toStartOf="@+id/item_news_big_pic_iv_pic"
+        app:layout_constraintTop_toBottomOf="@+id/item_news_big_pic_iv_pic" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        tools:text="TextView"
+        style="@style/JianDao.NewsLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/item_news_big_pic_tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/item_news_big_pic_tv_title" />
+
+
+    <ImageView
+        style="@style/JianDao.LineHorizontal.NewsItem"
+       />
+</androidx.constraintlayout.widget.ConstraintLayout>

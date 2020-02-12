@@ -18,7 +18,7 @@ public class Ad {
     private String id;
     private String title;
     private String target_href;
-    private String layout;
+    private int layout;
     private int width;
     private int height;
     private String ad_url;
@@ -47,11 +47,11 @@ public class Ad {
         this.target_href = targetHref;
     }
 
-    public String getLayout() {
+    public int getLayout() {
         return layout;
     }
 
-    public void setLayout(String layout) {
+    public void setLayout(int layout) {
         this.layout = layout;
     }
 

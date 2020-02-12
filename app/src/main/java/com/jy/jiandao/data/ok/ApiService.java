@@ -51,8 +51,7 @@ public interface ApiService {
     Observable<HttpResult<ColumnData>> getColumnList(@QueryMap Map<String,String> params);
 
 
-    @POST(GET_NEWS)
-    @FormUrlEncoded
-    Observable<HttpResult<NewsData>> getNews(@FieldMap Map<String,String> params);
+    @GET(GET_NEWS)
+    Observable<HttpResult<NewsData>> getNews(@QueryMap Map<String,String> params);
 
 }
