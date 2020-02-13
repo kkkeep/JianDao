@@ -14,7 +14,7 @@
         android:layout_marginStart="11dp"
         android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_news_right_iv_pic"
+        app:layout_constraintStart_toEndOf="@+id/item_news_left_iv_pic"
         app:layout_constraintTop_toTopOf="@+id/item_news_left_iv_pic"
         tools:text="标题" />
 
@@ -31,8 +31,9 @@
     <ImageView
 
         android:id="@+id/item_news_left_iv_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="91dp"
+        android:layout_height="68dp"
+        android:scaleType="centerCrop"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"

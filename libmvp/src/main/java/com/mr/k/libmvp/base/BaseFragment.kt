@@ -17,6 +17,7 @@ import androidx.appcompat.widget.ContentFrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import com.mr.k.libmvp.R
+import com.mr.k.libmvp.Utils.Logger
 
 import com.mr.k.libmvp.manager.MvpFragmentManager
 import com.mr.k.libmvp.widget.LoadingView
@@ -159,6 +160,8 @@ abstract class BaseFragment : RxFragment(), BaseLoading {
     open fun getExit() = R.anim.common_page_left_out
     open fun popExit() = R.anim.common_page_right_out
     open fun popEnter() = R.anim.common_page_left_in
+
+
 
 
 }

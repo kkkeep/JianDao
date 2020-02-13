@@ -46,7 +46,7 @@
         tools:text="2019-09-09 09:00" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/item_news_text_iv_share"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginEnd="22dp"

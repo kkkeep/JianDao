@@ -1,13 +1,16 @@
 package com.jy.jiandao.home.recommend.page;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.NewsData;
+import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseMvpFragment;
 import com.mr.k.libmvp.base.IBaseMvpPresenter;
@@ -33,6 +36,8 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
     private int mMore;
     private int mNumber;
     private int mPointTime;
+
+    private String name; // TODO
 
     @Override
     public int getLayoutId() {
@@ -60,6 +65,7 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
         super.setArguments(args);
         if(args != null){
             mColumnId = args.getString(PARAMS_COLUMN_ID);
+            name = args.getString("name");
         }
     }
 
@@ -87,4 +93,34 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
     public NewsContract.INewsPresenter createPresenter() {
         return new NewsPagePresenter();
     }
+
+
+    @Override
+    public void onCreate(@androidx.annotation.Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Logger.d("%s",name);
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Logger.d("%s",name);
+        return super.onCreateView(inflater, container, savedInstanceState);
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Logger.d("%s",name);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Logger.d("%s",name);
+    }
+
+
 }
