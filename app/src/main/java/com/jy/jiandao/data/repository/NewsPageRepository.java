@@ -14,7 +14,7 @@ import java.util.Map;
 public class NewsPageRepository extends BaseRepository implements NewsContract.INewsMode {
 
     @Override
-    public void getNews(LifecycleProvider provider, Map<String, String> params, IBaseCallBack<NewsData> callBack) {
+    public void getNews(LifecycleProvider provider, Map<String, String> params, IBaseCallBack<NewsData> callBack,int requestType) {
         observer(JDDataService.getApiService().getNews(params), this::getConvertObservable, callBack);
     }
 }

@@ -25,7 +25,7 @@ public class NewsPagePresenter extends BasePresenter<NewsContract.INewsView> imp
     }
 
     @Override
-    public void getNews(String id, int start, int number, int pointTime) {
+    public void getNews(String id, int start, int number, long pointTime,@AppConstant.RequestType int requestType) {
         Map<String,String> params = ParamsUtils.getCommonParams();
 
 
@@ -38,16 +38,16 @@ public class NewsPagePresenter extends BasePresenter<NewsContract.INewsView> imp
             @Override
             public void onSuccess(NewsData data) {
                 if(mView != null){
-                    mView.onNewsResult(data, null);
+                    mView.onNewsSuccess(data, requestType);
                 }
             }
 
             @Override
             public void onFail(ResultException e) {
                 if(mView != null){
-                    mView.onNewsResult(null, e.getMessage());
+                    mView.onNewsFail(e.getMessage(),requestType);
                 }
             }
-        });
+        },requestType);
     }
 }

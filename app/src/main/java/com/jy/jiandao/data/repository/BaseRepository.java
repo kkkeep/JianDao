@@ -1,8 +1,13 @@
 package com.jy.jiandao.data.repository;
 
+import androidx.annotation.IntDef;
+
 import com.jy.jiandao.data.HttpResult;
 import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.exception.ResultException;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -16,6 +21,11 @@ import io.reactivex.schedulers.Schedulers;
  * created by Cherry on 2020-01-03
  **/
 public class BaseRepository {
+
+
+
+
+
 
 
     protected <D> void observer(Observable<HttpResult<D>> observable, Function<HttpResult<D>, ObservableSource<D>> function, IBaseCallBack<D> callBack) {

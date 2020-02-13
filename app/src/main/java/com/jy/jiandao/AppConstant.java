@@ -1,5 +1,10 @@
 package com.jy.jiandao;
 
+import androidx.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /*
  * created by Cherry on 2019-12-26
  **/
@@ -11,8 +16,7 @@ public interface AppConstant {
     String LANG = "zh";
 
 
-
-    public interface Url{
+    public interface Url {
 
         String GET_VERIFICATION_CODE = "/api/sms/sendsms";
         String USER_REGISTER = "/api/user/register";
@@ -23,34 +27,44 @@ public interface AppConstant {
     }
 
 
-    public interface RequestKey{
+    public interface RequestKey {
 
-         String TIMESTAMP = "timestamp";
-         String NONCE = "nonce";
-         String LANG = "lang";
-         String FROM = "from";
-         String SIGNATURE = "signature";
+        String TIMESTAMP = "timestamp";
+        String NONCE = "nonce";
+        String LANG = "lang";
+        String FROM = "from";
+        String SIGNATURE = "signature";
 
-         String AUTH_REGISTER_MOBILE = "mobile";
-         String AUTH_REGISTER_TYPE = "type";
-         String VERIFICATION_CODE = "sms_code";
-         String AUTH_REGISTER_PASSWORD = "password";
-         String AUTH_REGISTER_CONFIRM_PASSWORD = "affirm_password";
-         String PASSWORD_LOGIN_USER_NAME = "username";
-         String PASSWORD_LOGIN_PASSWORD = AUTH_REGISTER_PASSWORD;
+        String AUTH_REGISTER_MOBILE = "mobile";
+        String AUTH_REGISTER_TYPE = "type";
+        String VERIFICATION_CODE = "sms_code";
+        String AUTH_REGISTER_PASSWORD = "password";
+        String AUTH_REGISTER_CONFIRM_PASSWORD = "affirm_password";
+        String PASSWORD_LOGIN_USER_NAME = "username";
+        String PASSWORD_LOGIN_PASSWORD = AUTH_REGISTER_PASSWORD;
 
 
-         String RECOMMOND_NEWS_COLUMN_ID = "id";
-         String RECOMMOND_NEWS_START_ = "start";
-         String RECOMMOND_NEWS_NUMBER = "number";
-         String RECOMMOND_NEWS_POINT_TIME = "point_time";
+        String RECOMMOND_NEWS_COLUMN_ID = "id";
+        String RECOMMOND_NEWS_START_ = "start";
+        String RECOMMOND_NEWS_NUMBER = "number";
+        String RECOMMOND_NEWS_POINT_TIME = "point_time";
 
 
     }
 
-    interface IntentKey{
+    interface IntentKey {
         String PHONE_NUMBER = "phone";
     }
 
+
+    int REQUEST_FIRST_LOAD = 0x200; // 第一次加载请求
+    int REQUEST_REFRESH_LOAD = 0x300; // 刷新请求
+    int REQUEST_LOAD_MORE_LOAD = 0x400; // 加载更多请求
+
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({REQUEST_FIRST_LOAD, REQUEST_REFRESH_LOAD, REQUEST_LOAD_MORE_LOAD})
+    public @interface RequestType {
+    }
 
 }

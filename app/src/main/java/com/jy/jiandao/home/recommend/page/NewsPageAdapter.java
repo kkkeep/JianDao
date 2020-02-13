@@ -59,7 +59,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
     public void loadMore(List<NewsData.News> news) {
         int start = this.newsList.size();
         this.newsList.addAll(news);
-        notifyItemRangeInserted(start, news.size());
+        notifyItemRangeChanged(start,news.size());
     }
 
     @NonNull

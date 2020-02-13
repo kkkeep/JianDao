@@ -20,4 +20,6 @@
     <string name="error_invalid_null_password">请输入密码</string>
     <string name="text_auth_register_set_user_agreement">注册即是同意见道的用户协议和隐私声明</string>
     <string name="text_auth_forget_password">忘记密码?</string>
+    <string name="text_error_refresh_fail">刷新失败</string>
+    <string name="text_error_load_more_fail">加载更多失败</string>
 </resources>

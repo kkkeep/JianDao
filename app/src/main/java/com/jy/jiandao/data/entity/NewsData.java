@@ -65,7 +65,7 @@ public class NewsData {
         this.flash_id = flashId;
     }
 
-    public List getBannerList() {
+    public List<Banner> getBannerList() {
         return banner_list;
     }
 
@@ -73,7 +73,7 @@ public class NewsData {
         this.banner_list = bannerList;
     }
 
-    public List getFlashList() {
+    public List<Flash> getFlashList() {
         return flash_list;
     }
 
@@ -81,7 +81,7 @@ public class NewsData {
         this.flash_list = flashList;
     }
 
-    public List getArticleList() {
+    public List<News> getArticleList() {
         return article_list;
     }
 

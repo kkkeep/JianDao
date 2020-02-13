@@ -18,7 +18,7 @@ import java.util.List;
 /*
  * created by Cherry on 2020-01-14
  **/
-public class RecommendViewPagerAdapter extends FragmentPagerAdapter {
+public class RecommendViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<ColumnData.Column> mList;
 

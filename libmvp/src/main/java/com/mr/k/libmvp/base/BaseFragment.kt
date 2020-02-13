@@ -91,6 +91,13 @@ abstract class BaseFragment : RxFragment(), BaseLoading {
     }
 
 
+    fun getRootViewId() : Int{
+         view?.run {
+            return this.id
+        }
+        return android.R.id.content
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView(view, savedInstanceState)

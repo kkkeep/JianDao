@@ -1,6 +1,8 @@
 package com.jy.jiandao.home.recommend.page;
 
+import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.entity.NewsData;
+import com.jy.jiandao.data.repository.BaseRepository;
 import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.base.IBaseMvpPresenter;
 import com.mr.k.libmvp.base.IBaseMvpView;
@@ -15,17 +17,18 @@ public interface NewsContract {
 
     interface INewsView extends IBaseMvpView<INewsPresenter> {
 
-        void onNewsResult(NewsData newsData,String msg);
+        void onNewsSuccess(NewsData newsData, @AppConstant.RequestType int requestType);
+        void onNewsFail(String msg, @AppConstant.RequestType int requestType);
     }
 
     interface INewsPresenter extends IBaseMvpPresenter<INewsView>{
 
-        void getNews(String id,int start,int number,int pointTime);
+        void getNews(String id,int start,int number,long pointTime,@AppConstant.RequestType int requestType);
     }
 
     interface INewsMode {
 
-        void getNews(LifecycleProvider provider, Map<String,String> params, IBaseCallBack<NewsData> callBack);
+        void getNews(LifecycleProvider provider, Map<String,String> params, IBaseCallBack<NewsData> callBack,@AppConstant.RequestType int requestType);
 
     }
 }
