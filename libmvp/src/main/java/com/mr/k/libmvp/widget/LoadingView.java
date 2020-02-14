@@ -7,10 +7,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
 import androidx.annotation.IntDef;
 import androidx.appcompat.widget.ContentFrameLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -43,10 +47,17 @@ public class LoadingView extends ConstraintLayout {
     public @interface Mode {
     }
 
-    public ImageView mGifLayout; // gif 动画的半透明背景
-    public GifView mGifView;
 
-    private Group mErrorLayout;
+    private OnRetryListener mRetryListener;
+
+    public ImageView mGifLayout; // gif 动画的半透明背景
+    public GifView mGifView; // gif 动画view
+
+    private TextView mErrorMsg;
+    private ImageView mErrorIcon;
+
+    private Button mRetry;
+
 
     private int mCurrentMode;
 
@@ -80,8 +91,20 @@ public class LoadingView extends ConstraintLayout {
         super.onFinishInflate();
         mGifView = findViewById(R.id.mvp_loading_gif_view);
         mGifLayout = findViewById(R.id.mvp_loading_loading_view_container);
-        mErrorLayout = findViewById(R.id.mvp_loading_group_error);
-        mErrorLayout = findViewById(R.id.mvp_loading_group_error);
+
+        mErrorMsg = findViewById(R.id.mvp_loading_tv_error_msg);
+        mErrorIcon = findViewById(R.id.mvp_loading_iv_error_icon);
+
+        mRetry = findViewById(R.id.mvp_loading_btn_retry);
+
+
+
+        mRetry.setOnClickListener(v -> {
+            // 重新请求网络
+            if(mRetryListener != null){
+                mRetryListener.retry();
+            }
+        });
 
     }
 
@@ -150,7 +173,7 @@ public class LoadingView extends ConstraintLayout {
 
         mCurrentMode = mode;
 
-        mErrorLayout.setVisibility(GONE);
+        hideOrShowErrorLayout();
         if (mode == MODE_WHITE_BACKGROUND) { //  白色背景
             setBackgroundColor(Color.WHITE);
             mGifLayout.setVisibility(View.GONE);
@@ -173,13 +196,84 @@ public class LoadingView extends ConstraintLayout {
     }
 
 
+
+    private void hideOrShowErrorLayout(){
+
+        int visible = VISIBLE;
+        if(mErrorIcon.getVisibility() == VISIBLE){
+            visible = INVISIBLE;
+        }
+
+        mErrorIcon.setVisibility(visible);
+        mErrorMsg.setVisibility(visible);
+        mRetry.setVisibility(visible);
+    }
+
     public void onError() {
         mCurrentMode = MODE_ERROR;
         setBackgroundColor(Color.WHITE);
         mGifView.setVisibility(View.GONE);
         mGifLayout.setVisibility(View.GONE);
-        mErrorLayout.setVisibility(VISIBLE);
+        hideOrShowErrorLayout();
+        mRetry.setVisibility(INVISIBLE);
+
     }
+
+    public void onError(OnRetryListener retryListener) {
+        mCurrentMode = MODE_ERROR;
+        setBackgroundColor(Color.WHITE);
+        mGifView.setVisibility(View.GONE);
+        mGifLayout.setVisibility(View.GONE);
+        hideOrShowErrorLayout();
+        if(retryListener == null){
+            mRetry.setVisibility(INVISIBLE);
+        }else{
+            mRetry.setVisibility(VISIBLE);
+        }
+
+        mRetryListener = retryListener;
+
+    }
+
+    public void onError(String msg, @DrawableRes int errorIconId,OnRetryListener retryListener) {
+        mCurrentMode = MODE_ERROR;
+        setBackgroundColor(Color.WHITE);
+        mGifView.setVisibility(View.GONE);
+        mGifLayout.setVisibility(View.GONE);
+        hideOrShowErrorLayout();
+
+        mErrorMsg.setText(msg);
+
+        mErrorIcon.setBackgroundResource(errorIconId);
+        if(retryListener == null){
+            mRetry.setVisibility(INVISIBLE);
+        }else{
+            mRetry.setVisibility(VISIBLE);
+        }
+
+        mRetryListener = retryListener;
+
+    }
+
+    public void onError(String msg,OnRetryListener retryListener) {
+        mCurrentMode = MODE_ERROR;
+        setBackgroundColor(Color.WHITE);
+        mGifView.setVisibility(View.GONE);
+        mGifLayout.setVisibility(View.GONE);
+        hideOrShowErrorLayout();
+        mErrorMsg.setText(msg);
+
+
+        if(retryListener == null){
+            mRetry.setVisibility(INVISIBLE);
+        }else{
+            mRetry.setVisibility(VISIBLE);
+        }
+
+        mRetryListener = retryListener;
+    }
+
+
 
     public void close() {
         if(this.getParent() != null){
@@ -205,6 +299,12 @@ public class LoadingView extends ConstraintLayout {
 
         constraintSet.applyTo(this);
 
+    }
+
+
+    public interface OnRetryListener {
+
+        void retry();
     }
 
 

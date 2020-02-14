@@ -52,6 +52,7 @@
         android:layout_marginTop="41dp"
         android:textColor="@color/black"
         android:text="@string/mvp_text_loading_retry"
+
         android:background="@drawable/mvp_loading_retry_button_bg_selector"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -72,7 +73,7 @@
         app:layout_constraintGuide_percent="0.8" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/mvp_loading_iv_error_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -82,12 +83,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/mvp_loging_error" />
 
-    <androidx.constraintlayout.widget.Group
+   <!-- <androidx.constraintlayout.widget.Group
 
         android:id="@+id/mvp_loading_group_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="mvp_loading_tv_error_msg,mvp_loading_btn_retry,guideline,imageView,guideline2" />
+        app:constraint_referenced_ids="mvp_loading_tv_error_msg,mvp_loading_btn_retry,guideline,mvp_loading_iv_error_icon,guideline2" />-->
 
 
 </com.mr.k.libmvp.widget.LoadingView>

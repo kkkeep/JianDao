@@ -3,6 +3,7 @@ package com.mr.k.libmvp.base
 import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.mr.k.libmvp.widget.LoadingView
@@ -20,6 +21,8 @@ interface BaseLoading{
      fun showPopLoadingView(@IdRes parentId : Int = getDefaultRootVieId()) {
         showPopLoadingView(getParentForLoading(parentId))
     }
+
+
     // 如果不传id ,默认把loading 页挂载到 android.R.id.content 这个发 frame layout 上
     // 并让loading 背景透明
     fun showPopLoadingView(viewGroup: ViewGroup) {
@@ -46,10 +49,30 @@ interface BaseLoading{
             }
         }
     }
-
-     fun showErrorLoadingView() {
+    // 显示错误页面，错误消息和错误icon 都是默认的
+    fun showErrorLoadingView() {
         mLoadingView?.run {
             this.onError()
+        }
+    }
+
+    // 显示错误页面，错误消息和错误icon 都是默认的
+     fun showErrorLoadingView(retryListener: LoadingView.OnRetryListener) {
+        mLoadingView?.run {
+            this.onError(retryListener)
+        }
+    }
+    // 显示错误页面,用指定的错误消息
+    fun showErrorLoadingView(msg : String,retryListener: LoadingView.OnRetryListener){
+        mLoadingView?.run {
+            onError(msg,retryListener)
+        }
+    }
+
+    // 显示错误页面,用指定的错误消息,和制定的错误图标
+    fun showErrorLoadingView(msg : String ,@DrawableRes errorIconId : Int,retryListener: LoadingView.OnRetryListener){
+        mLoadingView?.run {
+            onError(msg,errorIconId,retryListener)
         }
     }
 

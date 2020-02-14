@@ -88,19 +88,24 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
     }
 
 
+    // 第一次进来初始化数据时加载数据
     @Override
     protected void loadData() {
+        // 第一次加载需要显示loading 页面
         showFullLoadingView(getRootViewId());
         mPresenter.getNews(mColumnId, mStart, mNumber, mPointTime, REQUEST_FIRST_LOAD);
     }
 
+
+    // 下拉刷新请求数据
 
     private void refresh() {
 
         mPresenter.getNews(mColumnId, 0, 0, 0, REQUEST_REFRESH_LOAD);
     }
 
-
+    
+    // 上拉加载更多 请求数据
     private void loadMore() {
         mPresenter.getNews(mColumnId, mStart, mNumber, mPointTime, REQUEST_LOAD_MORE_LOAD);
     }
@@ -108,19 +113,17 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
     @Override
     public void onNewsSuccess(NewsData newsData, int requestType) {
 
-        if (requestType == REQUEST_FIRST_LOAD) {
+        if (requestType == REQUEST_FIRST_LOAD) { // 第一次请求数据回来
             mPageAdapter.setData(newsData.getBannerList(), newsData.getFlashList(), newsData.getArticleList());
             closeLoadingView();
 
-        } else if (requestType == REQUEST_REFRESH_LOAD) {
+        } else if (requestType == REQUEST_REFRESH_LOAD) { // 刷新加载数据回来
             mPageAdapter.refresh(newsData.getBannerList(), newsData.getFlashList(), newsData.getArticleList());
             mSmartRefreshLayout.finishRefresh();
 
 
-        } else if (requestType == REQUEST_LOAD_MORE_LOAD) {
-
+        } else if (requestType == REQUEST_LOAD_MORE_LOAD) {// 加载更多数据回来
             mPageAdapter.loadMore(newsData.getArticleList());
-
             mSmartRefreshLayout.finishLoadMore();
 
 
@@ -151,7 +154,7 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
             mSmartRefreshLayout.finishLoadMore();
         }
 
-    }
+}
 
 
     @Override

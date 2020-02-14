@@ -9,6 +9,7 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.ColumnData;
 import com.mr.k.libmvp.base.BaseMvpFragment;
+import com.mr.k.libmvp.widget.LoadingView;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,11 +27,15 @@ public class RecommendFragment extends BaseMvpFragment<RecommendContract.IRecomm
     @Override
     public void onColumnResult(ColumnData data, String msg) {
         if(data != null){
+            closeLoadingView();
             mPagerAdapter = new RecommendViewPagerAdapter(getFragmentManager(), data.getList().getMyColumn());
             mViewPager.setAdapter(mPagerAdapter);
             mTabLayout.setViewPager(mViewPager);
 
-           // mTabLayout.notifyDataSetChanged();
+        }else{
+            showErrorLoadingView(msg, () -> {
+                loadData();
+            });
         }
 
     }
@@ -57,8 +62,7 @@ public class RecommendFragment extends BaseMvpFragment<RecommendContract.IRecomm
 
     @Override
     protected void loadData() {
-        super.loadData();
-
+        showFullLoadingView(getRootViewId());
         mPresenter.getColumnList();
     }
 
