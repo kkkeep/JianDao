@@ -46,9 +46,9 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
     public void setData(List<NewsData.Banner> banners, List<NewsData.Flash> flashes, List<NewsData.News> news) {
         this.bannerList = banners;
         this.flasheList = flashes;
-        this.newsList = news;
-        notifyDataSetChanged();
-    }
+            this.newsList = news;
+            notifyDataSetChanged();
+        }
 
 
     public void refresh(List<NewsData.Banner> banners, List<NewsData.Flash> flashes, List<NewsData.News> news) {

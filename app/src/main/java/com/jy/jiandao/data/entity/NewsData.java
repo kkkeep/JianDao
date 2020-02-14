@@ -69,7 +69,7 @@ public class NewsData {
         return banner_list;
     }
 
-    public void setBannerList(List bannerList) {
+    public void setBannerList(List<Banner> bannerList) {
         this.banner_list = bannerList;
     }
 
@@ -77,7 +77,7 @@ public class NewsData {
         return flash_list;
     }
 
-    public void setFlashList(List flashList) {
+    public void setFlashList(List<Flash> flashList) {
         this.flash_list = flashList;
     }
 
@@ -85,7 +85,7 @@ public class NewsData {
         return article_list;
     }
 
-    public void setArticleList(List articleList) {
+    public void setArticleList(List<News> articleList) {
         this.article_list = articleList;
     }
 

@@ -21,7 +21,7 @@ public class NewsPagePresenter extends BasePresenter<NewsContract.INewsView> imp
 
 
     public NewsPagePresenter() {
-        this.mRepository = new NewsPageRepository();
+        this.mRepository = NewsPageRepository.getInstance();
     }
 
     @Override

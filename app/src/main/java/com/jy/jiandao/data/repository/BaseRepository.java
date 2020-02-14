@@ -24,13 +24,10 @@ import io.reactivex.schedulers.Schedulers;
 public class BaseRepository {
 
 
-
-
-
-
-
     protected <D> void observer(Observable<HttpResult<D>> observable, Function<HttpResult<D>, ObservableSource<D>> function, IBaseCallBack<D> callBack) {
-        observable.flatMap(function).subscribeOn(Schedulers.io())
+        observable
+                .flatMap(function)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<D>() {
                     @Override
@@ -45,9 +42,9 @@ public class BaseRepository {
 
                     @Override
                     public void onError(Throwable e) {
-                        if(e instanceof ResultException){
+                        if (e instanceof ResultException) {
                             callBack.onFail((ResultException) e);
-                        }else{
+                        } else {
                             callBack.onFail(new ResultException(e));
                         }
                     }
@@ -55,18 +52,54 @@ public class BaseRepository {
                     @Override
                     public void onComplete() {
 
-            }
-        });
+                    }
+                });
     }
 
-    protected <D> Observable<D>  getConvertObservable(HttpResult<D> httpResult){
-        if(httpResult.code == 1){
-            if(httpResult.data != null){
+    protected <D> void observer(Observable<HttpResult<D>> observable, Function<HttpResult<D>, ObservableSource<D>> function, Consumer<D> consumer, IBaseCallBack<D> callBack) {
+        Observable<D> observable1 = observable.flatMap(function);
+
+        if (consumer != null) {
+            observable1 = observable1.doOnNext(consumer);
+        }
+
+        observable1.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<D>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(D d) {
+                        callBack.onSuccess(d);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof ResultException) {
+                            callBack.onFail((ResultException) e);
+                        } else {
+                            callBack.onFail(new ResultException(e));
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    protected <D> Observable<D> getConvertObservable(HttpResult<D> httpResult) {
+        if (httpResult.code == 1) {
+            if (httpResult.data != null) {
                 return Observable.just(httpResult.data);
-            }else{
+            } else {
                 return Observable.error(new ResultException(ResultException.SERVER_ERROR));
             }
-        }else{
+        } else {
             return Observable.error(new ResultException(httpResult.message));
         }
     }

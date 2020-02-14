@@ -134,7 +134,7 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
         mPointTime = newsData.getPointTime();
 
         if(newsData.getMore() == 0){
-            mSmartRefreshLayout.setNoMoreData(true); //，这个时候，传入true, 表示更多数据了,再去上拉的时候，不会触发下载更多的回调，会直接显示没有更多数据
+            mSmartRefreshLayout.setNoMoreData(true); //，这个时候，传入true, 表示没有更多数据了,再去上拉的时候，不会触发下拉更多的回调，会直接显示没有更多数据
         }
 
     }
