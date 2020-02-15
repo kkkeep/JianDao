@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.NewsData;
 import com.mr.k.libmvp.Utils.Logger;
@@ -111,11 +112,15 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
     }
 
     @Override
-    public void onNewsSuccess(NewsData newsData, int requestType) {
+    public void onNewsSuccess(NewsData newsData, int requestType,@AppConstant.ResponseType int responseType) {
 
         if (requestType == REQUEST_FIRST_LOAD) { // 第一次请求数据回来
             mPageAdapter.setData(newsData.getBannerList(), newsData.getFlashList(), newsData.getArticleList());
             closeLoadingView();
+
+            if(responseType == RESPONSE_FROM_SDCARD){
+                mSmartRefreshLayout.autoRefresh(500);
+            }
 
         } else if (requestType == REQUEST_REFRESH_LOAD) { // 刷新加载数据回来
             mPageAdapter.refresh(newsData.getBannerList(), newsData.getFlashList(), newsData.getArticleList());
@@ -159,7 +164,7 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
 
     @Override
     public NewsContract.INewsPresenter createPresenter() {
-        return new NewsPagePresenter();
+        return new NewsPagePresenter(getContext());
     }
 
 

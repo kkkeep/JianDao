@@ -6,6 +6,7 @@ import com.jy.jiandao.data.repository.BaseRepository;
 import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.base.IBaseMvpPresenter;
 import com.mr.k.libmvp.base.IBaseMvpView;
+import com.mr.k.libmvp.base.ICachedCallBack;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.util.Map;
@@ -17,7 +18,7 @@ public interface NewsContract {
 
     interface INewsView extends IBaseMvpView<INewsPresenter> {
 
-        void onNewsSuccess(NewsData newsData, @AppConstant.RequestType int requestType);
+        void onNewsSuccess(NewsData newsData, @AppConstant.RequestType int requestType, @AppConstant.ResponseType int responseType);
         void onNewsFail(String msg, @AppConstant.RequestType int requestType);
     }
 
@@ -28,7 +29,7 @@ public interface NewsContract {
 
     interface INewsMode {
 
-        void getNews(LifecycleProvider provider, Map<String,String> params, IBaseCallBack<NewsData> callBack,@AppConstant.RequestType int requestType);
+        void getNews(LifecycleProvider provider, Map<String,String> params, ICachedCallBack<NewsData> callBack, @AppConstant.RequestType int requestType);
 
     }
 }

@@ -62,9 +62,20 @@ public interface AppConstant {
     int REQUEST_LOAD_MORE_LOAD = 0x400; // 加载更多请求
 
 
+
+    int RESPONSE_FROM_MEMORY= 0X100; // 数据从内存返回
+    int RESPONSE_FROM_SDCARD= 0X200; // 数据从sdcard 返回，
+    int RESPONSE_FROM_SERVER = 0X300; // 数据从服务器返回
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({REQUEST_FIRST_LOAD, REQUEST_REFRESH_LOAD, REQUEST_LOAD_MORE_LOAD})
-    public @interface RequestType {
+     @interface RequestType {
     }
+
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({RESPONSE_FROM_MEMORY, RESPONSE_FROM_SDCARD, RESPONSE_FROM_SERVER})
+    @interface ResponseType{}
+
 
 }
