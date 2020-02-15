@@ -1,6 +1,7 @@
 package com.jy.jiandao.home.recommend;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.viewpager.widget.ViewPager;
@@ -8,11 +9,15 @@ import androidx.viewpager.widget.ViewPager;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.ColumnData;
+import com.jy.jiandao.data.entity.NewsData;
+import com.mr.k.libmvp.Utils.DataFileCacheUtils;
 import com.mr.k.libmvp.base.BaseMvpFragment;
-import com.mr.k.libmvp.widget.LoadingView;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Map;
 
 /*
  * created by Cherry on 2020-01-08
@@ -31,6 +36,24 @@ public class RecommendFragment extends BaseMvpFragment<RecommendContract.IRecomm
             mPagerAdapter = new RecommendViewPagerAdapter(getFragmentManager(), data.getList().getMyColumn());
             mViewPager.setAdapter(mPagerAdapter);
             mTabLayout.setViewPager(mViewPager);
+
+
+            //-------------------
+
+            List<ColumnData.Column> list =  data.getList().getMyColumn();
+
+
+            String json = DataFileCacheUtils.convertJsonFromData(list);
+
+
+
+          List<ColumnData.Column> list2 = DataFileCacheUtils.convertToListFromJson(ColumnData.Column.class,json);
+
+
+
+
+            Log.d("test","test");
+
 
         }else{
             showErrorLoadingView(msg, () -> {
