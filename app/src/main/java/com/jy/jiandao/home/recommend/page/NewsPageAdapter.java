@@ -1,5 +1,6 @@
 package com.jy.jiandao.home.recommend.page;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,14 +8,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jy.jiandao.GlideApp;
 import com.jy.jiandao.R;
+import com.jy.jiandao.data.entity.Ad;
 import com.jy.jiandao.data.entity.NewsData;
 import com.mr.k.banner.KBanner;
 import com.mr.k.libmvp.Utils.SystemFacade;
+import com.mr.k.libmvp.widget.MarqueeView;
+import com.umeng.socialize.media.Base;
 
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Constructor;
@@ -106,6 +112,28 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
             case NEWS_TYPE_VIDEO: {
                 holderClass = VideoHolder.class;
                 layoutId = R.layout.item_news_video;
+                break;
+            }
+
+            case AD_TYPE_BANER:{
+
+                holderClass = AdBannerHolder.class;
+                layoutId = R.layout.item_ad_banner;
+
+                break;
+            }
+
+            case AD_TYPE_BIG_PIC:{
+                holderClass = AdBigPicHolder.class;
+                layoutId = R.layout.item_ad_big_pic;
+
+                break;
+            }
+
+            case AD_TYPE_VIDEO:{
+
+                holderClass = AdVideoHolder.class;
+                layoutId = R.layout.item_ad_video;
                 break;
             }
 
@@ -224,10 +252,27 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
 
         KBanner banner;
 
+        MarqueeView marqueeView;
+
+
+        ImageView more;
+
+
+        Group group;
+
         public HeaderHolder(@NonNull View itemView) {
             super(itemView);
 
             banner = itemView.findViewById(R.id.item_news_top_banner);
+
+            marqueeView = itemView.findViewById(R.id.item_news_top_banner_flash);
+
+            more = itemView.findViewById(R.id.item_news_top_banner_iv_more);
+
+            group = itemView.findViewById(R.id.item_news_top_banner_flash_group);
+
+
+
         }
 
         @Override
@@ -250,6 +295,28 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
                     return data.getTheme();
                 }
             });
+
+
+            if(SystemFacade.isListEmpty(flashes)){
+
+                group.setVisibility(View.GONE);
+
+            }else{
+                group.setVisibility(View.VISIBLE);
+                marqueeView.setClickableText(flashes);
+
+                marqueeView.setOnMarqueeTextClickListener(new MarqueeView.OnMarqueeTextClickListener<MarqueeView.MarqueeData>() {
+                    @Override
+                    public void onClick(@NotNull MarqueeView.MarqueeData data, int position) {
+
+                        NewsData.Flash flash= (NewsData.Flash) data;
+
+
+                    }
+                });
+            }
+
+
 
         }
     }
@@ -347,6 +414,93 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
             title.setText(news.getTheme());
             content.setText(news.getContent());
             time.setText(news.getEditTime());
+
+        }
+    }
+
+
+
+    private class AdBannerHolder extends BaseHolder{
+
+        ImageView pic;
+
+
+        public AdBannerHolder(@NonNull View itemView) {
+            super(itemView);
+
+            pic = itemView.findViewById(R.id.item_ad_banner_iv_pic);
+        }
+
+        @Override
+        public void bindData(NewsData.News news) {
+
+            Ad ad = news.getAd();
+
+            GlideApp.with(itemView).load(ad.getAd_url()).into(pic);
+
+        }
+    }
+
+
+    private class AdBigPicHolder extends BaseHolder{
+
+        private ImageView pic;
+
+        private TextView title;
+
+
+        public AdBigPicHolder(@NonNull View itemView) {
+            super(itemView);
+
+            title = itemView.findViewById(R.id.item_ad_tv_title);
+            pic = itemView.findViewById(R.id.item_ad_iv_pic_big);
+
+        }
+
+        @Override
+        public void bindData(NewsData.News news) {
+            Ad ad = news.getAd();
+
+            GlideApp.with(itemView).load(ad.getAd_url()).into(pic);
+
+
+            if(TextUtils.isEmpty(ad.getTitle())){
+                title.setVisibility(View.GONE);
+            }else{
+                title.setVisibility(View.VISIBLE);
+                title.setText(ad.getTitle());
+            }
+
+        }
+    }
+
+
+    private class AdVideoHolder extends BaseHolder{
+
+        private ImageView pic;
+
+        private TextView title;
+
+
+        public AdVideoHolder(@NonNull View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.item_ad_video_tv_title);
+
+        }
+
+        @Override
+        public void bindData(NewsData.News news) {
+            Ad ad = news.getAd();
+
+          //  GlideApp.with(itemView).load(ad.getAd_url()).into(pic);
+
+
+            if(TextUtils.isEmpty(ad.getTitle())){
+                title.setVisibility(View.GONE);
+            }else{
+                title.setVisibility(View.VISIBLE);
+                title.setText(ad.getTitle());
+            }
 
         }
     }

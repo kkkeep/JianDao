@@ -46,7 +46,7 @@ dependencies {
     kapt deps.glideX.compiler
 
 
-
+    implementation 'me.codeboy.android:align-text-view:2.3.2'
 
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.2@aar'
 

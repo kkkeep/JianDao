@@ -1,24 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:layout_height="wrap_content">
 
 
     <com.mr.k.banner.KBanner
         android:id="@+id/item_news_top_banner"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:bannerIndicatorStyle="progress"
         app:bannerIndicatorColor="@color/white"
-        app:bannerIndicatorSelectColor="@color/red"
         app:bannerIndicatorHeight="3dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:bannerIndicatorSelectColor="@color/red"
+        app:bannerIndicatorStyle="progress"
         app:layout_constraintDimensionRatio="1.8:1"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.mr.k.libmvp.widget.MarqueeView
+        android:id="@+id/item_news_top_banner_flash"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/item_news_top_banner_iv_more"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_news_top_banner"
+        app:spacing="0dp"
+        app:speed="2"
+        app:textColor="@color/black_282B2E"
+        app:textSize="12dp" />
+
+
+    <ImageView
+        android:id="@+id/item_news_top_banner_iv_more"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_flush_more"
+        app:layout_constraintBottom_toBottomOf="@+id/item_news_top_banner_flash"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/item_news_top_banner_flash" />
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        style="@style/JianDao.LineHorizontal.NewsItem"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        tools:layout_editor_absoluteY="731dp" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/item_news_top_banner_flash_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="item_news_top_banner_iv_more,item_news_top_banner_flash" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp"
+    android:layout_height="wrap_content">
+
+   <!-- <com.seetaoism.splash.AdVideo
+        android:id="@+id/item_ad_video"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="w,1:2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>-->
+
+    <ImageView
+        android:id="@+id/item_ad_video_iv_cover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/red"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="w,1:2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/item_ad_video_tv_title"
+        style="@style/JianDao.NewsTitleStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:maxLines="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_ad_video_iv_cover"
+        tools:text="标题" />
+
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="19dp"
+        android:background="@drawable/ic_ad_bg"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="#ff9b9c9e"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_ad_video_tv_title"
+        android:text="@string/text_ad" />
+
+
+    <ImageView
+        style="@style/JianDao.LineHorizontal.NewsItem"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

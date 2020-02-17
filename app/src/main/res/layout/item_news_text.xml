@@ -20,13 +20,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <me.codeboy.android.aligntextview.AlignTextView
         android:id="@+id/item_news_text_tv_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         tools:text="TextView"
         android:textSize="15dp"
+        android:lineSpacingExtra="4dp"
+        app:punctuationConvert="true"
         android:textColor="@color/gray_666666"
         app:layout_constraintEnd_toEndOf="@+id/item_news_text_tv_title"
         app:layout_constraintStart_toStartOf="@+id/item_news_text_tv_title"

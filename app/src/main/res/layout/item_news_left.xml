@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/item_news_left_tv_title"
         style="@style/JianDao.NewsTitleStyle"
-        android:layout_width="285dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="11dp"
         android:layout_marginEnd="15dp"

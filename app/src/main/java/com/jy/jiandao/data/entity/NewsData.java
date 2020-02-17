@@ -1,5 +1,9 @@
 package com.jy.jiandao.data.entity;
 
+import com.mr.k.libmvp.widget.MarqueeView;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 /*
@@ -178,14 +182,19 @@ public class NewsData {
     }
 
 
+
     public class Banner extends BaseNews {
 
     }
 
-    public class Flash extends BaseNews {
+    public class Flash extends BaseNews implements MarqueeView.MarqueeData {
 
+        @NotNull
+        @Override
+        public String getString() {
+            return getTheme();
+        }
     }
-
 
     public class News extends BaseNews{
         /**

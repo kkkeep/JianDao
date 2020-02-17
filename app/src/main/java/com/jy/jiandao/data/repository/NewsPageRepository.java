@@ -78,7 +78,7 @@ public class NewsPageRepository extends BaseRepository implements NewsContract.I
             NewsData newsData = mMemoryCache.get(cacheKey);
 
             if (newsData != null) { // 如果内存缓存里面有数据，那么返回内存里面缓存的给 Presenter 层
-                callBack.onMemoryCacheBack(newsData);
+                callBack.onMemoryCacheBack(cloneData(newsData));
                 return;
 
             } else {
