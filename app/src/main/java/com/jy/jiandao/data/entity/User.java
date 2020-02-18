@@ -25,7 +25,7 @@ public class User {
     }
 
     public void setUserInfo(UserInfo user_info) {
-        this.user_info = user_info;
+        this.user_info  = user_info;
     }
 
 

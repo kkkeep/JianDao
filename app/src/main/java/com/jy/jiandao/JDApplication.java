@@ -3,6 +3,9 @@ package com.jy.jiandao;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
+
 import com.jy.jiandao.data.ok.ApiService;
 import com.jy.jiandao.data.ok.converter.MyGsonConverterFactory;
 import com.mr.k.libmvp.oknet.DataService;
@@ -18,7 +21,7 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 /*
  * created by Cherry on 2019-12-26
  **/
-public class JDApplication extends Application {
+public class JDApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {
@@ -29,7 +32,10 @@ public class JDApplication extends Application {
         initRefreshLayout();
 
     }
-
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
 
     private void initRefreshLayout() {

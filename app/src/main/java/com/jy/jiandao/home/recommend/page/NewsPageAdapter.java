@@ -15,9 +15,12 @@ import com.jy.jiandao.GlideApp;
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.Ad;
 import com.jy.jiandao.data.entity.NewsData;
+import com.jy.jiandao.video.VideoHolder;
 import com.mr.k.banner.KBanner;
 import com.mr.k.libmvp.Utils.SystemFacade;
+import com.mr.k.libmvp.base.BaseAdapterHolder;
 import com.mr.k.libmvp.widget.MarqueeView;
+import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.umeng.socialize.media.Base;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,8 +32,9 @@ import java.util.List;
 /*
  * created by Cherry on 2020-01-14
  **/
-public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHolder> {
+public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<NewsData.News>> {
 
+    public static final String VIDEO_PLAY_TAG = "NewsPageAdapter_TAG";
 
     private static final int NEWS_TYPE_BANER = 0X99; // 顶部banner
     private static final int NEWS_TYPE_LEFT_PIC = 0X100; //  左图
@@ -70,10 +74,10 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
 
     @NonNull
     @Override
-    public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BaseAdapterHolder<NewsData.News> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 
-        Class<? extends BaseHolder> holderClass = LeftHolder.class;
+        Class<? extends BaseAdapterHolder<NewsData.News>> holderClass = LeftHolder.class;
 
         int layoutId = R.layout.item_news_left;
 
@@ -142,10 +146,20 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
 
         try {
 
-            Constructor constructor = holderClass.getConstructor(NewsPageAdapter.class, View.class);
-            BaseHolder baseHolder = (BaseHolder) constructor.newInstance(this, LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false));
+            if(viewType != NEWS_TYPE_VIDEO){
+                Constructor<? extends BaseAdapterHolder<NewsData.News>> constructor = holderClass.getConstructor(NewsPageAdapter.class, View.class);
 
-            return baseHolder;
+                return constructor.newInstance(this, LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false));
+            }else{
+
+                Constructor<? extends BaseAdapterHolder<NewsData.News>> constructor = holderClass.getConstructor(String.class, View.class);
+
+                return constructor.newInstance(VIDEO_PLAY_TAG, LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false));
+
+            }
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -154,7 +168,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BaseAdapterHolder<NewsData.News> holder, int position) {
         int type = getItemViewType(position);
         if (type == NEWS_TYPE_BANER) {
             ((HeaderHolder) holder).bindData(bannerList, flasheList);
@@ -235,20 +249,9 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
     }
 
 
-    public abstract class BaseHolder extends RecyclerView.ViewHolder {
 
 
-        public BaseHolder(@NonNull View itemView) {
-            super(itemView);
-
-        }
-
-
-        public abstract void bindData(NewsData.News news);
-    }
-
-
-    private class HeaderHolder extends BaseHolder {
+    private class HeaderHolder extends BaseAdapterHolder<NewsData.News> {
 
         KBanner banner;
 
@@ -321,7 +324,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
         }
     }
 
-    private class LeftHolder extends BaseHolder {
+    private class LeftHolder extends BaseAdapterHolder<NewsData.News>  {
 
         ImageView pic;
         TextView title;
@@ -367,32 +370,9 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
 
     }
 
-    private class VideoHolder extends BaseHolder {
-
-        ImageView pic;
-        TextView title;
-        TextView label;
 
 
-        public VideoHolder(@NonNull View itemView) {
-            super(itemView);
-
-            pic = itemView.findViewById(R.id.item_news_video_iv_pic);
-            title = itemView.findViewById(R.id.item_news_video_tv_title);
-            label = itemView.findViewById(R.id.item_news_video_tv_label);
-        }
-
-        @Override
-        public void bindData(NewsData.News news) {
-
-            GlideApp.with(itemView).load(news.getImageUrl()).into(pic);
-            title.setText(news.getTheme());
-            label.setText(news.getColumnName());
-
-        }
-    }
-
-    private class TextHolder extends BaseHolder {
+    private class TextHolder extends BaseAdapterHolder<NewsData.News>  {
 
         TextView title;
         TextView content;
@@ -420,7 +400,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
 
 
 
-    private class AdBannerHolder extends BaseHolder{
+    private class AdBannerHolder extends BaseAdapterHolder<NewsData.News> {
 
         ImageView pic;
 
@@ -442,7 +422,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
     }
 
 
-    private class AdBigPicHolder extends BaseHolder{
+    private class AdBigPicHolder extends BaseAdapterHolder<NewsData.News> {
 
         private ImageView pic;
 
@@ -475,7 +455,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<NewsPageAdapter.BaseHo
     }
 
 
-    private class AdVideoHolder extends BaseHolder{
+    private class AdVideoHolder extends BaseAdapterHolder<NewsData.News> {
 
         private ImageView pic;
 

@@ -13,6 +13,8 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -40,6 +42,7 @@ dependencies {
     implementation deps.other.smartRefreshLayout
     implementation deps.other.smartRefreshHeader
     implementation deps.androidX.recyclerview
+    implementation deps.androidX.multidex
 
 
     implementation deps.glideX.glide
@@ -49,6 +52,9 @@ dependencies {
     implementation 'me.codeboy.android:align-text-view:2.3.2'
 
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.2@aar'
+    implementation 'com.shuyu:GSYVideoPlayer:7.1.2'
+
+
 
     implementation project(path: ':libmvp')
     implementation project(path: ':libumeng')

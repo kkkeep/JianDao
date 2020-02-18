@@ -4,6 +4,7 @@ ext.deps = [:] // 一个全局的，map ，为了让其他的gradle 文件访问
 def versions = [:]
 versions.support = "28.0.0"
 versions.androidX = "1.1.0"
+versions.multidexVersion = "2.0.1"
 versions.material = "1.0.0"
 versions.constraintlayout = "1.1.3"
 versions.recyclerview = "1.0.0"
@@ -35,6 +36,8 @@ def androidXMap = [:]
 androidXMap.appcompat = "androidx.appcompat:appcompat:$versions.androidX"
 androidXMap.constraintlayout = "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
 androidXMap.recyclerview = "androidx.recyclerview:recyclerview:$versions.recyclerview"
+androidXMap.multidex = "androidx.multidex:multidex:$versions.multidexVersion"
+
 subDeps.androidX = androidXMap
 
 
