@@ -1,5 +1,6 @@
 package com.jy.jiandao.video;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,42 +16,55 @@ import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
-public class VideoHolder extends BaseAdapterHolder<NewsData.News> {
+public abstract class VideoHolder extends BaseAdapterHolder<NewsData.News> {
 
-   // private ImageView pic;
 
     private TextView title;
-    private TextView label;
-
-    private String tag;
-
-    GSYVideoOptionBuilder gsyVideoOptionBuilder;
-
+    private GSYVideoOptionBuilder gsyVideoOptionBuilder;
     private SampleCoverVideo gsyVideoPlayer;
+    private String tag;
 
 
     public VideoHolder(String tag, @NonNull View itemView) {
         super(itemView);
 
-       // pic = itemView.findViewById(R.id.item_news_video_iv_pic);
-        title = itemView.findViewById(R.id.item_news_video_tv_title);
-        label = itemView.findViewById(R.id.item_news_video_tv_label);
-
-        gsyVideoPlayer = itemView.findViewById(R.id.item_news_video_gsy_player);
-
+        gsyVideoPlayer = getGsyVideoPlayer();
+        title = getTitleView();
         this.tag = tag;
 
         gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
     }
 
+    public abstract  SampleCoverVideo getGsyVideoPlayer();
+
+    public TextView getTitleView(){
+        return null;
+    }
+
+
+    public String getTitleString(NewsData.News data){
+        return data.getTheme();
+    }
+
+
+
     @Override
     public void bindData(NewsData.News data) {
         super.bindData(data);
-        //GlideApp.with(itemView).load(data.getImageUrl()).into(pic);
-        title.setText(data.getTheme());
-        label.setText(data.getColumnName());
 
-        gsyVideoPlayer.loadCoverImage(data.getImageUrl(),0);
+        if(title != null){
+            if(TextUtils.isEmpty(getTitleString(data))){
+                title.setVisibility(View.GONE);
+            }else{
+                title.setVisibility(View.VISIBLE);
+                title.setText(getTitleString(data));
+            }
+
+        }
+
+        if(!TextUtils.isEmpty(data.getImageUrl())){
+            gsyVideoPlayer.loadCoverImage(data.getImageUrl(),0);
+        }
 
         gsyVideoOptionBuilder
                 .setIsTouchWiget(false)

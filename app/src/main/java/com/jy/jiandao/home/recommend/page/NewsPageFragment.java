@@ -17,6 +17,7 @@ import com.mr.k.libmvp.base.BaseMvpFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -76,6 +77,43 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
 
         mNewsRecyclerView.setAdapter(mPageAdapter);
 
+
+
+        mNewsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            int firstVisibleItem, lastVisibleItem;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mNewsRecyclerView.getLayoutManager();
+                firstVisibleItem   = linearLayoutManager.findFirstVisibleItemPosition();
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                //大于0说明有播放
+                if (GSYVideoManager.instance().getPlayPosition() >= 0) {
+                    //当前播放的位置
+                    int position = GSYVideoManager.instance().getPlayPosition();
+                    //对应的播放列表TAG
+                    if (GSYVideoManager.instance().getPlayTag().equals(NewsPageAdapter.VIDEO_PLAY_TAG)
+                            && (position < firstVisibleItem || position > lastVisibleItem)) {
+
+                        //如果滑出去了上面和下面就是否，和今日头条一样
+
+
+                        //是否全屏
+                        if(!GSYVideoManager.isFullState(getActivity())) {
+                            GSYVideoManager.releaseAllVideos();
+                            mNewsRecyclerView.getAdapter().notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        });
 
     }
 
@@ -184,6 +222,20 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        GSYVideoManager.onPause();
+    }
+
+    /* @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+
+        }
+    }*/
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         Logger.d("%s", name);
@@ -192,6 +244,8 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        GSYVideoManager.releaseAllVideos();
         Logger.d("%s", name);
     }
 

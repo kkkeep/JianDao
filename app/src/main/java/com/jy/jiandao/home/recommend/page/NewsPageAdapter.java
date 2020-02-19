@@ -15,6 +15,7 @@ import com.jy.jiandao.GlideApp;
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.Ad;
 import com.jy.jiandao.data.entity.NewsData;
+import com.jy.jiandao.video.SampleCoverVideo;
 import com.jy.jiandao.video.VideoHolder;
 import com.mr.k.banner.KBanner;
 import com.mr.k.libmvp.Utils.SystemFacade;
@@ -114,7 +115,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
                 break;
             }
             case NEWS_TYPE_VIDEO: {
-                holderClass = VideoHolder.class;
+                holderClass = NewsVideoHolder.class;
                 layoutId = R.layout.item_news_video;
                 break;
             }
@@ -146,15 +147,15 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
 
         try {
 
-            if(viewType != NEWS_TYPE_VIDEO){
+            if(viewType != NEWS_TYPE_VIDEO && viewType != AD_TYPE_VIDEO){
                 Constructor<? extends BaseAdapterHolder<NewsData.News>> constructor = holderClass.getConstructor(NewsPageAdapter.class, View.class);
 
                 return constructor.newInstance(this, LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false));
             }else{
 
-                Constructor<? extends BaseAdapterHolder<NewsData.News>> constructor = holderClass.getConstructor(String.class, View.class);
+                Constructor<? extends BaseAdapterHolder<NewsData.News>> constructor = holderClass.getConstructor(NewsPageAdapter.class,String.class, View.class);
 
-                return constructor.newInstance(VIDEO_PLAY_TAG, LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false));
+                return constructor.newInstance(this,VIDEO_PLAY_TAG, LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false));
 
             }
 
@@ -399,6 +400,36 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
     }
 
 
+    private class NewsVideoHolder extends VideoHolder{
+
+        private TextView label;
+
+        public NewsVideoHolder(String tag, @NonNull View itemView) {
+            super(tag, itemView);
+
+           label =  itemView.findViewById(R.id.item_news_video_tv_label);
+        }
+
+        @Override
+        public SampleCoverVideo getGsyVideoPlayer() {
+            return itemView.findViewById(R.id.item_news_video_gsy_player);
+        }
+
+        @Override
+        public TextView getTitleView() {
+            return itemView.findViewById(R.id.item_news_video_tv_title);
+        }
+
+
+        @Override
+        public void bindData(NewsData.News data) {
+            super.bindData(data);
+
+            label.setText(data.getColumnName());
+        }
+    }
+
+
 
     private class AdBannerHolder extends BaseAdapterHolder<NewsData.News> {
 
@@ -455,32 +486,40 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
     }
 
 
-    private class AdVideoHolder extends BaseAdapterHolder<NewsData.News> {
-
-        private ImageView pic;
-
-        private TextView title;
+    private class AdVideoHolder extends VideoHolder {
 
 
-        public AdVideoHolder(@NonNull View itemView) {
-            super(itemView);
-            title = itemView.findViewById(R.id.item_ad_video_tv_title);
+
+        public AdVideoHolder(String tag,@NonNull View itemView) {
+            super(tag,itemView);
+
 
         }
 
         @Override
+        public SampleCoverVideo getGsyVideoPlayer() {
+            return itemView.findViewById(R.id.item_ad_video);
+        }
+
+
+        @Override
+        public TextView getTitleView() {
+            return itemView.findViewById(R.id.item_ad_video_tv_title);
+        }
+
+
+        @Override
+        public String getTitleString(NewsData.News data) {
+            return data.getAd().getTitle();
+        }
+
+
+        @Override
         public void bindData(NewsData.News news) {
             Ad ad = news.getAd();
-
-          //  GlideApp.with(itemView).load(ad.getAd_url()).into(pic);
-
-
-            if(TextUtils.isEmpty(ad.getTitle())){
-                title.setVisibility(View.GONE);
-            }else{
-                title.setVisibility(View.VISIBLE);
-                title.setText(ad.getTitle());
-            }
+            news.setVideoUrl(ad.getAd_url());
+            ///news.setImageUrl(ad.getAd_url());
+           super.bindData(news);
 
         }
     }

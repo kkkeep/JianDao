@@ -8,8 +8,7 @@
     android:paddingRight="15dp"
     android:paddingTop="15dp"
     android:layout_height="wrap_content">
-
-   <!-- <com.seetaoism.splash.AdVideo
+    <com.jy.jiandao.video.SampleCoverVideo
         android:id="@+id/item_ad_video"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -17,20 +16,9 @@
         app:layout_constraintDimensionRatio="w,1:2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>-->
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <ImageView
-        android:id="@+id/item_ad_video_iv_cover"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/red"
-        android:scaleType="centerCrop"
-        app:layout_constraintDimensionRatio="w,1:2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
 
-        />
 
     <TextView
         android:id="@+id/item_ad_video_tv_title"
@@ -41,7 +29,7 @@
         android:maxLines="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_ad_video_iv_cover"
+        app:layout_constraintTop_toBottomOf="@+id/item_ad_video"
         tools:text="标题" />
 
     <TextView

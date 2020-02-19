@@ -1,6 +1,7 @@
 package com.jy.jiandao.video;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.Surface;
@@ -18,6 +19,8 @@ import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
+
+import moe.codeest.enviews.ENPlayView;
 
 
 /**
@@ -54,6 +57,10 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
                 (mCurrentState == -1 || mCurrentState == CURRENT_STATE_NORMAL || mCurrentState == CURRENT_STATE_ERROR)) {
             mThumbImageViewLayout.setVisibility(VISIBLE);
         }
+
+
+
+        mCurrentTimeTextView.setTextColor(Color.RED);
     }
 
     @Override
@@ -73,6 +80,35 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
                                 .placeholder(res))
                 .load(url)
                 .into(mCoverImage);
+
+
+    }
+
+
+    /**
+     * 定义开始按键显示
+     */
+    protected void updateStartImage() {
+        if (mStartButton instanceof ENPlayView) {
+            ENPlayView enPlayView = (ENPlayView) mStartButton;
+            enPlayView.setDuration(500);
+            if (mCurrentState == CURRENT_STATE_PLAYING) {
+                enPlayView.play();
+            } else if (mCurrentState == CURRENT_STATE_ERROR) {
+                enPlayView.pause();
+            } else {
+                enPlayView.pause();
+            }
+        } else if (mStartButton instanceof ImageView) {
+            ImageView imageView = (ImageView) mStartButton;
+            if (mCurrentState == CURRENT_STATE_PLAYING) {
+                imageView.setImageResource(R.drawable.ic_video_pause);
+            } else if (mCurrentState == CURRENT_STATE_ERROR) {
+                imageView.setImageResource(R.drawable.video_click_error_selector);
+            } else {
+                imageView.setImageResource(R.drawable.ic_video_play);
+            }
+        }
     }
 
     @Override

@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -27,9 +28,9 @@
 
         <ImageView
             android:id="@+id/thumbImage"
-            android:scaleType="centerCrop"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
 
     </RelativeLayout>
 
@@ -132,7 +133,7 @@
         android:layout_centerVertical="true"
         android:visibility="invisible" />
 
-    <moe.codeest.enviews.ENPlayView
+    <ImageView
         android:id="@+id/start"
         android:layout_width="60dp"
         android:layout_height="60dp"

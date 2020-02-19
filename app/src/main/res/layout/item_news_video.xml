@@ -50,12 +50,5 @@
         style="@style/JianDao.LineHorizontal.NewsItem"
        />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/item_news_video_gsy_player"
-        app:layout_constraintEnd_toEndOf="@+id/item_news_video_gsy_player"
-        app:layout_constraintStart_toStartOf="@+id/item_news_video_gsy_player"
-        app:layout_constraintTop_toTopOf="@+id/item_news_video_gsy_player"
-        app:srcCompat="@drawable/ic_video_play" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

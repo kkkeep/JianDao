@@ -23,8 +23,8 @@ public class RecommendViewPagerAdapter extends FragmentStatePagerAdapter {
     private List<ColumnData.Column> mList;
 
     public RecommendViewPagerAdapter(@NonNull FragmentManager fm, List<ColumnData.Column> list) {
-       // super(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        super(fm);
+        super(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+       // super(fm);
         this.mList = list;
 
 
