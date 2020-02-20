@@ -13,6 +13,7 @@ import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.NewsData;
 import com.mr.k.libmvp.Utils.Logger;
+import com.mr.k.libmvp.base.BaseAdapterHolder;
 import com.mr.k.libmvp.base.BaseMvpFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -78,7 +79,6 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
         mNewsRecyclerView.setAdapter(mPageAdapter);
 
 
-
         mNewsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             int firstVisibleItem, lastVisibleItem;
@@ -86,13 +86,59 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+
+                // 在 recycler view 滑动停止后，去遍历屏幕上所有可见的item，看这些 item 中是否有视频广告，如果有，并且视频广告view 全部出现在可见区域内，那么播放广告
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) { // 滑动停止后
+                    LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mNewsRecyclerView.getLayoutManager();
+                    firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition(); // 第一个看见item 的 position
+                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition(); // 第最后一个可见 item 的 position
+
+
+                    // 遍历第一个可见 item 和 最后一个可见item 之间的 是否有 视频广告item
+
+
+                    for(int i = firstVisibleItem; i <= lastVisibleItem;i++){
+
+
+                        if(mPageAdapter.isAdVideo(i)){ // 如果是视频广告
+
+                            // 判断视频广告的item 是否全部出现在可见范围内
+
+
+                            int recyclerViewHeight = mNewsRecyclerView.getBottom(); // 获取 recyclerView 的底部 y 轴坐标
+
+
+                            View  itemView = linearLayoutManager.findViewByPosition(i);// 根据 position  找到 item view;
+
+
+                            int itemViewTop  = itemView.getTop();
+
+                            int itemViewBottom = itemView.getBottom();
+
+                            if(itemViewTop >= 0 && itemViewBottom <= recyclerViewHeight){ // 全部出现在可见范围内
+
+                              RecyclerView.ViewHolder holder =  mNewsRecyclerView.getChildViewHolder(itemView);
+
+                              if(holder instanceof NewsPageAdapter.AdVideoHolder){
+                                  ((NewsPageAdapter.AdVideoHolder) holder).play();
+                              }
+                            }
+
+                        }
+                    }
+
+
+                }
+
+
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mNewsRecyclerView.getLayoutManager();
-                firstVisibleItem   = linearLayoutManager.findFirstVisibleItemPosition();
+                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
                 //大于0说明有播放
                 if (GSYVideoManager.instance().getPlayPosition() >= 0) {
@@ -106,12 +152,15 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
 
 
                         //是否全屏
-                        if(!GSYVideoManager.isFullState(getActivity())) {
+                        if (!GSYVideoManager.isFullState(getActivity())) {
                             GSYVideoManager.releaseAllVideos();
                             mNewsRecyclerView.getAdapter().notifyDataSetChanged();
                         }
                     }
                 }
+
+
+
             }
         });
 
@@ -143,20 +192,20 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
         mPresenter.getNews(mColumnId, 0, 0, 0, REQUEST_REFRESH_LOAD);
     }
 
-    
+
     // 上拉加载更多 请求数据
     private void loadMore() {
         mPresenter.getNews(mColumnId, mStart, mNumber, mPointTime, REQUEST_LOAD_MORE_LOAD);
     }
 
     @Override
-    public void onNewsSuccess(NewsData newsData, int requestType,@AppConstant.ResponseType int responseType) {
+    public void onNewsSuccess(NewsData newsData, int requestType, @AppConstant.ResponseType int responseType) {
 
         if (requestType == REQUEST_FIRST_LOAD) { // 第一次请求数据回来
             mPageAdapter.setData(newsData.getBannerList(), newsData.getFlashList(), newsData.getArticleList());
             closeLoadingView();
 
-            if(responseType == RESPONSE_FROM_SDCARD){
+            if (responseType == RESPONSE_FROM_SDCARD) {
                 mSmartRefreshLayout.autoRefresh(500);
             }
 
@@ -170,13 +219,12 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
             mSmartRefreshLayout.finishLoadMore();
 
 
-
         }
         mStart = newsData.getStart();
         mNumber = newsData.getNumber();
         mPointTime = newsData.getPointTime();
 
-        if(newsData.getMore() == 0){
+        if (newsData.getMore() == 0) {
             mSmartRefreshLayout.setNoMoreData(true); //，这个时候，传入true, 表示没有更多数据了,再去上拉的时候，不会触发下拉更多的回调，会直接显示没有更多数据
         }
 
@@ -197,7 +245,7 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
             mSmartRefreshLayout.finishLoadMore();
         }
 
-}
+    }
 
 
     @Override

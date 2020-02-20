@@ -28,13 +28,8 @@ import moe.codeest.enviews.ENPlayView;
  * Created by guoshuyu on 2017/9/3.
  */
 
-public class SampleCoverVideo extends StandardGSYVideoPlayer {
+public class SampleCoverVideo extends JDVideo {
 
-    ImageView mCoverImage;
-
-    String mCoverOriginUrl;
-
-    int mDefaultRes;
 
     public SampleCoverVideo(Context context, Boolean fullFlag) {
         super(context, fullFlag);
@@ -49,40 +44,11 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
     }
 
     @Override
-    protected void init(Context context) {
-        super.init(context);
-        mCoverImage = (ImageView) findViewById(R.id.thumbImage);
-
-        if (mThumbImageViewLayout != null &&
-                (mCurrentState == -1 || mCurrentState == CURRENT_STATE_NORMAL || mCurrentState == CURRENT_STATE_ERROR)) {
-            mThumbImageViewLayout.setVisibility(VISIBLE);
-        }
-
-
-
-        mCurrentTimeTextView.setTextColor(Color.RED);
-    }
-
-    @Override
     public int getLayoutId() {
         return R.layout.video_layout_cover;
     }
 
-    public void loadCoverImage(String url, int res) {
-        mCoverOriginUrl = url;
-        mDefaultRes = res;
-        Glide.with(getContext().getApplicationContext())
-                .setDefaultRequestOptions(
-                        new RequestOptions()
-                                .frame(1000000)
-                                .centerCrop()
-                                .error(res)
-                                .placeholder(res))
-                .load(url)
-                .into(mCoverImage);
 
-
-    }
 
 
     /**

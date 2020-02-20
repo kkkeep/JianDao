@@ -21,7 +21,7 @@ public abstract class VideoHolder extends BaseAdapterHolder<NewsData.News> {
 
     private TextView title;
     private GSYVideoOptionBuilder gsyVideoOptionBuilder;
-    private SampleCoverVideo gsyVideoPlayer;
+    private JDVideo gsyVideoPlayer;
     private String tag;
 
 
@@ -35,7 +35,7 @@ public abstract class VideoHolder extends BaseAdapterHolder<NewsData.News> {
         gsyVideoOptionBuilder = new GSYVideoOptionBuilder();
     }
 
-    public abstract  SampleCoverVideo getGsyVideoPlayer();
+    public abstract JDVideo getGsyVideoPlayer();
 
     public TextView getTitleView(){
         return null;
@@ -104,18 +104,17 @@ public abstract class VideoHolder extends BaseAdapterHolder<NewsData.News> {
 
 
         //增加title
-        gsyVideoPlayer.getTitleTextView().setVisibility(View.GONE);
+
+        gsyVideoPlayer.setTitleVisible(View.GONE);
 
         //设置返回键
-        gsyVideoPlayer.getBackButton().setVisibility(View.GONE);
+        gsyVideoPlayer.setBackButtonVisible(View.GONE);
 
         //设置全屏按键功能
-        gsyVideoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resolveFullBtn(gsyVideoPlayer);
-            }
-        });
+        if(gsyVideoPlayer.getFullscreenButton() != null){
+            gsyVideoPlayer.getFullscreenButton().setOnClickListener(v -> resolveFullBtn(gsyVideoPlayer));
+        }
+
 
 
 

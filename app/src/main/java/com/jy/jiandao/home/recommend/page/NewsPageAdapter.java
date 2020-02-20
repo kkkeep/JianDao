@@ -29,6 +29,7 @@ import org.w3c.dom.Text;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
+import com.jy.jiandao.video.JDVideo;
 
 /*
  * created by Cherry on 2020-01-14
@@ -168,6 +169,10 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         return null;
     }
 
+
+
+
+
     @Override
     public void onBindViewHolder(@NonNull BaseAdapterHolder<NewsData.News> holder, int position) {
         int type = getItemViewType(position);
@@ -192,6 +197,12 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         return count;
     }
 
+
+
+    public boolean isAdVideo(int position){
+
+       return getItemViewType(position) == AD_TYPE_VIDEO;
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -411,7 +422,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         }
 
         @Override
-        public SampleCoverVideo getGsyVideoPlayer() {
+        public JDVideo getGsyVideoPlayer() {
             return itemView.findViewById(R.id.item_news_video_gsy_player);
         }
 
@@ -486,7 +497,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
     }
 
 
-    private class AdVideoHolder extends VideoHolder {
+    public class AdVideoHolder extends VideoHolder {
 
 
 
@@ -497,7 +508,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         }
 
         @Override
-        public SampleCoverVideo getGsyVideoPlayer() {
+        public JDVideo getGsyVideoPlayer() {
             return itemView.findViewById(R.id.item_ad_video);
         }
 
@@ -520,6 +531,15 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
             news.setVideoUrl(ad.getAd_url());
             ///news.setImageUrl(ad.getAd_url());
            super.bindData(news);
+
+        }
+
+
+        public void play(){
+
+            if(!getGsyVideoPlayer().isInPlayingState()){
+                getGsyVideoPlayer().startPrepare();
+            }
 
         }
     }
