@@ -4,6 +4,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +23,9 @@ import com.mr.k.banner.KBanner;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseAdapterHolder;
 import com.mr.k.libmvp.widget.MarqueeView;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
+import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.umeng.socialize.media.Base;
 
 import org.jetbrains.annotations.NotNull;
@@ -500,11 +504,28 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
     public class AdVideoHolder extends VideoHolder {
 
 
+        private CheckBox sound;
+
+        private TextView replay;
+
 
         public AdVideoHolder(String tag,@NonNull View itemView) {
             super(tag,itemView);
 
+            sound = itemView.findViewById(R.id.item_ad_video_sound);
 
+            replay = itemView.findViewById(R.id.item_ad_video_replay);
+
+
+
+            sound.setOnCheckedChangeListener((buttonView, isChecked) -> GSYVideoManager.instance().setNeedMute(!isChecked));
+
+            replay.setOnClickListener(v -> {
+
+                play();
+                replay.setVisibility(View.GONE);
+
+            });
         }
 
         @Override
@@ -529,8 +550,28 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         public void bindData(NewsData.News news) {
             Ad ad = news.getAd();
             news.setVideoUrl(ad.getAd_url());
-            ///news.setImageUrl(ad.getAd_url());
+            news.setImageUrl(ad.getVideoImage());
            super.bindData(news);
+
+           sound.setChecked(false);
+           replay.setVisibility(View.GONE);
+
+           getGsyVideoPlayer().setVideoAllCallBack(new GSYSampleCallBack(){
+               @Override
+               public void onPrepared (String url, Object... objects) {
+                   super.onStartPrepared(url, objects);
+                   GSYVideoManager.instance().setNeedMute(true); // 开始播放之前，对广告视频进行静音
+               }
+
+               @Override
+               public void onAutoComplete(String url, Object... objects) {
+                   super.onAutoComplete(url, objects);
+
+                   // 播放完成后 显示重复播放按钮
+                    replay.setVisibility(View.VISIBLE);
+
+               }
+           });
 
         }
 

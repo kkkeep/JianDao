@@ -26,7 +26,7 @@ public class EmptyControlVideo extends JDVideo {
 
     @Override
     public int getLayoutId() {
-        return R.layout.empty_control_video;
+        return R.layout.empty_but_cover_control_video;
     }
 
     @Override

@@ -56,6 +56,8 @@ public class JDVideo extends StandardGSYVideoPlayer {
                 .into(mCoverImage);
 
 
+
+
     }
 
 

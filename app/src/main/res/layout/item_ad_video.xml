@@ -16,7 +16,55 @@
         app:layout_constraintDimensionRatio="w,1:2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+
+    </com.jy.jiandao.video.EmptyControlVideo>
+
+
+    <ImageView
+        android:id="@+id/item_ad_video_cover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="w,1:2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <CheckBox
+        android:id="@+id/item_ad_video_sound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/item_ad_video"
+        app:layout_constraintBottom_toBottomOf="@+id/item_ad_video"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:button="@null"
+        android:background="@drawable/ic_video_sound_selector"
+         />
+
+
+    <TextView
+        android:id="@+id/item_ad_video_replay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/ic_video_replay"
+        android:text="@string/text_replay"
+        app:layout_constraintEnd_toEndOf="@+id/item_ad_video"
+        app:layout_constraintStart_toStartOf="@+id/item_ad_video"
+        app:layout_constraintTop_toTopOf="@id/item_ad_video"
+        app:layout_constraintBottom_toBottomOf="@id/item_ad_video"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        android:drawablePadding="5dp"
+        android:gravity="center_horizontal"
+
+
+        />
 
 
 
@@ -48,9 +96,14 @@
         android:text="@string/text_ad" />
 
 
+
+
+
     <ImageView
         style="@style/JianDao.LineHorizontal.NewsItem"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
         />
 
 

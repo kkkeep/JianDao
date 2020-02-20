@@ -77,30 +77,7 @@ public abstract class VideoHolder extends BaseAdapterHolder<NewsData.News> {
                 .setShowFullAnimation(true)
                 .setNeedLockFull(true)
                 .setPlayPosition(getAdapterPosition())
-                .setVideoAllCallBack(new GSYSampleCallBack() {
-                    @Override
-                    public void onPrepared(String url, Object... objects) {
-                        super.onPrepared(url, objects);
-                        if (!gsyVideoPlayer.isIfCurrentIsFullscreen()) {
-                            //静音
-                          //  GSYVideoManager.instance().setNeedMute(true);
-                        }
-
-                    }
-
-                    @Override
-                    public void onQuitFullscreen(String url, Object... objects) {
-                        super.onQuitFullscreen(url, objects);
-                       // GSYVideoManager.instance().setNeedMute(true);
-                    }
-
-                    @Override
-                    public void onEnterFullscreen(String url, Object... objects) {
-                        super.onEnterFullscreen(url, objects);
-                        GSYVideoManager.instance().setNeedMute(false);
-                        gsyVideoPlayer.getCurrentPlayer().getTitleTextView().setText((String)objects[0]);
-                    }
-                }).build(gsyVideoPlayer);
+                .build(gsyVideoPlayer);
 
 
         //增加title

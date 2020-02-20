@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.NewsData;
+import com.jy.jiandao.video.JDVideo;
+import com.jy.jiandao.video.VideoHolder;
 import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.base.BaseAdapterHolder;
 import com.mr.k.libmvp.base.BaseMvpFragment;
@@ -98,32 +100,47 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
                     // 遍历第一个可见 item 和 最后一个可见item 之间的 是否有 视频广告item
 
 
-                    for(int i = firstVisibleItem; i <= lastVisibleItem;i++){
+                    for (int i = firstVisibleItem; i <= lastVisibleItem; i++) {
 
 
-                        if(mPageAdapter.isAdVideo(i)){ // 如果是视频广告
+                        if (mPageAdapter.isAdVideo(i)) { // 如果是视频广告
 
                             // 判断视频广告的item 是否全部出现在可见范围内
 
-
-                            int recyclerViewHeight = mNewsRecyclerView.getBottom(); // 获取 recyclerView 的底部 y 轴坐标
-
-
-                            View  itemView = linearLayoutManager.findViewByPosition(i);// 根据 position  找到 item view;
+                            View itemView = linearLayoutManager.findViewByPosition(i);// 根据 position  找到 item view;
 
 
-                            int itemViewTop  = itemView.getTop();
+                            RecyclerView.ViewHolder holder = mNewsRecyclerView.getChildViewHolder(itemView);
 
-                            int itemViewBottom = itemView.getBottom();
+                            if (holder instanceof NewsPageAdapter.AdVideoHolder) {
 
-                            if(itemViewTop >= 0 && itemViewBottom <= recyclerViewHeight){ // 全部出现在可见范围内
 
-                              RecyclerView.ViewHolder holder =  mNewsRecyclerView.getChildViewHolder(itemView);
+                                int itemViewTop = itemView.getTop(); // item 在 recycler view 中的 top
 
-                              if(holder instanceof NewsPageAdapter.AdVideoHolder){
-                                  ((NewsPageAdapter.AdVideoHolder) holder).play();
-                              }
+                                JDVideo jdVideo = ((NewsPageAdapter.AdVideoHolder) holder).getGsyVideoPlayer();
+
+                                int videoHeight = jdVideo.getHeight();// 视频空间的高度
+
+                                int videoTopYInRecyclerView = itemViewTop + jdVideo.getTop(); // video view 在 recycler view （爷爷容器） 的 top 值
+
+                                if (videoTopYInRecyclerView < 0) { // 如果video view 顶部有一部分不在recycler view 里面
+                                    if (Math.abs(videoTopYInRecyclerView) <= videoHeight / 3) { // 顶部不在 recycler  view 连的部分 小于 video view 高度的 三分之一
+                                        ((NewsPageAdapter.AdVideoHolder) holder).play();
+                                    }
+                                } else {
+
+                                    int videoBottomYInRecyclerView = itemView.getTop() + jdVideo.getBottom(); // video view 在 recycler vie 中的 bottom
+
+                                    int excess = videoBottomYInRecyclerView - recyclerView.getHeight(); // video view 在 recycler view 中超出部分
+
+                                    if (excess < videoHeight / 3) { //  如果video view 整个都在recycler view  里面或者 video 有一部分已经超出了 recycler view 下面一部分,但是超出部分不足 video view 高度的三分之一
+                                        ((NewsPageAdapter.AdVideoHolder) holder).play();
+                                    }
+
+                                }
+
                             }
+
 
                         }
                     }
@@ -144,26 +161,51 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
                 if (GSYVideoManager.instance().getPlayPosition() >= 0) {
                     //当前播放的位置
                     int position = GSYVideoManager.instance().getPlayPosition();
+
+
                     //对应的播放列表TAG
                     if (GSYVideoManager.instance().getPlayTag().equals(NewsPageAdapter.VIDEO_PLAY_TAG)
-                            && (position < firstVisibleItem || position > lastVisibleItem)) {
+                            && (position < firstVisibleItem || position > lastVisibleItem)) { // video item  已经不在屏幕上可见了
 
-                        //如果滑出去了上面和下面就是否，和今日头条一样
-
-
-                        //是否全屏
                         if (!GSYVideoManager.isFullState(getActivity())) {
                             GSYVideoManager.releaseAllVideos();
                             mNewsRecyclerView.getAdapter().notifyDataSetChanged();
                         }
+                    } else if (position == firstVisibleItem || position == lastVisibleItem) { // video item  是第一个可见或者最后一个可见item,那么就要确保 video view 有三分之2 在里面
+
+                        View itemView = linearLayoutManager.findViewByPosition(position);// 根据 position  找到 item view;
+                        RecyclerView.ViewHolder holder = mNewsRecyclerView.getChildViewHolder(itemView);
+
+                        int itemViewTop = itemView.getTop(); // item 在 recycler view 中的 top
+
+                        JDVideo jdVideo = ((VideoHolder) holder).getGsyVideoPlayer();
+
+                        int videoHeight = jdVideo.getHeight();// 视频空间的高度
+
+                        int videoTopYInRecyclerView = itemViewTop + jdVideo.getTop(); // video view 在 recycler view （爷爷容器） 的 top 值
+
+                        if (videoTopYInRecyclerView < 0) {  // 如果video view 顶部有一部分不在recycler view 里面
+                            if (Math.abs(videoTopYInRecyclerView) > videoHeight / 3) { // 顶部不在 recycler  view 连的部分 大于 video view 高度的 三分之一
+                                GSYVideoManager.releaseAllVideos();
+                                mNewsRecyclerView.getAdapter().notifyDataSetChanged();
+                            }
+                        } else {
+                            int videoBottomYInRecyclerView = itemView.getTop() + jdVideo.getBottom(); // video view 在 recycler vie 中的 bottom
+
+                            int excess = videoBottomYInRecyclerView - recyclerView.getHeight(); // video view 在 recycler view 中超出部分
+
+                            if (excess > videoHeight / 3) { //  video 有一部分已经超出了 recycler view 下面一部分,并且超出部分 大于了三分之一一，说明留在屏幕里面可见的部分补助 三分之二
+                                GSYVideoManager.releaseAllVideos();
+                                mNewsRecyclerView.getAdapter().notifyDataSetChanged();
+                            }
+                        }
+
                     }
                 }
 
 
-
             }
         });
-
     }
 
     @Override

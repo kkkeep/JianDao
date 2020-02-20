@@ -23,6 +23,9 @@ public class Ad {
     private int height;
     private String ad_url;
 
+    private String videoImage = "http://s-dev.seetaoism.com/Public/Uploads/publicity/2019-07-25/y_a0evkrmhk5g1n.png";
+
+
     public String getId() {
         return id;
     }
@@ -77,5 +80,13 @@ public class Ad {
 
     public void setAdUrl(String adUrl) {
         this.ad_url = adUrl;
+    }
+
+    public String getVideoImage() {
+        return videoImage;
+    }
+
+    public void setVideoImage(String videoImage) {
+        this.videoImage = videoImage;
     }
 }
