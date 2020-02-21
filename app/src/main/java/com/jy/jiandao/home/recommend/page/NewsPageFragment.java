@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.R;
-import com.jy.jiandao.data.entity.NewsData;
+import com.jy.jiandao.data.entity.RecommendData;
 import com.jy.jiandao.video.JDVideo;
 import com.jy.jiandao.video.VideoHolder;
+import com.mr.k.libmvp.MvpManager;
 import com.mr.k.libmvp.Utils.Logger;
-import com.mr.k.libmvp.base.BaseAdapterHolder;
 import com.mr.k.libmvp.base.BaseMvpFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -25,7 +25,7 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.jy.jiandao.AppConstant.*;
+import static com.mr.k.libmvp.MvpManager.*;
 
 /*
  * created by Cherry on 2020-01-14
@@ -241,10 +241,10 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
     }
 
     @Override
-    public void onNewsSuccess(NewsData newsData, int requestType, @AppConstant.ResponseType int responseType) {
+    public void onNewsSuccess(RecommendData recommendData, int requestType, @MvpManager.ResponseType int responseType) {
 
         if (requestType == REQUEST_FIRST_LOAD) { // 第一次请求数据回来
-            mPageAdapter.setData(newsData.getBannerList(), newsData.getFlashList(), newsData.getArticleList());
+            mPageAdapter.setData(recommendData.getBannerList(), recommendData.getFlashList(), recommendData.getArticleList());
             closeLoadingView();
 
             if (responseType == RESPONSE_FROM_SDCARD) {
@@ -252,21 +252,21 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
             }
 
         } else if (requestType == REQUEST_REFRESH_LOAD) { // 刷新加载数据回来
-            mPageAdapter.refresh(newsData.getBannerList(), newsData.getFlashList(), newsData.getArticleList());
+            mPageAdapter.refresh(recommendData.getBannerList(), recommendData.getFlashList(), recommendData.getArticleList());
             mSmartRefreshLayout.finishRefresh();
 
 
         } else if (requestType == REQUEST_LOAD_MORE_LOAD) {// 加载更多数据回来
-            mPageAdapter.loadMore(newsData.getArticleList());
+            mPageAdapter.loadMore(recommendData.getArticleList());
             mSmartRefreshLayout.finishLoadMore();
 
 
         }
-        mStart = newsData.getStart();
-        mNumber = newsData.getNumber();
-        mPointTime = newsData.getPointTime();
+        mStart = recommendData.getStart();
+        mNumber = recommendData.getNumber();
+        mPointTime = recommendData.getPointTime();
 
-        if (newsData.getMore() == 0) {
+        if (recommendData.getMore() == 0) {
             mSmartRefreshLayout.setNoMoreData(true); //，这个时候，传入true, 表示没有更多数据了,再去上拉的时候，不会触发下拉更多的回调，会直接显示没有更多数据
         }
 

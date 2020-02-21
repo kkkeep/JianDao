@@ -2,15 +2,14 @@ package com.jy.jiandao.data.repository;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 
 import com.jy.jiandao.AppConstant;
-import com.jy.jiandao.data.entity.NewsData;
+import com.jy.jiandao.data.entity.RecommendData;
 import com.jy.jiandao.data.ok.JDDataService;
 import com.jy.jiandao.home.recommend.page.NewsContract;
+import com.mr.k.libmvp.MvpManager;
 import com.mr.k.libmvp.Utils.DataFileCacheUtils;
 import com.mr.k.libmvp.Utils.SystemFacade;
-import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.base.ICachedCallBack;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
@@ -20,11 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /*
@@ -35,7 +31,7 @@ public class NewsPageRepository extends BaseRepository implements NewsContract.I
 
     private static final String NEWS_CACHE_FILE_PREFIX = "NEWSDATA_CHACHE_";
 
-    private HashMap<String, NewsData> mMemoryCache = new HashMap<>();
+    private HashMap<String, RecommendData> mMemoryCache = new HashMap<>();
 
 
     private static NewsPageRepository mInstance;
@@ -66,30 +62,30 @@ public class NewsPageRepository extends BaseRepository implements NewsContract.I
 
     @SuppressLint("CheckResult")
     @Override
-    public void getNews(LifecycleProvider provider, Map<String, String> params, ICachedCallBack<NewsData> callBack, int requestType) {
+    public void getNews(LifecycleProvider provider, Map<String, String> params, ICachedCallBack<RecommendData> callBack, int requestType) {
 
 
         String cacheKey = params.get(AppConstant.RequestKey.RECOMMOND_NEWS_COLUMN_ID); // 栏目表的id
 
-        if (requestType == AppConstant.REQUEST_FIRST_LOAD) { // 第一次加载，非刷新和加载更多时候
+        if (requestType == MvpManager.REQUEST_FIRST_LOAD) { // 第一次加载，非刷新和加载更多时候
 
             //  step1: 先从内存中查找
 
-            NewsData newsData = mMemoryCache.get(cacheKey);
+            RecommendData recommendData = mMemoryCache.get(cacheKey);
 
-            if (newsData != null) { // 如果内存缓存里面有数据，那么返回内存里面缓存的给 Presenter 层
-                callBack.onMemoryCacheBack(cloneData(newsData));
+            if (recommendData != null) { // 如果内存缓存里面有数据，那么返回内存里面缓存的给 Presenter 层
+                callBack.onMemoryCacheBack(cloneData(recommendData));
                 return;
 
             } else {
                 // step2 : 如果内存没有缓存，那么从sdcard 中读取
 
 
-                Observable.create((ObservableOnSubscribe<NewsData>) emitter -> {
+                Observable.create((ObservableOnSubscribe<RecommendData>) emitter -> {
 
-                    NewsData newsData1 = readFromSdcard(cacheKey);
-                    if (newsData1 != null) {
-                        emitter.onNext(newsData1);
+                    RecommendData recommendData1 = readFromSdcard(cacheKey);
+                    if (recommendData1 != null) {
+                        emitter.onNext(recommendData1);
                         emitter.onComplete();
                     } else {
                         emitter.onError(new NullPointerException());
@@ -132,9 +128,9 @@ public class NewsPageRepository extends BaseRepository implements NewsContract.I
      * @return 返回克隆后的对象
      */
 
-    private NewsData cloneData(NewsData source) {
+    private RecommendData cloneData(RecommendData source) {
 
-        NewsData data = new NewsData();
+        RecommendData data = new RecommendData();
 
 
         data.setPointTime(source.getPointTime());
@@ -159,15 +155,15 @@ public class NewsPageRepository extends BaseRepository implements NewsContract.I
      * @param requestType ： 请求类型
      */
 
-    private void saveToMemoryCache(String key, NewsData serverData, @AppConstant.RequestType int requestType) {
+    private void saveToMemoryCache(String key, RecommendData serverData, @MvpManager.RequestType int requestType) {
 
-        if (requestType != AppConstant.REQUEST_LOAD_MORE_LOAD) { // 不是加载更多，也就是说是 第一加载和刷新时，采用先删除原来的 key 对象，在存储
+        if (requestType != MvpManager.REQUEST_LOAD_MORE_LOAD) { // 不是加载更多，也就是说是 第一加载和刷新时，采用先删除原来的 key 对象，在存储
 
             mMemoryCache.remove(key); // 删除之前这个key 对应的 新闻数据
             mMemoryCache.put(key, serverData);
 
         } else { // 加载更多缓存，在原来的缓存之上追加数据
-            NewsData cacheData = mMemoryCache.get(key);
+            RecommendData cacheData = mMemoryCache.get(key);
             cacheData.setStart(serverData.getStart());
             cacheData.setNumber(serverData.getNumber());
             cacheData.setPointTime(serverData.getPointTime());
@@ -181,7 +177,7 @@ public class NewsPageRepository extends BaseRepository implements NewsContract.I
     /**
      * 保存服务器数据到sdcard,采用替换策略，每次保存时替换之前的
      */
-    private void saveToSdcard(String key, NewsData serverData) {
+    private void saveToSdcard(String key, RecommendData serverData) {
 
         File file = SystemFacade.getExternalCacheDir(mApplicationContext, NEWS_CACHE_FILE_PREFIX + key);
 
@@ -195,11 +191,11 @@ public class NewsPageRepository extends BaseRepository implements NewsContract.I
      * @param key
      * @return
      */
-    private NewsData readFromSdcard(String key) {
+    private RecommendData readFromSdcard(String key) {
 
         File file = SystemFacade.getExternalCacheDir(mApplicationContext, NEWS_CACHE_FILE_PREFIX + key);
 
-        return DataFileCacheUtils.getDataFromFile(file, NewsData.class);
+        return DataFileCacheUtils.getDataFromFile(file, RecommendData.class);
     }
 
 

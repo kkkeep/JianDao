@@ -1,10 +1,10 @@
 package com.jy.jiandao.data.ok;
 
-import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.HttpResult;
 import com.jy.jiandao.data.entity.ColumnData;
-import com.jy.jiandao.data.entity.NewsData;
+import com.jy.jiandao.data.entity.RecommendData;
 import com.jy.jiandao.data.entity.User;
+import com.jy.jiandao.data.entity.VideoData;
 
 import java.util.Map;
 
@@ -19,6 +19,7 @@ import static com.jy.jiandao.AppConstant.Url.CHECK_VERIFICATION_CODE;
 import static com.jy.jiandao.AppConstant.Url.COLUMN_LIST;
 import static com.jy.jiandao.AppConstant.Url.GET_NEWS;
 import static com.jy.jiandao.AppConstant.Url.GET_VERIFICATION_CODE;
+import static com.jy.jiandao.AppConstant.Url.GET_VIDEO_NEWS;
 import static com.jy.jiandao.AppConstant.Url.PASSWORD_LOGIN;
 import static com.jy.jiandao.AppConstant.Url.USER_REGISTER;
 
@@ -52,6 +53,11 @@ public interface ApiService {
 
 
     @GET(GET_NEWS)
-    Observable<HttpResult<NewsData>> getNews(@QueryMap Map<String,String> params);
+    Observable<HttpResult<RecommendData>> getNews(@QueryMap Map<String,String> params);
+
+
+
+    @GET(GET_VIDEO_NEWS)
+    Observable<HttpResult<VideoData>> getVideoNews(@QueryMap Map<String,String> params);
 
 }

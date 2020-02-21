@@ -10,9 +10,6 @@ public class HttpResult<D>{
     public D data;
 
 
-
-
-
 }
 
 

@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,20 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jy.jiandao.GlideApp;
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.Ad;
-import com.jy.jiandao.data.entity.NewsData;
-import com.jy.jiandao.video.SampleCoverVideo;
+import com.jy.jiandao.data.entity.RecommendData;
 import com.jy.jiandao.video.VideoHolder;
 import com.mr.k.banner.KBanner;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseAdapterHolder;
 import com.mr.k.libmvp.widget.MarqueeView;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
-import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
-import com.umeng.socialize.media.Base;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
@@ -38,7 +33,7 @@ import com.jy.jiandao.video.JDVideo;
 /*
  * created by Cherry on 2020-01-14
  **/
-public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<NewsData.News>> {
+public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<RecommendData.News>> {
 
     public static final String VIDEO_PLAY_TAG = "NewsPageAdapter_TAG";
 
@@ -54,12 +49,12 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
     private static final int AD_TYPE_VIDEO = 0X107; // 视频广告
 
 
-    private List<NewsData.Banner> bannerList;
-    private List<NewsData.Flash> flasheList;
-    private List<NewsData.News> newsList;
+    private List<RecommendData.Banner> bannerList;
+    private List<RecommendData.Flash> flasheList;
+    private List<RecommendData.News> newsList;
 
 
-    public void setData(List<NewsData.Banner> banners, List<NewsData.Flash> flashes, List<NewsData.News> news) {
+    public void setData(List<RecommendData.Banner> banners, List<RecommendData.Flash> flashes, List<RecommendData.News> news) {
         this.bannerList = banners;
         this.flasheList = flashes;
             this.newsList = news;
@@ -67,12 +62,12 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         }
 
 
-    public void refresh(List<NewsData.Banner> banners, List<NewsData.Flash> flashes, List<NewsData.News> news) {
+    public void refresh(List<RecommendData.Banner> banners, List<RecommendData.Flash> flashes, List<RecommendData.News> news) {
         setData(banners, flashes, news);
     }
 
 
-    public void loadMore(List<NewsData.News> news) {
+    public void loadMore(List<RecommendData.News> news) {
         int start = this.newsList.size();
         this.newsList.addAll(news);
         notifyItemRangeChanged(start,news.size());
@@ -80,10 +75,10 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
 
     @NonNull
     @Override
-    public BaseAdapterHolder<NewsData.News> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BaseAdapterHolder<RecommendData.News> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 
-        Class<? extends BaseAdapterHolder<NewsData.News>> holderClass = LeftHolder.class;
+        Class<? extends BaseAdapterHolder<RecommendData.News>> holderClass = LeftHolder.class;
 
         int layoutId = R.layout.item_news_left;
 
@@ -153,12 +148,12 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         try {
 
             if(viewType != NEWS_TYPE_VIDEO && viewType != AD_TYPE_VIDEO){
-                Constructor<? extends BaseAdapterHolder<NewsData.News>> constructor = holderClass.getConstructor(NewsPageAdapter.class, View.class);
+                Constructor<? extends BaseAdapterHolder<RecommendData.News>> constructor = holderClass.getConstructor(NewsPageAdapter.class, View.class);
 
                 return constructor.newInstance(this, LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false));
             }else{
 
-                Constructor<? extends BaseAdapterHolder<NewsData.News>> constructor = holderClass.getConstructor(NewsPageAdapter.class,String.class, View.class);
+                Constructor<? extends BaseAdapterHolder<RecommendData.News>> constructor = holderClass.getConstructor(NewsPageAdapter.class,String.class, View.class);
 
                 return constructor.newInstance(this,VIDEO_PLAY_TAG, LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false));
 
@@ -178,7 +173,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
 
 
     @Override
-    public void onBindViewHolder(@NonNull BaseAdapterHolder<NewsData.News> holder, int position) {
+    public void onBindViewHolder(@NonNull BaseAdapterHolder<RecommendData.News> holder, int position) {
         int type = getItemViewType(position);
         if (type == NEWS_TYPE_BANER) {
             ((HeaderHolder) holder).bindData(bannerList, flasheList);
@@ -215,7 +210,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         }
 
 
-        NewsData.News news = newsList.get(getRealPosition(position));
+        RecommendData.News news = newsList.get(getRealPosition(position));
 
 
         int type = news.getType(); // 1 ~  6 是非广告，7 表示广告
@@ -267,7 +262,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
 
 
 
-    private class HeaderHolder extends BaseAdapterHolder<NewsData.News> {
+    private class HeaderHolder extends BaseAdapterHolder<RecommendData.News> {
 
         KBanner banner;
 
@@ -295,22 +290,22 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         }
 
         @Override
-        public void bindData(NewsData.News news) {
+        public void bindData(RecommendData.News news) {
 
         }
 
 
-        public void bindData(List<NewsData.Banner> banners, List<NewsData.Flash> flashes) {
+        public void bindData(List<RecommendData.Banner> banners, List<RecommendData.Flash> flashes) {
 
             banner.setData(banners);
-            banner.setAdapter(new KBanner.KBannerAdapter<NewsData.Banner>() {
+            banner.setAdapter(new KBanner.KBannerAdapter<RecommendData.Banner>() {
                 @Override
-                public void fillBannerItemData(KBanner banner, ImageView imageView, NewsData.Banner data, int position) {
+                public void fillBannerItemData(KBanner banner, ImageView imageView, RecommendData.Banner data, int position) {
                     GlideApp.with(itemView).load(data.getImageUrl()).into(imageView);
                 }
 
                 @Override
-                public String getTitleString(NewsData.Banner data, int position) {
+                public String getTitleString(RecommendData.Banner data, int position) {
                     return data.getTheme();
                 }
             });
@@ -328,7 +323,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
                     @Override
                     public void onClick(@NotNull MarqueeView.MarqueeData data, int position) {
 
-                        NewsData.Flash flash= (NewsData.Flash) data;
+                        RecommendData.Flash flash= (RecommendData.Flash) data;
 
 
                     }
@@ -340,7 +335,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         }
     }
 
-    private class LeftHolder extends BaseAdapterHolder<NewsData.News>  {
+    private class LeftHolder extends BaseAdapterHolder<RecommendData.News>  {
 
         ImageView pic;
         TextView title;
@@ -355,7 +350,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
 
 
         @Override
-        public void bindData(NewsData.News news) {
+        public void bindData(RecommendData.News news) {
             GlideApp.with(itemView).load(news.getImageUrl()).into(pic);
             title.setText(news.getTheme());
             label.setText(news.getColumnName());
@@ -388,7 +383,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
 
 
 
-    private class TextHolder extends BaseAdapterHolder<NewsData.News>  {
+    private class TextHolder extends BaseAdapterHolder<RecommendData.News>  {
 
         TextView title;
         TextView content;
@@ -405,7 +400,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         }
 
         @Override
-        public void bindData(NewsData.News news) {
+        public void bindData(RecommendData.News news) {
 
             title.setText(news.getTheme());
             content.setText(news.getContent());
@@ -437,7 +432,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
 
 
         @Override
-        public void bindData(NewsData.News data) {
+        public void bindData(RecommendData.News data) {
             super.bindData(data);
 
             label.setText(data.getColumnName());
@@ -446,7 +441,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
 
 
 
-    private class AdBannerHolder extends BaseAdapterHolder<NewsData.News> {
+    private class AdBannerHolder extends BaseAdapterHolder<RecommendData.News> {
 
         ImageView pic;
 
@@ -458,7 +453,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         }
 
         @Override
-        public void bindData(NewsData.News news) {
+        public void bindData(RecommendData.News news) {
 
             Ad ad = news.getAd();
 
@@ -468,7 +463,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
     }
 
 
-    private class AdBigPicHolder extends BaseAdapterHolder<NewsData.News> {
+    private class AdBigPicHolder extends BaseAdapterHolder<RecommendData.News> {
 
         private ImageView pic;
 
@@ -484,7 +479,7 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
         }
 
         @Override
-        public void bindData(NewsData.News news) {
+        public void bindData(RecommendData.News news) {
             Ad ad = news.getAd();
 
             GlideApp.with(itemView).load(ad.getAd_url()).into(pic);
@@ -541,13 +536,13 @@ public class NewsPageAdapter extends RecyclerView.Adapter<BaseAdapterHolder<News
 
 
         @Override
-        public String getTitleString(NewsData.News data) {
+        public String getTitleString(RecommendData.News data) {
             return data.getAd().getTitle();
         }
 
 
         @Override
-        public void bindData(NewsData.News news) {
+        public void bindData(RecommendData.News news) {
             Ad ad = news.getAd();
             news.setVideoUrl(ad.getAd_url());
             news.setImageUrl(ad.getVideoImage());

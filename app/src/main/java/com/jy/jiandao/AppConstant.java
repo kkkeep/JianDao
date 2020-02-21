@@ -25,6 +25,7 @@ public interface AppConstant {
         String PASSWORD_LOGIN = "/api/user/login";
         String COLUMN_LIST = "/api/column/columnmanagelist";
         String GET_NEWS = "/app/v_1_3/article/recommendlist";
+        String GET_VIDEO_NEWS = "/app/v_1_3/article/videolist"; // 视频列表
     }
 
 
@@ -50,6 +51,10 @@ public interface AppConstant {
         String RECOMMOND_NEWS_NUMBER = "number";
         String RECOMMOND_NEWS_POINT_TIME = "point_time";
 
+        String VIDEO_NEWS_START = RECOMMOND_NEWS_START_;
+        String VIDEO_NEWS_NUMBER = RECOMMOND_NEWS_NUMBER;
+        String VIDEO_NEWS_POINT_TIME = RECOMMOND_NEWS_POINT_TIME;
+
 
     }
 
@@ -57,26 +62,6 @@ public interface AppConstant {
         String PHONE_NUMBER = "phone";
     }
 
-
-    int REQUEST_FIRST_LOAD = 0x200; // 第一次加载请求
-    int REQUEST_REFRESH_LOAD = 0x300; // 刷新请求
-    int REQUEST_LOAD_MORE_LOAD = 0x400; // 加载更多请求
-
-
-
-    int RESPONSE_FROM_MEMORY= 0X100; // 数据从内存返回
-    int RESPONSE_FROM_SDCARD= 0X200; // 数据从sdcard 返回，
-    int RESPONSE_FROM_SERVER = 0X300; // 数据从服务器返回
-
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({REQUEST_FIRST_LOAD, REQUEST_REFRESH_LOAD, REQUEST_LOAD_MORE_LOAD})
-     @interface RequestType {
-    }
-
-
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({RESPONSE_FROM_MEMORY, RESPONSE_FROM_SDCARD, RESPONSE_FROM_SERVER})
-    @interface ResponseType{}
 
 
 }

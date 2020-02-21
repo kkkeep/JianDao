@@ -24,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 public class BaseRepository {
 
 
-    protected <D> void observer(Observable<HttpResult<D>> observable, Function<HttpResult<D>, ObservableSource<D>> function, IBaseCallBack<D> callBack) {
+    public  <D> void observer(Observable<HttpResult<D>> observable, Function<HttpResult<D>, ObservableSource<D>> function, IBaseCallBack<D> callBack) {
         observable
                 .flatMap(function)
                 .subscribeOn(Schedulers.io())
@@ -56,7 +56,7 @@ public class BaseRepository {
                 });
     }
 
-    protected <D> void observer(Observable<HttpResult<D>> observable, Function<HttpResult<D>, ObservableSource<D>> function, Consumer<D> consumer, IBaseCallBack<D> callBack) {
+    public <D> void observer(Observable<HttpResult<D>> observable, Function<HttpResult<D>, ObservableSource<D>> function, Consumer<D> consumer, IBaseCallBack<D> callBack) {
         Observable<D> observable1 = observable.flatMap(function);
 
         if (consumer != null) {
@@ -92,7 +92,7 @@ public class BaseRepository {
                 });
     }
 
-    protected <D> Observable<D> getConvertObservable(HttpResult<D> httpResult) {
+    public  <D> Observable<D> getConvertObservable(HttpResult<D> httpResult) {
         if (httpResult.code == 1) {
             if (httpResult.data != null) {
                 return Observable.just(httpResult.data);

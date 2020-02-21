@@ -9,6 +9,7 @@ import com.jy.jiandao.R;
 import com.jy.jiandao.data.repository.NewsPageRepository;
 import com.jy.jiandao.home.recommend.RecommendFragment;
 import com.jy.jiandao.home.recommend.page.NewsPageAdapter;
+import com.jy.jiandao.home.video.VideoFragment;
 import com.mr.k.libmvp.base.BaseActivity;
 import com.mr.k.libmvp.manager.MvpFragmentManager;
 import com.mr.k.libmvp.widget.bottomtab.BottomTabLayout;
@@ -35,6 +36,12 @@ public class HomeActivity extends BaseActivity {
                 switch (id){
                     case R.id.mvp_tab_layout_tab1:{
                         MvpFragmentManager.addOrShowFragment(getSupportFragmentManager(), RecommendFragment.class, null, R.id.home_fragment_container);
+                        break;
+                    }
+
+                    case R.id.mvp_tab_layout_tab2:{
+                        MvpFragmentManager.addOrShowFragment(getSupportFragmentManager(), VideoFragment.class,null,R.id.home_fragment_container);
+
                         break;
                     }
                 }

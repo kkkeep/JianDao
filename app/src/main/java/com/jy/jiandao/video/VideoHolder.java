@@ -2,21 +2,16 @@ package com.jy.jiandao.video;
 
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.jy.jiandao.GlideApp;
-import com.jy.jiandao.R;
-import com.jy.jiandao.data.entity.NewsData;
+import com.jy.jiandao.data.entity.RecommendData;
 import com.mr.k.libmvp.base.BaseAdapterHolder;
-import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
-import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
-public abstract class VideoHolder extends BaseAdapterHolder<NewsData.News> {
+public abstract class VideoHolder extends BaseAdapterHolder<RecommendData.News> {
 
 
     private TextView title;
@@ -42,14 +37,14 @@ public abstract class VideoHolder extends BaseAdapterHolder<NewsData.News> {
     }
 
 
-    public String getTitleString(NewsData.News data){
+    public String getTitleString(RecommendData.News data){
         return data.getTheme();
     }
 
 
 
     @Override
-    public void bindData(NewsData.News data) {
+    public void bindData(RecommendData.News data) {
         super.bindData(data);
 
         if(title != null){

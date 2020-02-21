@@ -3,11 +3,11 @@ package com.jy.jiandao.home.recommend.page;
 import android.content.Context;
 
 import com.jy.jiandao.AppConstant;
-import com.jy.jiandao.data.entity.NewsData;
+import com.jy.jiandao.data.entity.RecommendData;
 import com.jy.jiandao.data.repository.NewsPageRepository;
 import com.jy.jiandao.utils.ParamsUtils;
+import com.mr.k.libmvp.MvpManager;
 import com.mr.k.libmvp.base.BasePresenter;
-import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.base.ICachedCallBack;
 import com.mr.k.libmvp.exception.ResultException;
 import com.trello.rxlifecycle2.LifecycleProvider;
@@ -28,7 +28,7 @@ public class NewsPagePresenter extends BasePresenter<NewsContract.INewsView> imp
     }
 
     @Override
-    public void getNews(String id, int start, int number, long pointTime,@AppConstant.RequestType int requestType) {
+    public void getNews(String id, int start, int number, long pointTime,@MvpManager.RequestType int requestType) {
         Map<String,String> params = ParamsUtils.getCommonParams();
 
 
@@ -37,25 +37,25 @@ public class NewsPagePresenter extends BasePresenter<NewsContract.INewsView> imp
         params.put(AppConstant.RequestKey.RECOMMOND_NEWS_NUMBER,String.valueOf(number));
         params.put(AppConstant.RequestKey.RECOMMOND_NEWS_POINT_TIME,String.valueOf(pointTime));
 
-        mRepository.getNews((LifecycleProvider) mView, params, new ICachedCallBack<NewsData>() {
+        mRepository.getNews((LifecycleProvider) mView, params, new ICachedCallBack<RecommendData>() {
             @Override
-            public void onMemoryCacheBack(NewsData data) {
+            public void onMemoryCacheBack(RecommendData data) {
                 if(mView != null){
-                    mView.onNewsSuccess(data, requestType,AppConstant.RESPONSE_FROM_MEMORY);
+                    mView.onNewsSuccess(data, requestType,MvpManager.RESPONSE_FROM_MEMORY);
                 }
             }
 
             @Override
-            public void onDiskCacheBack(NewsData data) {
+            public void onDiskCacheBack(RecommendData data) {
                 if(mView != null){
-                    mView.onNewsSuccess(data, requestType,AppConstant.RESPONSE_FROM_SDCARD);
+                    mView.onNewsSuccess(data, requestType,MvpManager.RESPONSE_FROM_SDCARD);
                 }
             }
 
             @Override
-            public void onSuccess(NewsData data) {
+            public void onSuccess(RecommendData data) {
                 if(mView != null){
-                    mView.onNewsSuccess(data, requestType,AppConstant.RESPONSE_FROM_SERVER);
+                    mView.onNewsSuccess(data, requestType,MvpManager.RESPONSE_FROM_SERVER);
                 }
             }
 

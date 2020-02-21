@@ -76,6 +76,7 @@ public class DataService {
 
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.addInterceptor(logging);
+
             if (mInterceptors != null && mInterceptors.size() > 0) {
                 for (Interceptor interceptor : mInterceptors) {
                     builder.addInterceptor(interceptor);
