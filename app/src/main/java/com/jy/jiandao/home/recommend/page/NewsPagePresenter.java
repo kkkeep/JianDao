@@ -3,7 +3,7 @@ package com.jy.jiandao.home.recommend.page;
 import android.content.Context;
 
 import com.jy.jiandao.AppConstant;
-import com.jy.jiandao.data.entity.RecommendData;
+import com.jy.jiandao.data.entity.RecommendPageData;
 import com.jy.jiandao.data.repository.NewsPageRepository;
 import com.jy.jiandao.utils.ParamsUtils;
 import com.mr.k.libmvp.MvpManager;
@@ -37,23 +37,23 @@ public class NewsPagePresenter extends BasePresenter<NewsContract.INewsView> imp
         params.put(AppConstant.RequestKey.RECOMMOND_NEWS_NUMBER,String.valueOf(number));
         params.put(AppConstant.RequestKey.RECOMMOND_NEWS_POINT_TIME,String.valueOf(pointTime));
 
-        mRepository.getNews((LifecycleProvider) mView, params, new ICachedCallBack<RecommendData>() {
+        mRepository.getNews((LifecycleProvider) mView, params, new ICachedCallBack<RecommendPageData>() {
             @Override
-            public void onMemoryCacheBack(RecommendData data) {
+            public void onMemoryCacheBack(RecommendPageData data) {
                 if(mView != null){
                     mView.onNewsSuccess(data, requestType,MvpManager.RESPONSE_FROM_MEMORY);
                 }
             }
 
             @Override
-            public void onDiskCacheBack(RecommendData data) {
+            public void onDiskCacheBack(RecommendPageData data) {
                 if(mView != null){
                     mView.onNewsSuccess(data, requestType,MvpManager.RESPONSE_FROM_SDCARD);
                 }
             }
 
             @Override
-            public void onSuccess(RecommendData data) {
+            public void onSuccess(RecommendPageData data) {
                 if(mView != null){
                     mView.onNewsSuccess(data, requestType,MvpManager.RESPONSE_FROM_SERVER);
                 }

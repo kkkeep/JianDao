@@ -6,12 +6,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.jy.jiandao.data.entity.RecommendData;
+import com.jy.jiandao.data.entity.NewsData;
 import com.mr.k.libmvp.base.BaseAdapterHolder;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
-public abstract class VideoHolder extends BaseAdapterHolder<RecommendData.News> {
+public abstract class VideoHolder<T extends NewsData.BaseNews> extends BaseAdapterHolder<T> {
 
 
     private TextView title;
@@ -37,14 +37,14 @@ public abstract class VideoHolder extends BaseAdapterHolder<RecommendData.News> 
     }
 
 
-    public String getTitleString(RecommendData.News data){
-        return data.getTheme();
+    public String getTitleString(T data){
+        return data.getVideoTitle();
     }
 
 
 
     @Override
-    public void bindData(RecommendData.News data) {
+    public void bindData(T data) {
         super.bindData(data);
 
         if(title != null){
@@ -57,8 +57,8 @@ public abstract class VideoHolder extends BaseAdapterHolder<RecommendData.News> 
 
         }
 
-        if(!TextUtils.isEmpty(data.getImageUrl())){
-            gsyVideoPlayer.loadCoverImage(data.getImageUrl(),0);
+        if(!TextUtils.isEmpty(data.getVideoCoverUrl())){
+            gsyVideoPlayer.loadCoverImage(data.getVideoCoverUrl(),0);
         }
 
         gsyVideoOptionBuilder

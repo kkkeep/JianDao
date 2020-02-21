@@ -9,7 +9,7 @@ import java.util.List;
 /*
  * created by Cherry on 2020-01-14
  **/
-public class RecommendData extends NewsData {
+public class RecommendPageData extends NewsData {
 
 
 
@@ -70,7 +70,7 @@ public class RecommendData extends NewsData {
         }
     }
 
-    public class News extends BaseNews{
+    public class News extends BaseNews {
         /**
          * id': '文章id',
          * 		'view_type': '视图类型：1左图，2中间大图，3右图，4视频，5即时',
@@ -110,6 +110,16 @@ public class RecommendData extends NewsData {
 
         public String getVideoUrl() {
             return video_url;
+        }
+
+        @Override
+        public String getVideoTitle() {
+            return getTheme();
+        }
+
+        @Override
+        public String getVideoCoverUrl() {
+            return getImageUrl();
         }
 
         public void setVideoUrl(String videoUrl) {

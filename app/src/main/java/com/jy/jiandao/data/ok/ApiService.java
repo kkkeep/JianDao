@@ -2,9 +2,9 @@ package com.jy.jiandao.data.ok;
 
 import com.jy.jiandao.data.HttpResult;
 import com.jy.jiandao.data.entity.ColumnData;
-import com.jy.jiandao.data.entity.RecommendData;
+import com.jy.jiandao.data.entity.RecommendPageData;
 import com.jy.jiandao.data.entity.User;
-import com.jy.jiandao.data.entity.VideoData;
+import com.jy.jiandao.data.entity.VideoPageData;
 
 import java.util.Map;
 
@@ -53,11 +53,11 @@ public interface ApiService {
 
 
     @GET(GET_NEWS)
-    Observable<HttpResult<RecommendData>> getNews(@QueryMap Map<String,String> params);
+    Observable<HttpResult<RecommendPageData>> getNews(@QueryMap Map<String,String> params);
 
 
 
     @GET(GET_VIDEO_NEWS)
-    Observable<HttpResult<VideoData>> getVideoNews(@QueryMap Map<String,String> params);
+    Observable<HttpResult<VideoPageData>> getVideoNews(@QueryMap Map<String,String> params);
 
 }

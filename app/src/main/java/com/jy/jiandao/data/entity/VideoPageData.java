@@ -2,13 +2,17 @@ package com.jy.jiandao.data.entity;
 
 import java.util.List;
 
-public class VideoData extends NewsData {
+public class VideoPageData extends NewsData {
 
 
 
 
     private List<News> list; //  视频列表
 
+
+    public List<News> getList() {
+        return list;
+    }
 
     public class News extends BaseNews{
 
@@ -29,6 +33,16 @@ public class VideoData extends NewsData {
 
         public String getVideoUrl() {
             return video_url;
+        }
+
+        @Override
+        public String getVideoTitle() {
+            return getTheme();
+        }
+
+        @Override
+        public String getVideoCoverUrl() {
+            return getImageUrl();
         }
     }
 

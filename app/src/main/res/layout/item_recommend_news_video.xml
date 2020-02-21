@@ -35,10 +35,12 @@
 
     <TextView
         android:id="@+id/item_news_video_tv_label"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="15dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         tools:text="TextView"
         style="@style/JianDao.NewsLabel"
         app:layout_constraintBottom_toBottomOf="parent"

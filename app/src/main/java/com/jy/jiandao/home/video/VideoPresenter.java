@@ -1,7 +1,6 @@
 package com.jy.jiandao.home.video;
 
-import com.jy.jiandao.AppConstant;
-import com.jy.jiandao.data.entity.VideoData;
+import com.jy.jiandao.data.entity.VideoPageData;
 import com.jy.jiandao.data.repository.VideoPageRepository;
 import com.jy.jiandao.utils.ParamsUtils;
 import com.mr.k.libmvp.MvpManager;
@@ -34,21 +33,21 @@ public class VideoPresenter extends BasePresenter<VideoContract.IVideoView> impl
         params.put(VIDEO_NEWS_NUMBER,String.valueOf(number));
         params.put(VIDEO_NEWS_POINT_TIME,String.valueOf(pointTime));
 
-        mRepository.getDataFistCache(getProvider(), params, new ICachedCallBack<VideoData>() {
+        mRepository.getDataFistCache(getProvider(), params, new ICachedCallBack<VideoPageData>() {
             @Override
-            public void onMemoryCacheBack(VideoData data) {
+            public void onMemoryCacheBack(VideoPageData data) {
 
             }
 
             @Override
-            public void onDiskCacheBack(VideoData data) {
+            public void onDiskCacheBack(VideoPageData data) {
                 if(mView != null){
                     mView.onNewsSuccess(data,requestType, MvpManager.RESPONSE_FROM_SDCARD);
                 }
             }
 
             @Override
-            public void onSuccess(VideoData data) {
+            public void onSuccess(VideoPageData data) {
                 if(mView != null){
                     mView.onNewsSuccess(data,requestType, MvpManager.RESPONSE_FROM_SERVER);
                 }

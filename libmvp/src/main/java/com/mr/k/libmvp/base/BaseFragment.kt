@@ -91,6 +91,10 @@ abstract class BaseFragment : RxFragment(), BaseLoading {
     }
 
 
+    fun <V : View> findViewById(@IdRes id: Int) : V{
+        return view!!.findViewById<V>(id)
+    }
+
     fun getRootViewId() : Int{
          view?.run {
             return this.id

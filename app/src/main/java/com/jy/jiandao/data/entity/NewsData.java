@@ -51,7 +51,9 @@ public class NewsData {
 
 
 
-    public class BaseNews {
+
+
+    public  class BaseNews implements VideoNews{
 
         /**
          * id': '文章id',
