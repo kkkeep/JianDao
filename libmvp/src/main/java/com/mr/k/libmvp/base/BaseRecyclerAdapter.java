@@ -54,7 +54,7 @@ public abstract class BaseRecyclerAdapter<D> extends RecyclerView.Adapter<BaseAd
     }
 
 
-    public D getDataByPostion(int position){
+    public D getDataByPosition(int position){
 
         return mDataList.get(position);
     }
@@ -63,19 +63,19 @@ public abstract class BaseRecyclerAdapter<D> extends RecyclerView.Adapter<BaseAd
     public abstract int getItemLayoutId(int viewType);
 
 
-    public abstract BaseAdapterHolder<D> createHolder(View itemView);
+    public abstract BaseAdapterHolder<D> createHolder(View itemView,int viewType);
 
     @NonNull
     @Override
     public BaseAdapterHolder<D> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return createHolder(LayoutInflater.from(parent.getContext()).inflate(getItemLayoutId(viewType),parent,false));
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutId(viewType),parent,false);
+        return createHolder(itemView,viewType);
 
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull BaseAdapterHolder<D> holder, int position) {
-
         holder.bindData(mDataList.get(position));
     }
 }

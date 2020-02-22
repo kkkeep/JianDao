@@ -9,7 +9,7 @@ import java.util.List;
 /*
  * created by Cherry on 2020-01-14
  **/
-public class RecommendPageData extends NewsData {
+public class RecommendPageData extends BaseNewsData {
 
 
 
@@ -99,13 +99,12 @@ public class RecommendPageData extends NewsData {
 
         private Ad ad;
 
+
+        @Override
         public Ad getAd() {
             return ad;
         }
 
-        public void setAd(Ad ad) {
-            this.ad = ad;
-        }
 
 
         public String getVideoUrl() {
@@ -122,6 +121,7 @@ public class RecommendPageData extends NewsData {
             return getImageUrl();
         }
 
+        @Override
         public void setVideoUrl(String videoUrl) {
             this.video_url = videoUrl;
         }

@@ -6,12 +6,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.jy.jiandao.data.entity.NewsData;
+import com.jy.jiandao.data.entity.BaseNews;
 import com.mr.k.libmvp.base.BaseAdapterHolder;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
-public abstract class VideoHolder<T extends NewsData.BaseNews> extends BaseAdapterHolder<T> {
+public abstract class VideoHolder<T extends BaseNews> extends BaseAdapterHolder<T> {
 
 
     private TextView title;

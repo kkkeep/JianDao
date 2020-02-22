@@ -1,33 +1,31 @@
 package com.jy.jiandao.home.recommend.page;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Group;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.jy.jiandao.GlideApp;
 import com.jy.jiandao.R;
-import com.jy.jiandao.data.entity.Ad;
 import com.jy.jiandao.data.entity.RecommendPageData;
+import com.jy.jiandao.ad.NewsAdBannerHolder;
+import com.jy.jiandao.ad.NewsAdBigPicHolder;
+import com.jy.jiandao.ad.NewsAdVideoHolder;
 import com.jy.jiandao.video.VideoHolder;
 import com.mr.k.banner.KBanner;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseAdapterHolder;
 import com.mr.k.libmvp.base.BaseRecyclerAdapter;
 import com.mr.k.libmvp.widget.MarqueeView;
-import com.shuyu.gsyvideoplayer.GSYVideoManager;
-import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.List;
 import com.jy.jiandao.video.JDVideo;
 
@@ -73,6 +71,7 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
         this.newsList.addAll(news);
         notifyItemRangeChanged(start,news.size());
     }
+/*
 
     @NonNull
     @Override
@@ -168,6 +167,7 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
 
         return null;
     }
+*/
 
 
 
@@ -199,12 +199,126 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
 
     @Override
     public int getItemLayoutId(int viewType) {
-        return 0;
+        int layoutId = R.layout.item_recommend_news_left;
+
+        switch (viewType) {
+
+            case NEWS_TYPE_BANER: {
+
+                layoutId = R.layout.item_recommend_news_banner;
+
+                break;
+            }
+
+            case NEWS_TYPE_LEFT_PIC: {
+                layoutId = R.layout.item_recommend_news_left;
+                break;
+
+            }
+
+            case NEWS_TYPE_RIGHT_PIC: {
+                layoutId = R.layout.item_recommend_news_right;
+                break;
+            }
+            case NEWS_TYPE_BIG_PIC: {
+                layoutId = R.layout.item_recommend_news_big_pic;
+                break;
+            }
+            case NEWS_TYPE_TEXT: {
+                layoutId = R.layout.item_recommend_news_text;
+                break;
+            }
+            case NEWS_TYPE_VIDEO: {
+                layoutId = R.layout.item_recommend_news_video;
+                break;
+            }
+
+            case AD_TYPE_BANER:{
+
+                layoutId = R.layout.item_ad_banner;
+
+                break;
+            }
+
+            case AD_TYPE_BIG_PIC:{
+                layoutId = R.layout.item_ad_big_pic;
+
+                break;
+            }
+
+            case AD_TYPE_VIDEO:{
+                layoutId = R.layout.item_ad_video;
+                break;
+            }
+
+        }
+
+        return  layoutId;
     }
 
     @Override
-    public BaseAdapterHolder<RecommendPageData.News> createHolder(View itemView) {
-        return null;
+    public BaseAdapterHolder<RecommendPageData.News> createHolder(View itemView,int viewType) {
+
+        BaseAdapterHolder<RecommendPageData.News> holder = null;
+        switch (viewType) {
+
+            case NEWS_TYPE_BANER: {
+
+                holder = new HeaderHolder(itemView);
+
+                break;
+            }
+
+            case NEWS_TYPE_LEFT_PIC: {
+                holder = new LeftHolder(itemView);
+                break;
+
+            }
+
+            case NEWS_TYPE_RIGHT_PIC: {
+                holder = new RightHolder(itemView);
+
+                break;
+            }
+            case NEWS_TYPE_BIG_PIC: {
+                holder = new BigPicHolder(itemView);
+                break;
+            }
+            case NEWS_TYPE_TEXT: {
+                holder = new TextHolder(itemView);
+
+                break;
+            }
+            case NEWS_TYPE_VIDEO: {
+
+                holder = new NewsVideoHolder(VIDEO_PLAY_TAG,itemView);
+
+                break;
+            }
+
+            case AD_TYPE_BANER:{
+                holder = new NewsAdBannerHolder<>(itemView);
+
+                break;
+            }
+
+            case AD_TYPE_BIG_PIC:{
+                holder = new NewsAdBigPicHolder<>(itemView);
+                break;
+            }
+
+            case AD_TYPE_VIDEO:{
+                holder = new NewsAdVideoHolder<>(VIDEO_PLAY_TAG,itemView);
+                break;
+            }
+
+        }
+
+        if(holder == null){
+            holder = new LeftHolder(itemView);
+        }
+
+        return holder;
     }
 
     @Override
@@ -448,145 +562,34 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
         }
     }
 
+/*
 
-
-    private class AdBannerHolder extends BaseAdapterHolder<RecommendPageData.News> {
-
-        ImageView pic;
-
+    private class AdBannerHolder extends NewsAdBannerHolder<RecommendPageData.News>{
 
         public AdBannerHolder(@NonNull View itemView) {
             super(itemView);
-
-            pic = itemView.findViewById(R.id.item_ad_banner_iv_pic);
-        }
-
-        @Override
-        public void bindData(RecommendPageData.News news) {
-
-            Ad ad = news.getAd();
-
-            GlideApp.with(itemView).load(ad.getAd_url()).into(pic);
-
         }
     }
 
 
-    private class AdBigPicHolder extends BaseAdapterHolder<RecommendPageData.News> {
-
-        private ImageView pic;
-
-        private TextView title;
-
+    private class AdBigPicHolder extends NewsAdBigPicHolder<RecommendPageData.News>{
 
         public AdBigPicHolder(@NonNull View itemView) {
             super(itemView);
-
-            title = itemView.findViewById(R.id.item_ad_tv_title);
-            pic = itemView.findViewById(R.id.item_ad_iv_pic_big);
-
-        }
-
-        @Override
-        public void bindData(RecommendPageData.News news) {
-            Ad ad = news.getAd();
-
-            GlideApp.with(itemView).load(ad.getAd_url()).into(pic);
-
-
-            if(TextUtils.isEmpty(ad.getTitle())){
-                title.setVisibility(View.GONE);
-            }else{
-                title.setVisibility(View.VISIBLE);
-                title.setText(ad.getTitle());
-            }
-
         }
     }
 
 
-    public class AdVideoHolder extends VideoHolder<RecommendPageData.News> {
+    private class AdVideoHolder extends NewsAdVideoHolder<RecommendPageData.News>{
 
-
-        private CheckBox sound;
-
-        private TextView replay;
-
-
-        public AdVideoHolder(String tag,@NonNull View itemView) {
-            super(tag,itemView);
-
-            sound = itemView.findViewById(R.id.item_ad_video_sound);
-
-            replay = itemView.findViewById(R.id.item_ad_video_replay);
-
-
-
-            sound.setOnCheckedChangeListener((buttonView, isChecked) -> GSYVideoManager.instance().setNeedMute(!isChecked));
-
-            replay.setOnClickListener(v -> {
-
-                play();
-                replay.setVisibility(View.GONE);
-
-            });
-        }
-
-        @Override
-        public JDVideo getGsyVideoPlayer() {
-            return itemView.findViewById(R.id.item_ad_video);
-        }
-
-
-        @Override
-        public TextView getTitleView() {
-            return itemView.findViewById(R.id.item_ad_video_tv_title);
-        }
-
-
-        @Override
-        public String getTitleString(RecommendPageData.News data) {
-            return data.getAd().getTitle();
-        }
-
-
-        @Override
-        public void bindData(RecommendPageData.News news) {
-            Ad ad = news.getAd();
-            news.setVideoUrl(ad.getAd_url());
-            news.setImageUrl(ad.getVideoImage());
-           super.bindData(news);
-
-           sound.setChecked(false);
-           replay.setVisibility(View.GONE);
-
-           getGsyVideoPlayer().setVideoAllCallBack(new GSYSampleCallBack(){
-               @Override
-               public void onPrepared (String url, Object... objects) {
-                   super.onStartPrepared(url, objects);
-                   GSYVideoManager.instance().setNeedMute(true); // 开始播放之前，对广告视频进行静音
-               }
-
-               @Override
-               public void onAutoComplete(String url, Object... objects) {
-                   super.onAutoComplete(url, objects);
-
-                   // 播放完成后 显示重复播放按钮
-                    replay.setVisibility(View.VISIBLE);
-
-               }
-           });
-
-        }
-
-
-        public void play(){
-
-            if(!getGsyVideoPlayer().isInPlayingState()){
-                getGsyVideoPlayer().startPrepare();
-            }
-
+        public AdVideoHolder(String tag, @NonNull View itemView) {
+            super(tag, itemView);
         }
     }
+
+*/
+
+
+
 
 }

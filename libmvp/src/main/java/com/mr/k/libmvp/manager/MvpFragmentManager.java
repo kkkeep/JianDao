@@ -91,8 +91,12 @@ public class MvpFragmentManager {
 
             } else {
                 // fragment 能被复用，就不需要 new 一个 新的
-                baseFragment = (BaseFragment) fragment;
 
+
+                baseFragment = (BaseFragment) fragment;
+                if(!fragment.isHidden()){
+                    return baseFragment;
+                }
 
                 int count = fragmentManager.getBackStackEntryCount();
                 FragmentManager.BackStackEntry stackEntry = null;

@@ -66,6 +66,7 @@ public class HomeActivity extends BaseActivity {
     }
 
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

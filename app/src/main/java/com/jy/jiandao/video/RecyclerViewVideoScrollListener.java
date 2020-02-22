@@ -6,6 +6,8 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jy.jiandao.ad.NewsAdVideoHolder;
+import com.jy.jiandao.data.entity.BaseNews;
 import com.jy.jiandao.home.recommend.page.NewsPageAdapter;
 import com.mr.k.libmvp.base.BaseRecyclerAdapter;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
@@ -42,12 +44,12 @@ public class RecyclerViewVideoScrollListener extends RecyclerView.OnScrollListen
 
                     RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(itemView);
 
-                    if (holder instanceof NewsPageAdapter.AdVideoHolder) {
+                    if (holder instanceof NewsAdVideoHolder) {
 
 
                         int itemViewTop = itemView.getTop(); // item 在 recycler view 中的 top
 
-                        JDVideo jdVideo = ((NewsPageAdapter.AdVideoHolder) holder).getGsyVideoPlayer();
+                        JDVideo jdVideo = ((NewsAdVideoHolder) holder).getGsyVideoPlayer();
 
                         int videoHeight = jdVideo.getHeight();// 视频空间的高度
 
@@ -55,7 +57,7 @@ public class RecyclerViewVideoScrollListener extends RecyclerView.OnScrollListen
 
                         if (videoTopYInRecyclerView < 0) { // 如果video view 顶部有一部分不在recycler view 里面
                             if (Math.abs(videoTopYInRecyclerView) <= videoHeight / 3) { // 顶部不在 recycler  view 连的部分 小于 video view 高度的 三分之一
-                                ((NewsPageAdapter.AdVideoHolder) holder).play();
+                                ((NewsAdVideoHolder) holder).play();
                             }
                         } else {
 
@@ -64,7 +66,7 @@ public class RecyclerViewVideoScrollListener extends RecyclerView.OnScrollListen
                             int excess = videoBottomYInRecyclerView - recyclerView.getHeight(); // video view 在 recycler view 中超出部分
 
                             if (excess < videoHeight / 3) { //  如果video view 整个都在recycler view  里面或者 video 有一部分已经超出了 recycler view 下面一部分,但是超出部分不足 video view 高度的三分之一
-                                ((NewsPageAdapter.AdVideoHolder) holder).play();
+                                ((NewsAdVideoHolder) holder).play();
                             }
 
                         }

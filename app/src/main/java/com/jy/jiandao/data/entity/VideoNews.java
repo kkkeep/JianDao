@@ -6,9 +6,15 @@ public interface VideoNews {
         return null;
     }
 
+    default void setVideoUrl(String url){
+
+    }
+
     default String getVideoTitle() {
         return null;
     }
+
+
 
     default String getVideoCoverUrl() {
         return null;
