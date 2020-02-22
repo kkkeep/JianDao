@@ -144,7 +144,7 @@ public class TopicAdapter extends BaseRecyclerAdapter<TopicPageData.News> {
 
     @Override
     public boolean isAdVideo(int position) {
-        return super.isAdVideo(position);
+        return getItemViewType(getRealPosition(position)) == AD_TYPE_VIDEO
     }
 
 
