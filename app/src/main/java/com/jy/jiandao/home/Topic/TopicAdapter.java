@@ -14,19 +14,14 @@ import com.jy.jiandao.ad.NewsAdBigPicHolder;
 import com.jy.jiandao.ad.NewsAdVideoHolder;
 import com.jy.jiandao.data.entity.RecommendPageData;
 import com.jy.jiandao.data.entity.TopicPageData;
-import com.jy.jiandao.data.entity.VideoPageData;
-import com.jy.jiandao.home.video.VideoAdapter;
 import com.mr.k.banner.KBanner;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseAdapterHolder;
 import com.mr.k.libmvp.base.BaseRecyclerAdapter;
 import com.mr.k.libmvp.widget.MarqueeView;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
-import kotlin.jvm.internal.PropertyReference0Impl;
+
 
 public class TopicAdapter extends BaseRecyclerAdapter<TopicPageData.News> {
 
@@ -62,7 +57,8 @@ public class TopicAdapter extends BaseRecyclerAdapter<TopicPageData.News> {
             return R.layout.item_recommend_news_banner;
         } else if (viewType == NEWS_TYPE_LEFT) {
 
-            return R.layout.item_recommend_news_video;
+            return R.layout.item_recommend_news_left;
+
         } else if (viewType == AD_TYPE_BIG_PIC) {
             return R.layout.item_ad_big_pic;
 
@@ -144,7 +140,7 @@ public class TopicAdapter extends BaseRecyclerAdapter<TopicPageData.News> {
 
     @Override
     public boolean isAdVideo(int position) {
-        return getItemViewType(getRealPosition(position)) == AD_TYPE_VIDEO;
+        return getItemViewType(position) == AD_TYPE_VIDEO;
     }
 
 
@@ -207,20 +203,19 @@ public class TopicAdapter extends BaseRecyclerAdapter<TopicPageData.News> {
         public void bindData(List<TopicPageData.TopicBanner> banners) {
 
             banner.setData(banners);
-            banner.setAdapter(new KBanner.KBannerAdapter<RecommendPageData.Banner>() {
+            banner.setAdapter(new KBanner.KBannerAdapter<TopicPageData.TopicBanner>() {
                 @Override
-                public void fillBannerItemData(KBanner banner, ImageView imageView, RecommendPageData.Banner data, int position) {
+                public void fillBannerItemData(KBanner banner, ImageView imageView, TopicPageData.TopicBanner data, int position) {
                     GlideApp.with(itemView).load(data.getImageUrl()).into(imageView);
                 }
 
                 @Override
-                public String getTitleString(RecommendPageData.Banner data, int position) {
+                public String getTitleString(TopicPageData.TopicBanner data, int position) {
                     return data.getTheme();
                 }
+
             });
-
         }
-
 
     }
 }

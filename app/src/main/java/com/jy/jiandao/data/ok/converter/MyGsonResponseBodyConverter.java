@@ -28,16 +28,25 @@ public class MyGsonResponseBodyConverter <T> implements Converter<ResponseBody, 
 
     private final Gson gson;
     private final TypeAdapter<T> adapter;
-    private ParameterizedType type;
+    private ParameterizedType parameterizedType;
+    private Type type;
 
     MyGsonResponseBodyConverter(Gson gson, TypeAdapter<T> adapter, Type type) {
         this.gson = gson;
         this.adapter = adapter;
-        this.type = (ParameterizedType) type;
+        if(type instanceof ParameterizedType){
+            this.parameterizedType = (ParameterizedType) type;
+        }else {
+            this.type = type;
+        }
 
     }
 
     @Override public T convert(ResponseBody value) throws IOException {
+
+
+
+
         MediaType mediaType = value.contentType();
         Charset charset = null;
         if (mediaType != null) {
@@ -48,9 +57,14 @@ public class MyGsonResponseBodyConverter <T> implements Converter<ResponseBody, 
         }
         String json = new String(value.bytes(),charset);
 
+        if(type != null && type == String.class &&  parameterizedType == null ){
+
+            return (T)json;
+        }
+
         try {
             JSONObject object = new JSONObject(json);
-            Type [] types = type.getActualTypeArguments();
+            Type [] types = parameterizedType.getActualTypeArguments();
             Type resultType = types[0]; // 由于我们httpresult 这个对象只有一个泛型参数，所以取第一个
             if(resultType == String.class){
                 value = ResponseBody.create(mediaType,json); // 不需要从json 串里面删除 data

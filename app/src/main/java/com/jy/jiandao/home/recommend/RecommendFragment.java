@@ -72,6 +72,7 @@ public class RecommendFragment extends BaseMvpFragment<RecommendContract.IRecomm
     @Override
     protected void loadData() {
         showFullLoadingView(getRootViewId());
+
         mPresenter.getColumnList();
     }
 
@@ -81,8 +82,8 @@ public class RecommendFragment extends BaseMvpFragment<RecommendContract.IRecomm
     }
 
     @Override
-    public int getEnter() {
-        return 0;
+    public boolean isNeedAnimation() {
+        return false;
     }
 
     @Override

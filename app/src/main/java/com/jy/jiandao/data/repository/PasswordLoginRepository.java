@@ -23,7 +23,7 @@ public class PasswordLoginRepository extends BaseRepository implements PasswordL
 
     @Override
     public void login(LifecycleProvider provider, Map<String, String> params, IBaseCallBack<User> callBack) {
-        observer(JDDataService.getApiService().login(params), this::getConvertObservable,callBack);
+        observer(provider,JDDataService.getApiService().login(params), this::getConvertObservable,callBack);
     }
 
 

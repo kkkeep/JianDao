@@ -95,7 +95,7 @@ public class NewsPageRepository extends BaseRepository implements NewsContract.I
 
                         .subscribe(callBack::onDiskCacheBack, throwable -> {
                             // 网络请求
-                            observer(JDDataService.getApiService().getNews(params), NewsPageRepository.this::getConvertObservable, newsData13 -> {
+                            observer(provider,JDDataService.getApiService().getNews(params), NewsPageRepository.this::getConvertObservable, newsData13 -> {
                                 saveToMemoryCache(cacheKey, newsData13, requestType);
 
                                 saveToSdcard(cacheKey, newsData13);
@@ -109,7 +109,7 @@ public class NewsPageRepository extends BaseRepository implements NewsContract.I
 
 
         // 网络请求
-        observer(JDDataService.getApiService().getNews(params), this::getConvertObservable, newsData -> {
+        observer(provider,JDDataService.getApiService().getNews(params), this::getConvertObservable, newsData -> {
             saveToMemoryCache(cacheKey, newsData, requestType);
 
             saveToSdcard(cacheKey, newsData);

@@ -77,8 +77,9 @@ public class MvpFragmentManager {
                 baseFragment = next.newInstance(); // new  一个 fragment 实例
 
                 baseFragment.setArguments(args); // 设置参数
-
-                fragmentTransaction.setCustomAnimations(baseFragment.getEnter(), baseFragment.getExit(), baseFragment.popEnter(), baseFragment.popExit());
+                if(baseFragment.isNeedAnimation()){
+                    fragmentTransaction.setCustomAnimations(baseFragment.getEnter(), baseFragment.getExit(), baseFragment.popEnter(), baseFragment.popExit());
+                }
 
                 fragmentTransaction.add(containerId, baseFragment, tag); // add 一个 fragment 并且 打一个 tag,方便下一次查找
 

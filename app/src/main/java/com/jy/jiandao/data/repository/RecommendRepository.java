@@ -19,6 +19,6 @@ public class RecommendRepository extends BaseRepository implements RecommendCont
     @Override
     public void getColumnList(LifecycleProvider provider, Map<String,String> params,IBaseCallBack<ColumnData> callBack) {
 
-        observer(JDDataService.getApiService().getColumnList(params), this::getConvertObservable, callBack);
+        observer(provider,JDDataService.getApiService().getColumnList(params), this::getConvertObservable, callBack);
     }
 }

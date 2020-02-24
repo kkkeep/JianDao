@@ -5,6 +5,11 @@ import com.mr.k.libmvp.MvpManager;
 import com.mr.k.libmvp.base.IBaseModel;
 import com.mr.k.libmvp.base.IBaseMvpPresenter;
 import com.mr.k.libmvp.base.IBaseMvpView;
+import com.mr.k.libmvp.base.ICachedCallBack;
+import com.mr.k.libmvp.base.ParamsMap;
+import com.trello.rxlifecycle2.LifecycleProvider;
+
+import java.util.Map;
 
 public interface VideoContract {
 
@@ -30,9 +35,9 @@ public interface VideoContract {
 
 
 
-    public interface IVideoModel extends IBaseModel<VideoPageData> {
+    public interface IVideoModel {
 
-
+        void getDataFistCache(LifecycleProvider provider, ParamsMap params, ICachedCallBack<VideoPageData> callBack, int requestType);
     }
 
 

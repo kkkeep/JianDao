@@ -9,6 +9,16 @@ public class TopicPageData extends BaseNewsData {
     private List<News> list;
 
 
+    public List<TopicBanner> getBannerList() {
+        return banner_list;
+    }
+
+
+    public List<News> getList() {
+        return list;
+    }
+
+
 
     public class TopicBanner extends BaseNews{
 

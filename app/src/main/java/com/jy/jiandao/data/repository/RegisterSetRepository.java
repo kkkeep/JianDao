@@ -26,7 +26,7 @@ public class RegisterSetRepository extends BaseRepository implements RegisterCon
 
     @Override
     public void register(LifecycleProvider provider, Map<String, String> params, IBaseCallBack<User> callBack) {
-            observer(JDDataService.getApiService().register(params),this::getConvertObservable,callBack);
+            observer(provider,JDDataService.getApiService().register(params),this::getConvertObservable,callBack);
 
 
     }

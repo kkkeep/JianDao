@@ -23,7 +23,7 @@ public class RegisterRepository extends BaseRepository implements RegisterContra
     @Override
     public void getSmsCode(Map<String, String> params, IBaseCallBack<String> callBack) {
 
-        observer(JDDataService.getApiService().getVerificationCode(params),this::getConvertObservable,callBack);
+       // observer(JDDataService.getApiService().getVerificationCode(params),this::getConvertObservable,callBack);
 
 
     }
@@ -31,7 +31,7 @@ public class RegisterRepository extends BaseRepository implements RegisterContra
     @Override
     public void verifySmsCode(Map<String, String> params, IBaseCallBack<String> callBack) {
 
-        observer(JDDataService.getApiService().getCheckVerificationCode(params),this::getConvertObservable,callBack);
+      //  observer(JDDataService.getApiService().getCheckVerificationCode(params),this::getConvertObservable,callBack);
 
     }
 }

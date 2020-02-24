@@ -1,4 +1,4 @@
-package com.jy.jiandao.home.video;
+package com.jy.jiandao.home.Topic;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,20 +8,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jy.jiandao.R;
-import com.jy.jiandao.data.entity.VideoPageData;
+import com.jy.jiandao.data.entity.TopicPageData;
+import com.jy.jiandao.home.video.VideoAdapter;
 import com.jy.jiandao.video.RecyclerViewVideoScrollListener;
 import com.mr.k.libmvp.MvpManager;
-import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.base.BaseMvpFragment;
-import com.mr.k.libmvp.widget.LoadingView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.TestOnly;
 
-public class VideoFragment extends BaseMvpFragment<VideoContract.IVideoPresenter> implements VideoContract.IVideoView {
+public class TopicFragment extends BaseMvpFragment<TopicContract.ITopicPresenter> implements TopicContract.ITopicView{
 
 
     private SmartRefreshLayout mSmartRefreshLayout;
@@ -29,23 +29,24 @@ public class VideoFragment extends BaseMvpFragment<VideoContract.IVideoPresenter
     private RecyclerView mRecyclerView;
 
 
-    private VideoAdapter mVideoAdapter;
+    private TopicAdapter mTopicAdapter;
 
     private int mStart;
     private int mNumber;
     private long mPointTime;
 
 
-
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_video_page;
+        return R.layout.fragment_topic_page;
     }
+
 
     @Override
     protected void initView(@NotNull View view, @Nullable Bundle savedInstanceState) {
-        mSmartRefreshLayout = findViewById(R.id.home_video_refresh_layout);
-        mRecyclerView = findViewById(R.id.home_video_list);
+
+        mSmartRefreshLayout = findViewById(R.id.home_topic_refresh_layout);
+        mRecyclerView = findViewById(R.id.home_topic_list);
 
 
         mSmartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -67,64 +68,61 @@ public class VideoFragment extends BaseMvpFragment<VideoContract.IVideoPresenter
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mRecyclerView.setAdapter((mVideoAdapter = new VideoAdapter()));
-
+        mRecyclerView.setAdapter((mTopicAdapter = new TopicAdapter()));
     }
 
     @Override
     protected void loadData() {
         showFullLoadingView(getRootViewId());
-        mPresenter.getVideoData(mStart,mNumber,mPointTime, MvpManager.REQUEST_FIRST_LOAD);
+        mPresenter.getTopicData(mStart,mNumber,mPointTime, MvpManager.REQUEST_FIRST_LOAD);
     }
 
 
     private void refresh(){
 
-        mPresenter.getVideoData(0,0,0, MvpManager.REQUEST_REFRESH_LOAD);
+        mPresenter.getTopicData(0,0,0, MvpManager.REQUEST_REFRESH_LOAD);
     }
 
     private void loadMore(){
-        mPresenter.getVideoData(mStart,mNumber,mPointTime, MvpManager.REQUEST_LOAD_MORE_LOAD);
+        mPresenter.getTopicData(mStart,mNumber,mPointTime, MvpManager.REQUEST_LOAD_MORE_LOAD);
     }
 
 
-
-
-
     @Override
-    public VideoContract.IVideoPresenter createPresenter() {
-        return new VideoPresenter(getContext());
+    public TopicContract.ITopicPresenter createPresenter() {
+        return new TopicPresenter();
     }
 
     @Override
-    public void onNewsSuccess(VideoPageData videoPageData, int requestType, int responseType) {
+    public void onNewsSuccess(TopicPageData topicPageData, int requestType, int responseType) {
+
         if(requestType == MvpManager.REQUEST_FIRST_LOAD){
             closeLoadingView();
-            mVideoAdapter.setData(videoPageData.getList());
+            mTopicAdapter.setData(topicPageData.getList(),topicPageData.getBannerList());
             if(responseType == MvpManager.RESPONSE_FROM_SDCARD){
                 mSmartRefreshLayout.autoRefresh(1000);
             }
         }else if(requestType == MvpManager.REQUEST_REFRESH_LOAD){
             mSmartRefreshLayout.finishRefresh();
-            mVideoAdapter.refresh(videoPageData.getList());
+            mTopicAdapter.refresh(topicPageData.getList(), topicPageData.getBannerList());
         }else if(requestType == MvpManager.REQUEST_LOAD_MORE_LOAD){
             mSmartRefreshLayout.finishLoadMore();
 
-            mVideoAdapter.loadMore(videoPageData.getList());
+            mTopicAdapter.loadMore(topicPageData.getList());
         }
 
-        mStart = videoPageData.getStart();
-        mNumber = videoPageData.getNumber();
-        mPointTime = videoPageData.getPointTime();
-        mSmartRefreshLayout.setNoMoreData( videoPageData.getMore() == 0);
+        mStart = topicPageData.getStart();
+        mNumber = topicPageData.getNumber();
+        mPointTime = topicPageData.getPointTime();
+        mSmartRefreshLayout.setNoMoreData( topicPageData.getMore() == 0);
+
     }
 
     @Override
     public void onNewsFail(String msg, int requestType) {
-
         if(requestType == MvpManager.REQUEST_FIRST_LOAD){
 
-            showErrorLoadingView(msg, () -> loadData());
+            showErrorLoadingView(msg, this::loadData);
         }else if(requestType == MvpManager.REQUEST_REFRESH_LOAD){
             showToast(msg);
             mSmartRefreshLayout.finishRefresh();
@@ -133,17 +131,23 @@ public class VideoFragment extends BaseMvpFragment<VideoContract.IVideoPresenter
             mSmartRefreshLayout.finishLoadMore();
 
         }
+    }
+
+
+    @Override
+    public boolean isAddBackStack() {
+        return false;
+    }
+
+    @Override
+    public int getEnter() {
+        return 0;
     }
 
     @Override
     public boolean isNeedAnimation() {
         return false;
     }
-    @Override
-    public boolean isAddBackStack() {
-        return false;
-    }
-
-
 
 }
+

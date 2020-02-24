@@ -39,6 +39,9 @@ abstract class BaseFragment : RxFragment(), BaseLoading {
     open val isAddBackStack: Boolean
         get() = true
 
+    open val isNeedAnimation:Boolean
+        get() = true
+
     open val action: Action
         get() = Action.Hide
 

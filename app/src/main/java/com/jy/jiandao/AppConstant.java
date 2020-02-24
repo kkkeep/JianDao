@@ -26,6 +26,7 @@ public interface AppConstant {
         String COLUMN_LIST = "/api/column/columnmanagelist";
         String GET_NEWS = "/app/v_1_3/article/recommendlist";
         String GET_VIDEO_NEWS = "/app/v_1_3/article/videolist"; // 视频列表
+        String GET_TOPIC_NEWS = "/app/v_1_3/article/speciallist"; // 视频列表
     }
 
 
@@ -56,6 +57,11 @@ public interface AppConstant {
         String VIDEO_NEWS_POINT_TIME = RECOMMOND_NEWS_POINT_TIME;
 
 
+
+
+        String TOPIC_NEWS_START = RECOMMOND_NEWS_START_;
+        String TOPIC_NEWS_NUMBER = RECOMMOND_NEWS_NUMBER;
+        String TOPIC_NEWS_POINT_TIME = RECOMMOND_NEWS_POINT_TIME;
     }
 
     interface IntentKey {

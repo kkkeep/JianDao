@@ -1,11 +1,15 @@
 package com.jy.jiandao.home.video;
 
+import android.content.Context;
+
+import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.entity.VideoPageData;
 import com.jy.jiandao.data.repository.VideoPageRepository;
 import com.jy.jiandao.utils.ParamsUtils;
 import com.mr.k.libmvp.MvpManager;
 import com.mr.k.libmvp.base.BasePresenter;
 import com.mr.k.libmvp.base.ICachedCallBack;
+import com.mr.k.libmvp.base.ParamsMap;
 import com.mr.k.libmvp.exception.ResultException;
 
 import java.util.Map;
@@ -20,15 +24,15 @@ public class VideoPresenter extends BasePresenter<VideoContract.IVideoView> impl
     private VideoContract.IVideoModel mRepository;
 
 
-    public VideoPresenter(){
-        mRepository = new VideoPageRepository();
+    public VideoPresenter(Context context){
+        mRepository = new VideoPageRepository(context.getApplicationContext());
     }
 
     @Override
     public void getVideoData(int start, int number, long pointTime, int requestType) {
 
-        Map<String,String> params = ParamsUtils.getCommonParams();
-
+        ParamsMap params = new ParamsMap(AppConstant.Url.GET_TOPIC_NEWS);
+        params.putAll(ParamsUtils.getCommonParams());
         params.put(VIDEO_NEWS_START,String.valueOf(start));
         params.put(VIDEO_NEWS_NUMBER,String.valueOf(number));
         params.put(VIDEO_NEWS_POINT_TIME,String.valueOf(pointTime));

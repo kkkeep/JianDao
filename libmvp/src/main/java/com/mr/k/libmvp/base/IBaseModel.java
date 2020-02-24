@@ -14,7 +14,7 @@ public interface IBaseModel<T> {
      * @param callBack
      */
 
-   default void getData(LifecycleProvider provider, Map<String,String> params, IBaseCallBack<T> callBack){
+   public default void getData(LifecycleProvider provider, Map<String,String> params, IBaseCallBack<T> callBack){
 
    }
 
@@ -26,7 +26,7 @@ public interface IBaseModel<T> {
      * @param callBack
      * @param requestType
      */
-   default  void getDataFistCache(LifecycleProvider provider, Map<String,String> params, ICachedCallBack<T> callBack, @MvpManager.RequestType int requestType){
+  public default  void getDataFistCache(LifecycleProvider provider, Map<String,String> params, ICachedCallBack<T> callBack, @MvpManager.RequestType int requestType){
 
    }
 }
