@@ -155,6 +155,17 @@ public class TopicAdapter extends BaseRecyclerAdapter<TopicPageData.News> {
             pic = itemView.findViewById(R.id.item_news_left_iv_pic);
             title = itemView.findViewById(R.id.item_news_left_tv_title);
             label = itemView.findViewById(R.id.item_news_left_tv_label);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(getItemClickListener() != null){
+                        getItemClickListener().onNewsClick(getDataList(),getRealPosition(getAdapterPosition()));
+                    }
+                }
+            });
         }
 
 
