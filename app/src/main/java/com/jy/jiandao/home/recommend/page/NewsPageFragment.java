@@ -20,6 +20,7 @@ import com.jy.jiandao.video.VideoHolder;
 import com.mr.k.libmvp.MvpManager;
 import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.base.BaseMvpFragment;
+import com.mr.k.libmvp.base.OnItemClickListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -90,13 +91,24 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
         mNewsRecyclerView.addOnScrollListener(new RecyclerViewVideoScrollListener());
 
 
-        mPageAdapter.setNewsClickListener(new OnNewItemClickListener() {
+        mPageAdapter.setItemClickListener(new NewsPageAdapter.OnNewsItemClickListener() {
             @Override
-            public void onNewsClick(List<? extends BaseNews> news, int position) {
+            public void onBannerClick(List<RecommendPageData.Banner> list, int position) {
+                DetailVpFragment.openDetailPage(getActivity(),null, (ArrayList<? extends BaseNews>) list,position);
+            }
 
-                DetailVpFragment.openDetailPage(getActivity(),null,(ArrayList<? extends BaseNews>) news,position);
+            @Override
+            public void onFlashClick(List<RecommendPageData.Flash> list, int position) {
+                DetailVpFragment.openDetailPage(getActivity(),null, (ArrayList<? extends BaseNews>) list,position);
+            }
+
+            @Override
+            public void onNewsClick(List<RecommendPageData.News> news, int position) {
+                DetailVpFragment.openDetailPage(getActivity(),null, (ArrayList<? extends BaseNews>) news,position);
             }
         });
+
+
     }
 
     @Override

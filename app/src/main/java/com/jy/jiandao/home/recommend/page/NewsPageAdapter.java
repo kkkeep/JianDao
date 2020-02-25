@@ -20,6 +20,7 @@ import com.mr.k.banner.KBanner;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseAdapterHolder;
 import com.mr.k.libmvp.base.BaseRecyclerAdapter;
+import com.mr.k.libmvp.base.OnItemClickListener;
 import com.mr.k.libmvp.widget.MarqueeView;
 
 import org.jetbrains.annotations.NotNull;
@@ -52,7 +53,6 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
     private List<RecommendPageData.News> newsList;
 
 
-    private OnNewItemClickListener mNewsClickListener;
 
     public void setData(List<RecommendPageData.Banner> banners, List<RecommendPageData.Flash> flashes, List<RecommendPageData.News> news) {
         this.bannerList = banners;
@@ -72,7 +72,16 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
         this.newsList.addAll(news);
         notifyItemRangeChanged(start,news.size());
     }
-/*
+
+    public OnNewsItemClickListener  getNewsItemClickListener() {
+        return (OnNewsItemClickListener) super.getItemClickListener();
+    }
+
+
+
+    /*
+
+
 
     @NonNull
     @Override
@@ -326,9 +335,7 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
     }
 
 
-    public void setNewsClickListener(OnNewItemClickListener mNewsClickListener) {
-        this.mNewsClickListener = mNewsClickListener;
-    }
+
 
     @Override
     public boolean isAdVideo(int position){
@@ -401,8 +408,8 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mNewsClickListener != null){
-                        mNewsClickListener.onNewsClick(newsList,getRealPosition(getAdapterPosition()));
+                    if(getItemClickListener() != null){
+                        getItemClickListener().onNewsClick(newsList,getRealPosition(getAdapterPosition()));
                     }
                 }
             });
@@ -466,8 +473,8 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
                 @Override
                 public void onClick(RecommendPageData.Banner data, int position) {
 
-                    if(mNewsClickListener != null){
-                        mNewsClickListener.onNewsClick(bannerList,position);
+                    if(getNewsItemClickListener() != null){
+                        getNewsItemClickListener().onBannerClick(bannerList,position);
                     }
 
                 }
@@ -486,8 +493,8 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
                     @Override
                     public void onClick(@NotNull MarqueeView.MarqueeData data, int position) {
 
-                        if(mNewsClickListener != null){
-                            mNewsClickListener.onNewsClick(flasheList,position);
+                        if(getNewsItemClickListener() != null){
+                            getNewsItemClickListener().onFlashClick(flasheList,position);
                         }
 
                     }
@@ -587,8 +594,8 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
            itemView.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   if(mNewsClickListener != null){
-                       mNewsClickListener.onNewsClick(newsList,getRealPosition(getAdapterPosition()));
+                   if(getItemClickListener() != null){
+                       getItemClickListener().onNewsClick(newsList,getRealPosition(getAdapterPosition()));
                    }
                }
            });
@@ -626,8 +633,8 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mNewsClickListener != null){
-                        mNewsClickListener.onNewsClick(newsList,getRealPosition(getAdapterPosition()));
+                    if(getItemClickListener() != null){
+                        getItemClickListener().onNewsClick(newsList,getRealPosition(getAdapterPosition()));
                     }
                 }
             });
@@ -643,8 +650,8 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mNewsClickListener != null){
-                        mNewsClickListener.onNewsClick(newsList,getRealPosition(getAdapterPosition()));
+                    if(getItemClickListener() != null){
+                        getItemClickListener().onNewsClick(newsList,getRealPosition(getAdapterPosition()));
                     }
                 }
             });
@@ -660,14 +667,24 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mNewsClickListener != null){
-                        mNewsClickListener.onNewsClick(newsList,getRealPosition(getAdapterPosition()));
+                    if(getItemClickListener() != null){
+                        getItemClickListener().onNewsClick(newsList,getRealPosition(getAdapterPosition()));
                     }
                 }
             });
         }
     }
 
+
+
+    public interface OnNewsItemClickListener extends OnItemClickListener<RecommendPageData.News>{
+
+       void  onBannerClick(List<RecommendPageData.Banner> list,int position );
+       void  onFlashClick(List<RecommendPageData.Flash> list,int position );
+
+
+
+    }
 
 
 }
