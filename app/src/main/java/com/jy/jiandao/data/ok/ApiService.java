@@ -31,6 +31,8 @@ import static com.jy.jiandao.AppConstant.Url.USER_REGISTER;
 /*
  * created by Cherry on 2019-12-26
  **/
+
+
 public interface ApiService {
 
     @POST(PASSWORD_LOGIN)

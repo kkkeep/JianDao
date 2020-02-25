@@ -10,8 +10,8 @@ import java.lang.annotation.RetentionPolicy;
  **/
 public interface AppConstant {
 
-    //String BASE_URL = "https://www.seetao.com";
-    String BASE_URL = "http://test.seetaoism.com";
+    String BASE_URL = "https://www.seetao.com";
+    //String BASE_URL = "http://test.seetaoism.com";
 
     String PLATFORM_ANDROID = "android";
     String LANG = "zh";

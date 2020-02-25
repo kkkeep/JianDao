@@ -26,4 +26,5 @@
     <string name="text_replay">重复</string>
     <string name="text_video">视频</string>
     <string name="text_topic">专题</string>
+    <string name="text_write_comment">写评论</string>
 </resources>

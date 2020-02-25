@@ -12,8 +12,17 @@ import java.util.List;
 public abstract class BaseRecyclerAdapter<D> extends RecyclerView.Adapter<BaseAdapterHolder<D>> {
 
 
+    private OnItemClickListener<D> itemClickListener;
+
     private List<D> mDataList;
 
+    public OnItemClickListener<D> getItemClickListener() {
+        return itemClickListener;
+    }
+
+    public void setItemClickListener(OnItemClickListener<D> itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
 
     // 数据第一次加载回来调用该方法对adapter 设置数据
     public void setData(List<D> videoList){

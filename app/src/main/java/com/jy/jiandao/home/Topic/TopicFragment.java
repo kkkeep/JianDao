@@ -21,6 +21,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
 
+import static com.mr.k.libmvp.MvpManager.REQUEST_FIRST_LOAD;
+
 public class TopicFragment extends BaseMvpFragment<TopicContract.ITopicPresenter> implements TopicContract.ITopicView{
 
 
@@ -74,7 +76,7 @@ public class TopicFragment extends BaseMvpFragment<TopicContract.ITopicPresenter
     @Override
     protected void loadData() {
         showFullLoadingView(getRootViewId());
-        mPresenter.getTopicData(mStart,mNumber,mPointTime, MvpManager.REQUEST_FIRST_LOAD);
+        mPresenter.getTopicData(mStart,mNumber,mPointTime,REQUEST_FIRST_LOAD);
     }
 
 
@@ -94,7 +96,7 @@ public class TopicFragment extends BaseMvpFragment<TopicContract.ITopicPresenter
     }
 
     @Override
-    public void onNewsSuccess(TopicPageData topicPageData, int requestType, int responseType) {
+    public void onNewsSuccess(TopicPageData topicPageData, @MvpManager.RequestType int requestType, @MvpManager.ResponseType int responseType) {
 
         if(requestType == MvpManager.REQUEST_FIRST_LOAD){
             closeLoadingView();

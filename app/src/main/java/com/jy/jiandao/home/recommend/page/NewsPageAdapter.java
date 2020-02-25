@@ -1,8 +1,6 @@
 package com.jy.jiandao.home.recommend.page;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,10 +9,12 @@ import androidx.constraintlayout.widget.Group;
 
 import com.jy.jiandao.GlideApp;
 import com.jy.jiandao.R;
+import com.jy.jiandao.data.entity.BaseNews;
 import com.jy.jiandao.data.entity.RecommendPageData;
 import com.jy.jiandao.ad.NewsAdBannerHolder;
 import com.jy.jiandao.ad.NewsAdBigPicHolder;
 import com.jy.jiandao.ad.NewsAdVideoHolder;
+import com.jy.jiandao.home.OnNewItemClickListener;
 import com.jy.jiandao.video.VideoHolder;
 import com.mr.k.banner.KBanner;
 import com.mr.k.libmvp.Utils.SystemFacade;
@@ -24,7 +24,6 @@ import com.mr.k.libmvp.widget.MarqueeView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import com.jy.jiandao.video.JDVideo;
@@ -52,6 +51,8 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
     private List<RecommendPageData.Flash> flasheList;
     private List<RecommendPageData.News> newsList;
 
+
+    private OnNewItemClickListener mNewsClickListener;
 
     public void setData(List<RecommendPageData.Banner> banners, List<RecommendPageData.Flash> flashes, List<RecommendPageData.News> news) {
         this.bannerList = banners;
@@ -256,6 +257,9 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
         return  layoutId;
     }
 
+
+
+
     @Override
     public BaseAdapterHolder<RecommendPageData.News> createHolder(View itemView,int viewType) {
 
@@ -297,18 +301,18 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
             }
 
             case AD_TYPE_BANER:{
-                holder = new NewsAdBannerHolder<>(itemView);
+                holder =  new AdBannerHolder(itemView);
 
                 break;
             }
 
             case AD_TYPE_BIG_PIC:{
-                holder = new NewsAdBigPicHolder<>(itemView);
+                holder = new AdBigPicHolder(itemView);
                 break;
             }
 
             case AD_TYPE_VIDEO:{
-                holder = new NewsAdVideoHolder<>(VIDEO_PLAY_TAG,itemView);
+                holder = new AdVideoHolder(VIDEO_PLAY_TAG,itemView);
                 break;
             }
 
@@ -319,6 +323,11 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
         }
 
         return holder;
+    }
+
+
+    public void setNewsClickListener(OnNewItemClickListener mNewsClickListener) {
+        this.mNewsClickListener = mNewsClickListener;
     }
 
     @Override
@@ -383,6 +392,24 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
     }
 
 
+    private class BaseHolder extends BaseAdapterHolder<RecommendPageData.News>{
+
+
+        public BaseHolder(@NonNull View itemView) {
+            super(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mNewsClickListener != null){
+                        mNewsClickListener.onNewsClick(newsList,getRealPosition(getAdapterPosition()));
+                    }
+                }
+            });
+
+        }
+    }
+
 
 
     private class HeaderHolder extends BaseAdapterHolder<RecommendPageData.News> {
@@ -434,6 +461,19 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
             });
 
 
+            banner.setOnItemClickListener(new KBanner.OnItemClickListener<RecommendPageData.Banner>() {
+
+                @Override
+                public void onClick(RecommendPageData.Banner data, int position) {
+
+                    if(mNewsClickListener != null){
+                        mNewsClickListener.onNewsClick(bannerList,position);
+                    }
+
+                }
+            });
+
+
             if(SystemFacade.isListEmpty(flashes)){
 
                 group.setVisibility(View.GONE);
@@ -446,8 +486,9 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
                     @Override
                     public void onClick(@NotNull MarqueeView.MarqueeData data, int position) {
 
-                        RecommendPageData.Flash flash= (RecommendPageData.Flash) data;
-
+                        if(mNewsClickListener != null){
+                            mNewsClickListener.onNewsClick(flasheList,position);
+                        }
 
                     }
                 });
@@ -458,7 +499,7 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
         }
     }
 
-    private class LeftHolder extends BaseAdapterHolder<RecommendPageData.News>  {
+    private class LeftHolder extends BaseHolder  {
 
         ImageView pic;
         TextView title;
@@ -506,7 +547,7 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
 
 
 
-    private class TextHolder extends BaseAdapterHolder<RecommendPageData.News>  {
+    private class TextHolder extends BaseHolder  {
 
         TextView title;
         TextView content;
@@ -541,6 +582,16 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
             super(tag, itemView);
 
            label =  itemView.findViewById(R.id.item_news_video_tv_label);
+
+
+           itemView.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   if(mNewsClickListener != null){
+                       mNewsClickListener.onNewsClick(newsList,getRealPosition(getAdapterPosition()));
+                   }
+               }
+           });
         }
 
         @Override
@@ -562,12 +613,24 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
         }
     }
 
-/*
+
+
+
 
     private class AdBannerHolder extends NewsAdBannerHolder<RecommendPageData.News>{
 
         public AdBannerHolder(@NonNull View itemView) {
             super(itemView);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mNewsClickListener != null){
+                        mNewsClickListener.onNewsClick(newsList,getRealPosition(getAdapterPosition()));
+                    }
+                }
+            });
         }
     }
 
@@ -576,6 +639,15 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
 
         public AdBigPicHolder(@NonNull View itemView) {
             super(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mNewsClickListener != null){
+                        mNewsClickListener.onNewsClick(newsList,getRealPosition(getAdapterPosition()));
+                    }
+                }
+            });
         }
     }
 
@@ -584,11 +656,17 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
 
         public AdVideoHolder(String tag, @NonNull View itemView) {
             super(tag, itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mNewsClickListener != null){
+                        mNewsClickListener.onNewsClick(newsList,getRealPosition(getAdapterPosition()));
+                    }
+                }
+            });
         }
     }
-
-*/
-
 
 
 

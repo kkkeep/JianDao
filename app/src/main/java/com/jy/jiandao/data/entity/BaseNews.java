@@ -1,6 +1,8 @@
 package com.jy.jiandao.data.entity;
 
-public class BaseNews implements VideoNews {
+import java.io.Serializable;
+
+public class BaseNews implements VideoNews, Serializable {
 
 
 

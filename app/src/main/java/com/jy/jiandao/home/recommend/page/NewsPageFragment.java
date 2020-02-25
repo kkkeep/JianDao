@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jy.jiandao.R;
+import com.jy.jiandao.data.entity.BaseNews;
 import com.jy.jiandao.data.entity.RecommendPageData;
+import com.jy.jiandao.detail.vp.DetailVpFragment;
+import com.jy.jiandao.home.OnNewItemClickListener;
 import com.jy.jiandao.video.JDVideo;
 import com.jy.jiandao.video.RecyclerViewVideoScrollListener;
 import com.jy.jiandao.video.VideoHolder;
@@ -24,6 +27,9 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.mr.k.libmvp.MvpManager.*;
 
@@ -82,6 +88,15 @@ public class NewsPageFragment extends BaseMvpFragment<NewsContract.INewsPresente
 
 
         mNewsRecyclerView.addOnScrollListener(new RecyclerViewVideoScrollListener());
+
+
+        mPageAdapter.setNewsClickListener(new OnNewItemClickListener() {
+            @Override
+            public void onNewsClick(List<? extends BaseNews> news, int position) {
+
+                DetailVpFragment.openDetailPage(getActivity(),null,(ArrayList<? extends BaseNews>) news,position);
+            }
+        });
     }
 
     @Override

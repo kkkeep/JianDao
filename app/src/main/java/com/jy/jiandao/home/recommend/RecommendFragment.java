@@ -3,6 +3,8 @@ package com.jy.jiandao.home.recommend;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.viewpager.widget.ViewPager;
 
@@ -64,6 +66,7 @@ public class RecommendFragment extends BaseMvpFragment<RecommendContract.IRecomm
     }
 
 
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -77,14 +80,22 @@ public class RecommendFragment extends BaseMvpFragment<RecommendContract.IRecomm
     }
 
     @Override
+    public int getEnter() {
+        return super.getEnter();
+    }
+
+    @Override
     public boolean isAddBackStack() {
         return false;
     }
 
     @Override
     public boolean isNeedAnimation() {
-        return false;
+        return true;
     }
+
+
+
 
     @Override
     public RecommendContract.IRecommendPresenter createPresenter() {

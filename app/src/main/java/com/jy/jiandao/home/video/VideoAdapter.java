@@ -28,6 +28,7 @@ public class VideoAdapter extends BaseRecyclerAdapter<VideoPageData.News> {
 
 
 
+
     @Override
     public int getItemLayoutId(int viewType) {
 
@@ -99,6 +100,16 @@ public class VideoAdapter extends BaseRecyclerAdapter<VideoPageData.News> {
             super(tag, itemView);
 
             description = itemView.findViewById(R.id.item_news_video_tv_label);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(getItemClickListener() != null){
+                        getItemClickListener().onNewsClick(getDataList(),getAdapterPosition());
+                    }
+                }
+            });
         }
 
         @Override
@@ -143,4 +154,7 @@ public class VideoAdapter extends BaseRecyclerAdapter<VideoPageData.News> {
             super(tag, itemView);
         }
     }*/
+
+
+
 }

@@ -11,15 +11,12 @@ import com.jy.jiandao.utils.ParamsUtils;
 import com.mr.k.libmvp.MvpManager;
 import com.mr.k.libmvp.base.BasePresenter;
 import com.mr.k.libmvp.base.IBaseCallBack;
+import com.mr.k.libmvp.base.ParamsMap;
 import com.mr.k.libmvp.exception.ResultException;
 
 import java.util.Map;
 
-import io.reactivex.ObservableSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
+
 
 import static com.jy.jiandao.AppConstant.RequestKey.*;
 
@@ -37,14 +34,18 @@ public class TopicPresenter extends BasePresenter<TopicContract.ITopicView> impl
     public void getTopicData(int start, int number, long pointTime, int requestType) {
 
 
+        ParamsMap paramsMap = new ParamsMap(AppConstant.Url.GET_TOPIC_NEWS);
+
         Map<String,String> params = ParamsUtils.getCommonParams();
 
         params.put(TOPIC_NEWS_START,String.valueOf(start));
         params.put(TOPIC_NEWS_NUMBER,String.valueOf(number));
         params.put(TOPIC_NEWS_POINT_TIME,String.valueOf(pointTime));
 
+        paramsMap.putAll(params);
 
-        mBaseRepository.get(getProvider(), params, AppConstant.Url.GET_TOPIC_NEWS, new IBaseCallBack<TopicPageData>() {
+
+        mBaseRepository.get(getProvider(), paramsMap, new IBaseCallBack<TopicPageData>() {
             @Override
             public void onSuccess(TopicPageData data) {
 

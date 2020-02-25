@@ -8,11 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jy.jiandao.R;
+import com.jy.jiandao.data.entity.BaseNews;
 import com.jy.jiandao.data.entity.VideoPageData;
+import com.jy.jiandao.detail.page.DetailPageFragment;
+import com.jy.jiandao.detail.vp.DetailVpFragment;
 import com.jy.jiandao.video.RecyclerViewVideoScrollListener;
 import com.mr.k.libmvp.MvpManager;
 import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.base.BaseMvpFragment;
+import com.mr.k.libmvp.base.OnItemClickListener;
 import com.mr.k.libmvp.widget.LoadingView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -20,6 +24,9 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class VideoFragment extends BaseMvpFragment<VideoContract.IVideoPresenter> implements VideoContract.IVideoView {
 
@@ -69,6 +76,14 @@ public class VideoFragment extends BaseMvpFragment<VideoContract.IVideoPresenter
 
         mRecyclerView.setAdapter((mVideoAdapter = new VideoAdapter()));
 
+
+
+        mVideoAdapter.setItemClickListener(new OnItemClickListener<VideoPageData.News>() {
+            @Override
+            public void onNewsClick(List<VideoPageData.News> news, int position) {
+                DetailVpFragment.openDetailPage(getActivity(),null,(ArrayList<? extends BaseNews>) news,position);
+            }
+        });
     }
 
     @Override

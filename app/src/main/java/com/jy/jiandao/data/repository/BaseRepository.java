@@ -13,6 +13,7 @@ import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.base.IBaseModel;
 import com.mr.k.libmvp.base.ICachedCallBack;
+import com.mr.k.libmvp.base.ParamsMap;
 import com.mr.k.libmvp.exception.ResultException;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.LifecycleTransformer;
@@ -42,16 +43,16 @@ import io.reactivex.schedulers.Schedulers;
 public class BaseRepository {
 
 
-    public <T> void get(LifecycleProvider provider, Map<String, String> params, String url, IBaseCallBack<T> baseCallBack) {
-        get(provider, null, params, url, baseCallBack);
+    public <T> void get(LifecycleProvider provider, ParamsMap params, IBaseCallBack<T> baseCallBack) {
+        get(provider, null, params, baseCallBack);
 
 
     }
 
-    public <T> void get(LifecycleProvider provider, Consumer<T> consumer, Map<String, String> params, String url, IBaseCallBack<T> baseCallBack) {
+    public <T> void get(LifecycleProvider provider, Consumer<T> consumer, ParamsMap params, IBaseCallBack<T> baseCallBack) {
 
 
-        Observable<T> observable = JDDataService.getApiService().get(AppConstant.Url.GET_TOPIC_NEWS, params)
+        Observable<T> observable = JDDataService.getApiService().get(params.getUrl(), params)
                 .map(s -> {
                     Type[] types = baseCallBack.getClass().getGenericInterfaces();
 
@@ -93,6 +94,8 @@ public class BaseRepository {
                         } else {
                             baseCallBack.onFail(new ResultException(e));
                         }
+
+                        e.printStackTrace();
                     }
 
                     @Override

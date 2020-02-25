@@ -11,7 +11,9 @@ public interface TopicContract {
 
     public interface ITopicView extends IBaseMvpView<ITopicPresenter>{
 
-        void onNewsSuccess(TopicPageData topicPageData, @MvpManager.RequestType int requestType, @MvpManager.ResponseType int responseType);
+        void onNewsSuccess(TopicPageData topicPageData, @MvpManager.RequestType int requestType, int responseType);
+
+
         void onNewsFail(String msg, @MvpManager.RequestType int requestType);
 
 
@@ -20,7 +22,7 @@ public interface TopicContract {
 
     public interface ITopicPresenter extends IBaseMvpPresenter<ITopicView>{
 
-        void getTopicData(int start,int number,long pointTime,@MvpManager.RequestType int requestType);
+        void getTopicData(int start,int number,long pointTime, int requestType);
 
     }
 

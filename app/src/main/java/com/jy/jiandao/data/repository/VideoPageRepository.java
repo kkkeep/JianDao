@@ -54,7 +54,7 @@ public class VideoPageRepository extends BaseRepository implements VideoContract
 */
 
 
-        get(provider,this::saveToSdcard,params,params.getUrl(),callBack);
+        get(provider,this::saveToSdcard,params,callBack);
 
         //observer(provider,JDDataService.getApiService().getVideoNews(params), this::getConvertObservable, this::saveToSdcard, callBack);
     }
