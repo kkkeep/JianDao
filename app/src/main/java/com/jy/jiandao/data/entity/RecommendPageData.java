@@ -95,7 +95,7 @@ public class RecommendPageData extends BaseNewsData {
         private String edit_time;
 
         private String video_url;
-        private int video_is_sans_href;
+        private String video_is_sans_href;
 
         private Ad ad;
 
@@ -143,7 +143,7 @@ public class RecommendPageData extends BaseNewsData {
         }
 
 
-        public int getVideoIsSansHref() {
+        public String getVideoIsSansHref() {
             return video_is_sans_href;
         }
 

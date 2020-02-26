@@ -25,7 +25,7 @@ public class MvpFragmentManager {
      *
      * @param fragmentManager
      * @param next 将要显示的fragment
-     * @param current // 当前显示的fragment，也就是要对其 hide，detach，或者 remove  或者不足任何操作
+     * @param current // 当前显示的fragment，也就是要对其 hide，detach，或者 remove   的fragment,如果为nul，那就不对上一个页面做任何操作
      * @param containerId
      * @return
      */

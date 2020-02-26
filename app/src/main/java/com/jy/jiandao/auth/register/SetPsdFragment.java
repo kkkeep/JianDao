@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -25,8 +24,6 @@ import com.jy.jiandao.auth.login.PasswordLoginFragment;
 import com.jy.jiandao.auth.login.VerificationLoginFragment;
 import com.jy.jiandao.data.entity.User;
 import com.mr.k.libmvp.Utils.Logger;
-import com.mr.k.libmvp.base.BaseMvpFragment;
-import com.mr.k.libmvp.base.IBaseMvpPresenter;
 import com.mr.k.libmvp.manager.MvpFragmentManager;
 import com.mr.k.libmvp.widget.EditCleanButton;
 import com.mr.k.libmvp.widget.EditTogglePasswordButton;
@@ -168,7 +165,7 @@ public class SetPsdFragment extends BaseAuthFragment<RegisterContract.IRegisterS
                 Bundle bundle = getArguments();
                 String phoneNum = null;
                 if(bundle != null){
-                     phoneNum = bundle.getString(AppConstant.IntentKey.PHONE_NUMBER);
+                     phoneNum = bundle.getString(AppConstant.BundleKey.PHONE_NUMBER);
                 }
                 if(TextUtils.isEmpty(phoneNum)){
                     throw new NullPointerException("跳转到设置页面需要传入手机号");

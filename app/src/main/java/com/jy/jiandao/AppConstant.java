@@ -10,8 +10,8 @@ import java.lang.annotation.RetentionPolicy;
  **/
 public interface AppConstant {
 
-    String BASE_URL = "https://www.seetao.com";
-    //String BASE_URL = "http://test.seetaoism.com";
+    //String BASE_URL = "https://www.seetao.com";
+    String BASE_URL = "http://test.seetaoism.com";
 
     String PLATFORM_ANDROID = "android";
     String LANG = "zh";
@@ -64,8 +64,11 @@ public interface AppConstant {
         String TOPIC_NEWS_POINT_TIME = RECOMMOND_NEWS_POINT_TIME;
     }
 
-    interface IntentKey {
+    interface BundleKey {
         String PHONE_NUMBER = "phone";
+        String DETAIL_NEWS_LIST = "detail_news_list";
+        String DETAIL_NEWS = "detail_news";
+        String DETAIL_NEWS_LIST_POSTION = "detail_news_list_position";
     }
 
 

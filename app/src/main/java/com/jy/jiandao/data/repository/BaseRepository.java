@@ -186,6 +186,9 @@ public class BaseRepository {
                         } else {
                             callBack.onFail(new ResultException(e));
                         }
+                        e.printStackTrace();
+
+                        int i = Integer.valueOf("");
                     }
 
                     @Override

@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.R;
@@ -134,7 +133,7 @@ public class RegisterFragment extends BaseAuthFragment<RegisterContract.IRegiste
     public void onVerifySmsCodeResult(String msg, boolean success) {
         if (success) {
             Bundle bundle = new Bundle();
-            bundle.putString(AppConstant.IntentKey.PHONE_NUMBER, mEdtPhoneNum.getText().toString().trim());
+            bundle.putString(AppConstant.BundleKey.PHONE_NUMBER, mEdtPhoneNum.getText().toString().trim());
             MvpFragmentManager.addOrShowFragment(getFragmentManager(), SetPsdFragment.class, this, android.R.id.content,bundle);
         } else {
             showToast("验证码失败" + msg);

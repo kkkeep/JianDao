@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.entity.BaseNews;
 import com.jy.jiandao.detail.page.DetailPageFragment;
 import com.umeng.socialize.media.Base;
@@ -33,11 +34,13 @@ public class DetailVpAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
+
+
         DetailPageFragment detailPageFragment = new DetailPageFragment();
 
         Bundle bundle = new Bundle();
 
-        bundle.putSerializable("news",list.get(position));
+        bundle.putParcelable(AppConstant.BundleKey.DETAIL_NEWS,list.get(position));
 
         detailPageFragment.setArguments(bundle);
         return detailPageFragment;
