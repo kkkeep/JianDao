@@ -9,7 +9,7 @@ import java.util.List;
 /*
  * created by Cherry on 2020-01-14
  **/
-public class RecommendPageData extends BaseNewsData {
+public class RecommendPageData extends BaseData {
 
 
 

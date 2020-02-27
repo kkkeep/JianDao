@@ -2,7 +2,7 @@ package com.jy.jiandao.data.entity;
 
 import java.util.List;
 
-public class VideoPageData extends BaseNewsData {
+public class VideoPageData extends BaseData {
 
 
 

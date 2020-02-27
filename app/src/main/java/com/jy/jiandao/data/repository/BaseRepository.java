@@ -188,7 +188,6 @@ public class BaseRepository {
                         }
                         e.printStackTrace();
 
-                        int i = Integer.valueOf("");
                     }
 
                     @Override

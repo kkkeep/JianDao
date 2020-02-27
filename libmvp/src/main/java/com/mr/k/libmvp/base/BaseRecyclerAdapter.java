@@ -14,7 +14,7 @@ public abstract class BaseRecyclerAdapter<D> extends RecyclerView.Adapter<BaseAd
 
     private OnItemClickListener<D> itemClickListener;
 
-    private List<D> mDataList;
+    protected List<D> mDataList;
 
     public OnItemClickListener<D> getItemClickListener() {
         return itemClickListener;
@@ -25,24 +25,24 @@ public abstract class BaseRecyclerAdapter<D> extends RecyclerView.Adapter<BaseAd
     }
 
     // 数据第一次加载回来调用该方法对adapter 设置数据
-    public void setData(List<D> videoList){
-        mDataList = videoList;
+    public void setData(List<D> dataList){
+        mDataList = dataList;
         notifyDataSetChanged();
     }
 
 
     // 对 recycler view 刷新时调用该方法
-    public void refresh(List<D> videoList){
-        setData(videoList);
+    public void refresh(List<D> dataList){
+        setData(dataList);
     }
 
 
     // 加载更多的时候调用
-    public void loadMore(List<D> videoList){
+    public void loadMore(List<D> dataList){
         int start = mDataList.size();
-        mDataList.addAll(videoList);
+        mDataList.addAll(dataList);
 
-        notifyItemRangeChanged(start,videoList.size());
+        notifyItemRangeChanged(start,dataList.size());
 
     }
 

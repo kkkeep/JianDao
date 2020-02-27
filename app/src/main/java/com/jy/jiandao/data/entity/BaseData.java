@@ -1,6 +1,6 @@
 package com.jy.jiandao.data.entity;
 
-public class BaseNewsData {
+public class BaseData {
 
     /**
      * 'start': '下次请求文章开始位置',

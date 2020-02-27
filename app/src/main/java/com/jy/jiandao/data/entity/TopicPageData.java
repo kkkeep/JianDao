@@ -2,7 +2,7 @@ package com.jy.jiandao.data.entity;
 
 import java.util.List;
 
-public class TopicPageData extends BaseNewsData {
+public class TopicPageData extends BaseData {
 
     private List<TopicBanner> banner_list;
 
