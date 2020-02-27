@@ -17,4 +17,6 @@ public class BaseAdapterHolder<T> extends RecyclerView.ViewHolder {
     public void bindData(T data){
 
     }
+
+
 }

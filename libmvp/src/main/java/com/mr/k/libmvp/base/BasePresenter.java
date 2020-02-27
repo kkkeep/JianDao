@@ -28,5 +28,4 @@ public class BasePresenter<V extends IBaseMvpView> implements IBaseMvpPresenter<
 
 
 
-
 }

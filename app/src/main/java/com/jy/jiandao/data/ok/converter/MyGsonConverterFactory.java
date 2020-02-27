@@ -50,4 +50,7 @@ public class MyGsonConverterFactory extends Converter.Factory {
         TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
         return new MyGsonRequestBodyConverter<>(gson, adapter);
     }
+
+
+
 }

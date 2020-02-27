@@ -52,4 +52,5 @@ open class BaseActivity : RxAppCompatActivity(),BaseLoading{
 
 
 
+
 }
