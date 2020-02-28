@@ -18,7 +18,7 @@ import com.jy.jiandao.data.entity.BaseNews;
 import com.jy.jiandao.data.entity.Comment;
 import com.jy.jiandao.data.entity.CommentListData;
 import com.jy.jiandao.data.entity.RelativeNewsData;
-import com.jy.jiandao.data.entity.Relay;
+import com.jy.jiandao.data.entity.Replay;
 import com.jy.jiandao.data.entity.ReplayListData;
 import com.jy.jiandao.detail.IDetalContract;
 import com.mr.k.libmvp.Utils.Logger;
@@ -53,6 +53,10 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
     private DetailPageListAdapter mDetailPageListAdapter;
 
     private int mResponseCount;
+
+    private int mCommentStart;
+
+    private long mCommentPointTime;
 
     private boolean isWebViewLoadSuccess; // web view 加载完成
 
@@ -114,7 +118,7 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
 
         loadRelativeNewList();
 
-        //loadCommentList();
+        loadCommentList();
 
 
     }
@@ -125,6 +129,8 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
      */
     private void loadRelativeNewList(){
         mResponseCount++;
+
+        mPresenter.getRelativeNewsList(mNews.getId());
     }
 
     private void loadWebContent(String url){
@@ -140,11 +146,13 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
      */
     private void loadCommentList(){
         mResponseCount++;
+
+        mPresenter.getCommentList(mNews.getId(),mCommentStart,mCommentPointTime);
     }
 
     @Override
     public IDetalContract.IDetailPagePresenter createPresenter() {
-        return null;
+        return new DetailPagePresenter();
     }
 
     @Override
@@ -164,6 +172,12 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
 
         mResponseCount--;
         mCommentListData = data;
+
+        mCommentStart = data.getStart();
+
+        mCommentPointTime = data.getPointTime();
+
+
         handResponseData();
 
 
@@ -213,6 +227,7 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
 
 
 
+
     @Override
     public void onCommentRelayListResult(ReplayListData data, String msg) {
 
@@ -224,7 +239,7 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
     }
 
     @Override
-    public void onDoReplayResult(Relay data, String msg) {
+    public void onDoReplayResult(Replay data, String msg) {
 
     }
 

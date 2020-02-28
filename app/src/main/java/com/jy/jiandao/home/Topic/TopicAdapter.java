@@ -128,7 +128,7 @@ public class TopicAdapter extends BaseRecyclerAdapter<TopicPageData.News> {
 
 
     @Override
-    public void onBindViewHolder(@NonNull BaseAdapterHolder<TopicPageData.News> holder, int position) {
+    public void onBindViewHolder(@NonNull BaseAdapterHolder holder, int position) {
         if (getItemViewType(position) == NEWS_TYPE_BANER) {
             ((HeaderHolder) holder).bindData(mBannerList);
         } else {

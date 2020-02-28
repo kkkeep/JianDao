@@ -10,8 +10,8 @@ import java.lang.annotation.RetentionPolicy;
  **/
 public interface AppConstant {
 
-    String BASE_URL = "https://www.seetao.com";
-    //String BASE_URL = "http://test.seetaoism.com";
+    //String BASE_URL = "https://www.seetao.com";
+    String BASE_URL = "http://test.seetaoism.com";
 
     String PLATFORM_ANDROID = "android";
     String LANG = "zh";
@@ -28,6 +28,7 @@ public interface AppConstant {
         String GET_VIDEO_NEWS = "/app/v_1_3/article/videolist"; // 视频列表
         String GET_TOPIC_NEWS = "/app/v_1_3/article/speciallist"; // 视频列表
         String GET_DETAIL_RELATIVE_NEWS = "/api/article/articleaccess"; // 详情页相关新闻
+        String GET_DETAIL_COMMNETS = "/api/comment_reply/commentlist";
     }
 
 
@@ -65,6 +66,13 @@ public interface AppConstant {
         String TOPIC_NEWS_POINT_TIME = RECOMMOND_NEWS_POINT_TIME;
 
         String DETAIL_NEWS_ID = "id";
+
+        String DETAIL_COMMENT_NEWS_ID = "article_id";
+
+        String DETAIL_COMMENT_START =RECOMMOND_NEWS_START_;
+        String DETAIL_COMMENT_POINT_TIME =RECOMMOND_NEWS_POINT_TIME;
+
+
     }
 
     interface BundleKey {

@@ -342,6 +342,18 @@ public class KBanner extends ConstraintLayout {
         getHandler().removeCallbacks(mLoopRunnable);
     }
 
+
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+
+        if(hasWindowFocus){
+            startLoop();
+        }else{
+            stopLoop();
+        }
+    }
+
     private Runnable mLoopRunnable = new Runnable() {
         @Override
         public void run() {

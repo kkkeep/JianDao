@@ -184,7 +184,7 @@ public class NewsPageAdapter extends BaseRecyclerAdapter<RecommendPageData.News>
 
 
     @Override
-    public void onBindViewHolder(@NonNull BaseAdapterHolder<RecommendPageData.News> holder, int position) {
+    public void onBindViewHolder(@NonNull BaseAdapterHolder holder, int position) {
         int type = getItemViewType(position);
         if (type == NEWS_TYPE_BANER) {
             ((HeaderHolder) holder).bindData(bannerList, flasheList);

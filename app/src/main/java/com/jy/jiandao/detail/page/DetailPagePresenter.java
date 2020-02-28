@@ -1,6 +1,7 @@
 package com.jy.jiandao.detail.page;
 
 import com.jy.jiandao.AppConstant;
+import com.jy.jiandao.data.entity.CommentListData;
 import com.jy.jiandao.data.entity.RelativeNewsData;
 import com.jy.jiandao.data.repository.BaseRepository;
 import com.jy.jiandao.detail.IDetalContract;
@@ -56,7 +57,35 @@ public class DetailPagePresenter extends BasePresenter<IDetalContract.IDetailPag
 
     @Override
     public void getCommentList(String id, int start, long pointTime) {
+        ParamsMap paramsMap = new ParamsMap(AppConstant.Url.GET_DETAIL_COMMNETS);
 
+        paramsMap.put(AppConstant.RequestKey.DETAIL_COMMENT_NEWS_ID,id);
+        paramsMap.put(AppConstant.RequestKey.DETAIL_COMMENT_START,String.valueOf(start));
+        paramsMap.put(AppConstant.RequestKey.DETAIL_COMMENT_POINT_TIME,String.valueOf(pointTime));
+
+        paramsMap.putAll(ParamsUtils.getCommonParams());
+
+
+        mBaseRepository.get(getProvider(), paramsMap, new IBaseCallBack<CommentListData>() {
+
+            @Override
+            public void onSuccess(CommentListData data) {
+
+                if(mView != null){
+                    mView.onCommentListResult(data,null);
+                }
+
+            }
+
+            @Override
+            public void onFail(ResultException e) {
+
+                if(mView != null){
+                    mView.onCommentListResult(null,e.getMessage());
+                }
+
+            }
+        });
     }
 
     @Override

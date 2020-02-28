@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public abstract class BaseRecyclerAdapter<D> extends RecyclerView.Adapter<BaseAdapterHolder<D>> {
 
 
@@ -72,19 +73,18 @@ public abstract class BaseRecyclerAdapter<D> extends RecyclerView.Adapter<BaseAd
     public abstract int getItemLayoutId(int viewType);
 
 
-    public abstract BaseAdapterHolder<D> createHolder(View itemView,int viewType);
+    public abstract BaseAdapterHolder createHolder(View itemView,int viewType);
 
     @NonNull
     @Override
-    public BaseAdapterHolder<D> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BaseAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutId(viewType),parent,false);
         return createHolder(itemView,viewType);
-
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull BaseAdapterHolder<D> holder, int position) {
+    public void onBindViewHolder(@NonNull BaseAdapterHolder holder, int position) {
         holder.bindData(mDataList.get(position));
     }
 }
