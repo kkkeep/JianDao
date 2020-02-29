@@ -135,6 +135,10 @@ abstract class BaseFragment : RxFragment(), BaseLoading {
     protected open fun initView(view: View, savedInstanceState: Bundle?) {}
 
 
+    override fun onResume() {
+        super.onResume()
+        view?.requestFocus()
+    }
     protected fun back(){
         activity?.onBackPressed()
     }

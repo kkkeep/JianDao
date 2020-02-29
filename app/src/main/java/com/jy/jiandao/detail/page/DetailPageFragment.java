@@ -50,7 +50,7 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
 
     private CommentListData mCommentListData;
 
-    private DetailPageListAdapter mDetailPageListAdapter;
+    private DetailPageListAdapter2 mDetailPageListAdapter;
 
     private int mResponseCount;
 
@@ -99,7 +99,7 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mRecyclerView.setAdapter((mDetailPageListAdapter = new DetailPageListAdapter()));
+        mRecyclerView.setAdapter((mDetailPageListAdapter = new DetailPageListAdapter2()));
 
 
        // mWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
@@ -217,7 +217,7 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
                 });
             }else{
                 closeLoadingView();
-                mDetailPageListAdapter.setData(comments,news);
+                mDetailPageListAdapter.setData(news,comments);
 
             }
 
