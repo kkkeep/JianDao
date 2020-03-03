@@ -21,6 +21,7 @@ import com.jy.jiandao.detail.widget.CommentsView;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseRecyclerAdapter2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsData.News,Comment> {
@@ -29,6 +30,12 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
 
     private static final int TYPE_NEWS = 0X100;
     private static final int TYPE_COMMNETS = 0X101;
+
+
+
+    private OnDetailItemOnClickListener itemOnClickListener;
+
+
 
     @Override
     public int getItemLayoutId(int viewType) {
@@ -63,22 +70,28 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
 
         public BaseAdapter(@NonNull View itemView) {
             super(itemView);
+
         }
     }
 
+
+    public void setOnItemClickListener(OnDetailItemOnClickListener itemOnClickListener) {
+        this.itemOnClickListener = itemOnClickListener;
+    }
 
     @Override
     protected void onData1ItemClicke(RelativeNewsData.News data1, int postion) {
         super.onData1ItemClicke(data1, postion);
 
-        Log.d("Test",data1.getTheme() + " _ " + postion);
+        if(itemOnClickListener != null){
+            itemOnClickListener.onNewsClick((ArrayList<RelativeNewsData.News>) getData1List(),postion);
+        }
+
     }
 
-    @Override
-    protected void onData2ItemClicke(Comment data2, int postion) {
-        super.onData2ItemClicke(data2, postion);
-        Log.d("Test",data2.getContent() + " _ " + postion);
-    }
+
+
+
 
     private class CommentHolder extends BaseAdapter{
 
@@ -116,8 +129,17 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
                 @Override
                 public void onClick(View v) {
 
+                    if(itemOnClickListener != null){
+                        itemOnClickListener.onLoadMoreClick(getData2ByPosition(getAdapterPosition()));
+                    }
+
                 }
             });
+
+
+
+
+
         }
 
         @Override
@@ -150,7 +172,6 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
         }
 
 
-
     }
 
 
@@ -163,11 +184,11 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
 
         public NewsHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.item_news_right_tv_title);
+            title = findViewById(R.id.item_news_right_tv_title);
 
-            pic = itemView.findViewById(R.id.item_news_right_iv_pic);
+            pic = findViewById(R.id.item_news_right_iv_pic);
 
-            label = itemView.findViewById(R.id.item_news_right_tv_label);
+            label = findViewById(R.id.item_news_right_tv_label);
 
         }
 
@@ -182,6 +203,19 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
             label.setText(data.getColumnName());
         }
 
+
+    }
+
+
+
+
+    public interface OnDetailItemOnClickListener{
+
+        void onNewsClick(ArrayList<RelativeNewsData.News> news, int position);
+
+        void onLoadMoreClick(Comment comment);
+
+        void onLickClick(Comment comment);
 
     }
 

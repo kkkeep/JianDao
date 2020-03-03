@@ -28,7 +28,6 @@ import retrofit2.http.HEAD;
 public class DetailPageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-
     private static final int TYPE_NEWS = 0X100;
     private static final int TYPE_COMMNETS = 0X101;
 
@@ -37,11 +36,7 @@ public class DetailPageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private List<Comment> mComments;
 
 
-
-
-
-
-    public void setData(List<Comment> comments,List<RelativeNewsData.News> news) {
+    public void setData(List<Comment> comments, List<RelativeNewsData.News> news) {
         mNews = news;
         this.mComments = comments;
 
@@ -50,19 +45,14 @@ public class DetailPageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
 
-
-
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if(viewType == TYPE_NEWS){
-            return new NewsHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommend_news_right,parent,false));
-
+        if (viewType == TYPE_NEWS) {
+            return new NewsHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommend_news_right, parent, false));
         }
-
-        return new CommentHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_detial_comment,parent,false));
+        return new CommentHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_detial_comment, parent, false));
 
 
     }
@@ -72,21 +62,21 @@ public class DetailPageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         int type = getItemViewType(position);
 
-        if(type == TYPE_NEWS){
+        if (type == TYPE_NEWS) {
 
-            ((NewsHolder)holder).bindData(mNews.get(position));
-        }else{
+            ((NewsHolder) holder).bindData(mNews.get(position));
+        } else {
 
             ((CommentHolder) holder).bindData(mComments.get(getRealCommentPostion(position)));
         }
     }
 
 
-    private int getRealCommentPostion(int position){
+    private int getRealCommentPostion(int position) {
 
-        if(SystemFacade.isListEmpty(mNews)){
+        if (SystemFacade.isListEmpty(mNews)) {
             return position;
-        }else{
+        } else {
 
             return position - mNews.size();
         }
@@ -94,8 +84,8 @@ public class DetailPageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemViewType(int position) {
-        if(!SystemFacade.isListEmpty(mNews)){
-            if(position < mNews.size()){
+        if (!SystemFacade.isListEmpty(mNews)) {
+            if (position < mNews.size()) {
                 return TYPE_NEWS;
             }
         }
@@ -108,7 +98,7 @@ public class DetailPageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         int count = mNews == null ? 0 : mNews.size();
 
 
-        if(!SystemFacade.isListEmpty(mComments)){
+        if (!SystemFacade.isListEmpty(mComments)) {
             count = count + mComments.size();
         }
 
@@ -116,14 +106,12 @@ public class DetailPageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
 
-
-
     private class NewsHolder extends RecyclerView.ViewHolder {
 
         private TextView title;
         private ImageView pic;
 
-        private  TextView label;
+        private TextView label;
 
         public NewsHolder(@NonNull View itemView) {
             super(itemView);
@@ -150,7 +138,7 @@ public class DetailPageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
 
-    private class CommentHolder extends RecyclerView.ViewHolder{
+    private class CommentHolder extends RecyclerView.ViewHolder {
 
         private ImageView headPic;
         private TextView nickName;
@@ -168,9 +156,9 @@ public class DetailPageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
 
 
-            headPic  = itemView.findViewById(R.id.detail_comment_item_user_head_pic);
+            headPic = itemView.findViewById(R.id.detail_comment_item_user_head_pic);
 
-            nickName  = itemView.findViewById(R.id.detail_comment_item_tv_username);
+            nickName = itemView.findViewById(R.id.detail_comment_item_tv_username);
 
             time = itemView.findViewById(R.id.detail_comment_item_tv_time);
 
@@ -193,7 +181,6 @@ public class DetailPageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public void bindData(Comment data) {
 
 
-
             GlideApp.with(itemView).load(data.getHeadUrl()).into(headPic);
 
 
@@ -212,9 +199,9 @@ public class DetailPageListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             replayListView.notifyDataSetChanged();
 
-            if(data.getReplyMore() == 1){
+            if (data.getReplyMore() == 1) {
                 more.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 more.setVisibility(View.GONE);
             }
 

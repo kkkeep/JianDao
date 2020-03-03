@@ -91,6 +91,7 @@ public class DetailPagePresenter extends BasePresenter<IDetalContract.IDetailPag
     @Override
     public void getCommentRelayList(String newId, String commentId, int start, int pointTime) {
 
+
     }
 
     @Override

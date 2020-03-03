@@ -9,6 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,18 +22,22 @@ import com.jy.jiandao.data.entity.RelativeNewsData;
 import com.jy.jiandao.data.entity.Replay;
 import com.jy.jiandao.data.entity.ReplayListData;
 import com.jy.jiandao.detail.IDetalContract;
+import com.jy.jiandao.detail.vp.DetailVpFragment;
 import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseMvpFragment;
 import com.mr.k.libmvp.widget.LoadingView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailPagePresenter> implements IDetalContract.IDetailPageView {
+public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPagePresenter> implements IDetalContract.IDetailPageView {
 
     private static final String TAG = "DetailPageFragment";
 
@@ -55,6 +60,7 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
     private int mResponseCount;
 
     private int mCommentStart;
+    private int mMoreComments;
 
     private long mCommentPointTime;
 
@@ -66,12 +72,9 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
         super.setArguments(args);
 
 
-        if(args != null){
-
+        if (args != null) {
             mNews = args.getParcelable(AppConstant.BundleKey.DETAIL_NEWS);
-
         }
-
 
 
     }
@@ -80,9 +83,6 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
     public int getLayoutId() {
         return R.layout.fragment_detail_page;
     }
-
-
-
 
 
     @Override
@@ -102,7 +102,34 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
         mRecyclerView.setAdapter((mDetailPageListAdapter = new DetailPageListAdapter2()));
 
 
-       // mWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+        mDetailPageListAdapter.setOnItemClickListener(new DetailPageListAdapter2.OnDetailItemOnClickListener() {
+            @Override
+            public void onNewsClick(ArrayList<RelativeNewsData.News> news, int position) {
+                DetailVpFragment.openDetailPage(getActivity(),null,news,position);
+            }
+
+            @Override
+            public void onLoadMoreClick(Comment comment) {
+
+                loadMoreReplay(comment);
+
+            }
+
+            @Override
+            public void onLickClick(Comment comment) {
+
+                doCommentLike();
+
+
+            }
+        });
+        mSmartRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+
+            loadMoreComments();
+        });
+
+
+        // mWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
 
         initWebView(mWebView);
 
@@ -127,13 +154,13 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
     /**
      * 加载相关新闻
      */
-    private void loadRelativeNewList(){
+    private void loadRelativeNewList() {
         mResponseCount++;
 
         mPresenter.getRelativeNewsList(mNews.getId());
     }
 
-    private void loadWebContent(String url){
+    private void loadWebContent(String url) {
 
         mResponseCount++;
 
@@ -144,12 +171,27 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
     /**
      * 加载评论列表（一级列表）
      */
-    private void loadCommentList(){
+    private void loadCommentList() {
         mResponseCount++;
 
-        mPresenter.getCommentList(mNews.getId(),mCommentStart,mCommentPointTime);
+        mPresenter.getCommentList(mNews.getId(), mCommentStart, mCommentPointTime);
     }
 
+
+    private void loadMoreComments() {
+        mPresenter.getCommentList(mNews.getId(), mCommentStart, mCommentPointTime);
+    }
+
+    // 获取某一条评论里面更多的回复
+    private void loadMoreReplay(Comment comment){
+
+    }
+
+    // 对评论点赞
+
+    private void doCommentLike(){
+
+    }
     @Override
     public IDetalContract.IDetailPagePresenter createPresenter() {
         return new DetailPagePresenter();
@@ -169,30 +211,54 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
     @Override
     public void onCommentListResult(CommentListData data, String msg) {
 
+        if (mResponseCount == 0) { // 表示加载更多回来
 
-        mResponseCount--;
-        mCommentListData = data;
+            mSmartRefreshLayout.finishLoadMore();
 
-        mCommentStart = data.getStart();
+            if (data == null || SystemFacade.isListEmpty(data.getCommentList())) {
+                showToast(msg);
+                return;
+            }
 
-        mCommentPointTime = data.getPointTime();
+
+            mDetailPageListAdapter.loadMoreData2(data.getCommentList());
+
+            if (mCommentListData == null || mCommentListData.getCommentList() == null) { // 第一次请求没有数据
+                mCommentListData = data;
+
+            }
+        } else { // 第一次请求回来
+            mResponseCount--;
+            mCommentListData = data;
+            handResponseData();
 
 
-        handResponseData();
+        }
 
+        if (data != null) {
+            mCommentStart = data.getStart();
+
+            mCommentPointTime = data.getPointTime();
+
+
+            mMoreComments = data.getMore();
+
+
+            mSmartRefreshLayout.setNoMoreData(mMoreComments == 0);
+        }
 
 
     }
 
 
-    private void handResponseData(){
+    private void handResponseData() {
 
-        if(mResponseCount == 0){ // 只有最后一个请求完成后，才能关闭loading 页，并显示数据
+        if (mResponseCount == 0) { // 只有最后一个请求完成后，才能关闭loading 页，并显示数据
 
 
             List<RelativeNewsData.News> news = null;
 
-            if(mRelativeNewsData != null && !SystemFacade.isListEmpty(mRelativeNewsData.getList())){ // 如果有相关新闻
+            if (mRelativeNewsData != null && !SystemFacade.isListEmpty(mRelativeNewsData.getList())) { // 如果有相关新闻
                 news = mRelativeNewsData.getList();
             }
 
@@ -200,13 +266,13 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
             List<Comment> comments = null;
 
 
-            if(mCommentListData != null &&! SystemFacade.isListEmpty(mCommentListData.getCommentList())){ // 如果有评论数据
+            if (mCommentListData != null && !SystemFacade.isListEmpty(mCommentListData.getCommentList())) { // 如果有评论数据
 
                 comments = mCommentListData.getCommentList();
             }
 
 
-            if(!isWebViewLoadSuccess && news == null && comments == null){ // 只有三种数据都失败才才显示错误页面
+            if (!isWebViewLoadSuccess && news == null && comments == null) { // 只有三种数据都失败才才显示错误页面
                 showErrorLoadingView(new LoadingView.OnRetryListener() {
                     @Override
                     public void retry() {
@@ -215,17 +281,15 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
 
                     }
                 });
-            }else{
+            } else {
                 closeLoadingView();
-                mDetailPageListAdapter.setData(news,comments);
+                mDetailPageListAdapter.setData(news, comments);
 
             }
 
         }
 
     }
-
-
 
 
     @Override
@@ -244,10 +308,10 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
     }
 
 
-    private void initWebView(WebView webView){
+    private void initWebView(WebView webView) {
 
 
-        WebSettings webSettings =  webView.getSettings();
+        WebSettings webSettings = webView.getSettings();
 
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
@@ -280,29 +344,27 @@ public class DetailPageFragment  extends BaseMvpFragment<IDetalContract.IDetailP
         webSettings.setMediaPlaybackRequiresUserGesture(false);
 
 
+        webView.setWebChromeClient(new WebChromeClient() {
+
+                                       @Override
+                                       public void onProgressChanged(WebView view, int newProgress) {
+                                           super.onProgressChanged(view, newProgress);
 
 
-        webView.setWebChromeClient(new WebChromeClient(){
-
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-
-
-                Logger.d("%s newProgress = %s",TAG,newProgress);
-                if(newProgress == 100 && !isWebViewLoadSuccess){
-                    Logger.d("%s newProgress ------ = %s",TAG,newProgress);
-                    isWebViewLoadSuccess = true;
-                    mResponseCount--;
-                    handResponseData();
-                }
-            }
+                                           Logger.d("%s newProgress = %s", TAG, newProgress);
+                                           if (newProgress == 100 && !isWebViewLoadSuccess) {
+                                               Logger.d("%s newProgress ------ = %s", TAG, newProgress);
+                                               isWebViewLoadSuccess = true;
+                                               mResponseCount--;
+                                               handResponseData();
+                                           }
+                                       }
 
 
-        }
+                                   }
         );
 
-        webView.setWebViewClient(new WebViewClient(){
+        webView.setWebViewClient(new WebViewClient() {
 
 
             /**

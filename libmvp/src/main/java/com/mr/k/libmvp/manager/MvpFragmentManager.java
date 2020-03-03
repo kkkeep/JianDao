@@ -167,6 +167,8 @@ public class MvpFragmentManager {
     }
 
     private static String getFragmentTag(Class<? extends BaseFragment> aClass) {
+
+
         return aClass.getName();
     }
 }

@@ -36,7 +36,7 @@ public abstract class BaseRecyclerAdapter2<D1,D2> extends RecyclerView.Adapter<B
 
 
     // 加载更多的时候调用
-    public void loadMoreData1(List<D1> dataList,List<D2> dataList2){
+    public void loadMoreData1(List<D1> dataList){
         int start = mDataList1.size();
         mDataList1.addAll(dataList);
 
@@ -46,7 +46,7 @@ public abstract class BaseRecyclerAdapter2<D1,D2> extends RecyclerView.Adapter<B
 
     // 加载更多的时候调用
     public void loadMoreData2(List<D2> dataList2){
-        int start = mDataList2.size();
+        int start = getItemCount();
         mDataList2.addAll(dataList2);
 
         notifyItemRangeChanged(start,dataList2.size());
@@ -72,6 +72,8 @@ public abstract class BaseRecyclerAdapter2<D1,D2> extends RecyclerView.Adapter<B
         return mDataList1 == null ? 0 : mDataList1.size();
     }
 
+
+
     public List<D1> getData1List(){
         return mDataList1;
     }
@@ -86,8 +88,10 @@ public abstract class BaseRecyclerAdapter2<D1,D2> extends RecyclerView.Adapter<B
 
     public D2 getData2ByPosition(int position){
 
-        return mDataList2.get(position - mDataList1.size());
+        return mDataList2.get(position - getData2StartPosition());
     }
+
+
 
     public abstract int getItemLayoutId(int viewType);
 

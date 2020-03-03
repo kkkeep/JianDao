@@ -15,6 +15,7 @@ import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.BaseNews;
 import com.jy.jiandao.data.entity.NewsAttributeData;
 import com.jy.jiandao.data.entity.RecommendPageData;
+import com.jy.jiandao.data.entity.RelativeNewsData;
 import com.jy.jiandao.detail.IDetalContract;
 import com.mr.k.libmvp.base.BaseFragment;
 import com.mr.k.libmvp.base.BaseMvpFragment;
@@ -35,6 +36,8 @@ public class DetailVpFragment extends BaseMvpFragment<IDetalContract.IDetailVpPr
     private ArrayList<? extends BaseNews> mDataList;
 
     private int position;
+
+
 
     @Override
     public void onNewsAttributeInfoResult(NewsAttributeData data, String msg) {
@@ -109,10 +112,11 @@ public class DetailVpFragment extends BaseMvpFragment<IDetalContract.IDetailVpPr
 
         bundle.putInt(DETAIL_NEWS_LIST_POSTION,position);
 
+        String tag  = DetailVpFragment.class.getName() + System.currentTimeMillis();
 
 
 
-        MvpFragmentManager.addOrShowFragment(activity.getSupportFragmentManager(),DetailVpFragment.class,currentFragment,android.R.id.content,bundle);
+        MvpFragmentManager.addOrShowFragment(activity.getSupportFragmentManager(),DetailVpFragment.class,currentFragment,android.R.id.content,tag,bundle);
 
 
     }
