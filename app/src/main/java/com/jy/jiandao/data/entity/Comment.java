@@ -34,12 +34,31 @@ public class Comment {
     private int type;
     private int praise_count_describe;
     private int is_praise;
+
     private int reply_start;
+    private long replay_point_time;
+
     private int reply_more;
 
 
     private List<Replay> reply_list;
 
+
+    public void setReplyMore(int more) {
+        this.reply_more = more;
+    }
+
+    public void setReplyStart(int replyStart) {
+        this.reply_start = replyStart;
+    }
+
+    public long getReplayPointTime() {
+        return replay_point_time;
+    }
+
+    public void setReplayPointTime(long replayPointTime) {
+        this.replay_point_time = replayPointTime;
+    }
 
     public String getCommentId() {
         return comment_id;

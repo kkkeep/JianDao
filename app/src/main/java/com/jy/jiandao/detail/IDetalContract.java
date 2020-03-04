@@ -82,7 +82,7 @@ public interface IDetalContract {
 
 
         // 获取某一条评论的回复列表
-        void getCommentRelayList(String newId,String commentId,int start,int pointTime);
+        void getCommentRelayList(String newId,String commentId,int start,long pointTime);
 
 
 

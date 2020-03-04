@@ -3,6 +3,7 @@ package com.jy.jiandao.detail.page;
 import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.entity.CommentListData;
 import com.jy.jiandao.data.entity.RelativeNewsData;
+import com.jy.jiandao.data.entity.ReplayListData;
 import com.jy.jiandao.data.repository.BaseRepository;
 import com.jy.jiandao.detail.IDetalContract;
 import com.jy.jiandao.utils.ParamsUtils;
@@ -89,8 +90,35 @@ public class DetailPagePresenter extends BasePresenter<IDetalContract.IDetailPag
     }
 
     @Override
-    public void getCommentRelayList(String newId, String commentId, int start, int pointTime) {
+    public void getCommentRelayList(String newId, String commentId, int start, long pointTime) {
 
+
+        ParamsMap paramsMap = new ParamsMap(AppConstant.Url.GET_DETAIL_COMMNET_REPLAY);
+
+        paramsMap.put(AppConstant.RequestKey.DETAIL_COMMENT_REPLAY_NEWS_ID,newId);
+        paramsMap.put(AppConstant.RequestKey.DETAIL_COMMENT_REPLAY_COMMENT_ID,commentId);
+        
+        paramsMap.put(AppConstant.RequestKey.DETAIL_COMMENT_REPLAY_START,String.valueOf(start));
+        paramsMap.put(AppConstant.RequestKey.DETAIL_COMMENT_REPLAY_POINT_TIME,String.valueOf(pointTime));
+        
+
+        paramsMap.putAll(ParamsUtils.getCommonParams());
+        
+        mBaseRepository.get(getProvider(), paramsMap, new IBaseCallBack< ReplayListData>() {
+            @Override
+            public void onSuccess(ReplayListData data) {
+                if(mView != null){
+                    mView.onCommentRelayListResult(data,null);
+                }
+            }
+
+            @Override
+            public void onFail(ResultException e) {
+                if(mView != null){
+                    mView.onCommentRelayListResult(null,e.getMessage());
+                }
+            }
+        });
 
     }
 

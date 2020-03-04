@@ -1,5 +1,6 @@
 package com.jy.jiandao.detail.page;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +72,8 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
         public BaseAdapter(@NonNull View itemView) {
             super(itemView);
 
+            //itemView.setBackgroundColor(Color.GREEN);
+
         }
     }
 
@@ -125,17 +128,12 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
 
             more = itemView.findViewById(R.id.detail_comment_item_show_more);
 
-            more.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if(itemOnClickListener != null){
-                        itemOnClickListener.onLoadMoreClick(getData2ByPosition(getAdapterPosition()));
-                    }
-
+            more.setOnClickListener((View v)-> {
+                if(itemOnClickListener != null){
+                    itemOnClickListener.onLoadMoreClick(getData2ByPosition(getAdapterPosition()),getAdapterPosition());
                 }
-            });
 
+            });
 
 
 
@@ -159,9 +157,12 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
 
             content.setText(data.getContent());
 
-            replayListView.setList(data.getReplyList());
 
+            // 设置回复列表数据
+            replayListView.setList(data.getReplyList());
             replayListView.notifyDataSetChanged();
+
+
 
             if(data.getReplyMore() == 1){
                 more.setVisibility(View.VISIBLE);
@@ -213,9 +214,9 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
 
         void onNewsClick(ArrayList<RelativeNewsData.News> news, int position);
 
-        void onLoadMoreClick(Comment comment);
+        void onLoadMoreClick(Comment comment,int position);
 
-        void onLickClick(Comment comment);
+        void onLickClick(Comment comment,int position);
 
     }
 

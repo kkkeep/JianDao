@@ -23,6 +23,7 @@ import com.jy.jiandao.data.entity.Replay;
 import com.jy.jiandao.data.entity.ReplayListData;
 import com.jy.jiandao.detail.IDetalContract;
 import com.jy.jiandao.detail.vp.DetailVpFragment;
+import com.jy.jiandao.detail.widget.CommentDecoration;
 import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseMvpFragment;
@@ -59,10 +60,17 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
 
     private int mResponseCount;
 
-    private int mCommentStart;
     private int mMoreComments;
 
+    private int mCommentStart;
+
     private long mCommentPointTime;
+
+
+    private int mLoadMoreReplayListPosition;
+
+
+
 
     private boolean isWebViewLoadSuccess; // web view 加载完成
 
@@ -97,6 +105,7 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
         mSmartRefreshLayout.setEnableRefresh(false);// 不让下拉刷新
 
 
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mRecyclerView.setAdapter((mDetailPageListAdapter = new DetailPageListAdapter2()));
@@ -105,18 +114,25 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
         mDetailPageListAdapter.setOnItemClickListener(new DetailPageListAdapter2.OnDetailItemOnClickListener() {
             @Override
             public void onNewsClick(ArrayList<RelativeNewsData.News> news, int position) {
+
                 DetailVpFragment.openDetailPage(getActivity(),null,news,position);
             }
 
             @Override
-            public void onLoadMoreClick(Comment comment) {
+            public void onLoadMoreClick(Comment comment,int position) {
+
+
+                showPopLoadingView(getRootViewId());
+
+                mLoadMoreReplayListPosition = position;
+
 
                 loadMoreReplay(comment);
 
             }
 
             @Override
-            public void onLickClick(Comment comment) {
+            public void onLickClick(Comment comment,int position) {
 
                 doCommentLike();
 
@@ -185,6 +201,8 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
     // 获取某一条评论里面更多的回复
     private void loadMoreReplay(Comment comment){
 
+        mPresenter.getCommentRelayList(mNews.getId(),comment.getCommentId(),comment.getReplyStart(),comment.getReplayPointTime());
+
     }
 
     // 对评论点赞
@@ -230,6 +248,8 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
         } else { // 第一次请求回来
             mResponseCount--;
             mCommentListData = data;
+
+
             handResponseData();
 
 
@@ -269,6 +289,8 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
             if (mCommentListData != null && !SystemFacade.isListEmpty(mCommentListData.getCommentList())) { // 如果有评论数据
 
                 comments = mCommentListData.getCommentList();
+
+                mRecyclerView.addItemDecoration(new CommentDecoration(news == null ? 0: news.size()));
             }
 
 
@@ -294,6 +316,32 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
 
     @Override
     public void onCommentRelayListResult(ReplayListData data, String msg) {
+
+        closeLoadingView();
+        if(data != null){
+
+            List<Replay> replayList = data.getReplyList();
+
+            Comment comment =  mDetailPageListAdapter.getData2ByPosition(mLoadMoreReplayListPosition);
+
+            if(SystemFacade.isListEmpty(replayList)){
+
+                comment.setReplyMore(0);
+            }else{
+
+                comment.setReplyStart(data.getStart());
+                comment.setReplayPointTime(data.getPointTime());
+                comment.setReplyMore(data.getMore());
+                comment.getReplyList().addAll(replayList);
+
+            }
+
+            mDetailPageListAdapter.notifyItemChanged(mLoadMoreReplayListPosition);
+
+        }else {
+            showToast(msg);
+        }
+
 
     }
 

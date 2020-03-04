@@ -29,6 +29,7 @@ public interface AppConstant {
         String GET_TOPIC_NEWS = "/app/v_1_3/article/speciallist"; // 视频列表
         String GET_DETAIL_RELATIVE_NEWS = "/api/article/articleaccess"; // 详情页相关新闻
         String GET_DETAIL_COMMNETS = "/api/comment_reply/commentlist";
+        String GET_DETAIL_COMMNET_REPLAY = "/api/comment_reply/replylist";
     }
 
 
@@ -68,9 +69,15 @@ public interface AppConstant {
         String DETAIL_NEWS_ID = "id";
 
         String DETAIL_COMMENT_NEWS_ID = "article_id";
-
         String DETAIL_COMMENT_START =RECOMMOND_NEWS_START_;
         String DETAIL_COMMENT_POINT_TIME =RECOMMOND_NEWS_POINT_TIME;
+
+        String DETAIL_COMMENT_REPLAY_NEWS_ID = DETAIL_COMMENT_NEWS_ID;
+        String DETAIL_COMMENT_REPLAY_COMMENT_ID = "comment_id";
+        String DETAIL_COMMENT_REPLAY_START = RECOMMOND_NEWS_START_;
+        String DETAIL_COMMENT_REPLAY_POINT_TIME = RECOMMOND_NEWS_POINT_TIME;
+
+
 
 
     }
