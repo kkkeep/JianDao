@@ -1,15 +1,12 @@
 package com.jy.jiandao.home.video;
 
 import com.jy.jiandao.data.entity.VideoPageData;
-import com.mr.k.libmvp.MvpManager;
-import com.mr.k.libmvp.base.IBaseModel;
+import com.mr.k.libmvp.manager.MvpManager;
 import com.mr.k.libmvp.base.IBaseMvpPresenter;
 import com.mr.k.libmvp.base.IBaseMvpView;
 import com.mr.k.libmvp.base.ICachedCallBack;
 import com.mr.k.libmvp.base.ParamsMap;
 import com.trello.rxlifecycle2.LifecycleProvider;
-
-import java.util.Map;
 
 public interface VideoContract {
 

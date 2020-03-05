@@ -1,14 +1,10 @@
 package com.jy.jiandao.home.Topic;
 
-import android.util.Log;
-
 import com.jy.jiandao.AppConstant;
-import com.jy.jiandao.data.HttpResult;
 import com.jy.jiandao.data.entity.TopicPageData;
-import com.jy.jiandao.data.ok.JDDataService;
 import com.jy.jiandao.data.repository.BaseRepository;
 import com.jy.jiandao.utils.ParamsUtils;
-import com.mr.k.libmvp.MvpManager;
+import com.mr.k.libmvp.manager.MvpManager;
 import com.mr.k.libmvp.base.BasePresenter;
 import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.base.ParamsMap;

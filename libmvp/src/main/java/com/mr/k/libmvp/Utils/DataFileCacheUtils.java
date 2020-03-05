@@ -147,6 +147,41 @@ public class DataFileCacheUtils {
 
     }
 
+    public static void saveEncryptedDataToFile(File file, Object data) {
+
+        String json = convertToJsonFromData(data);
+
+        // 加密
+
+
+
+        if (TextUtils.isEmpty(json)) {
+            return;
+        }
+
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(file);
+
+            outputStream.write(json.getBytes("utf-8"));
+
+
+            outputStream.flush();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
 
     /**
      * 从文件里面读取出对象
@@ -157,10 +192,16 @@ public class DataFileCacheUtils {
      * @return
      */
 
+    public static <T> T getencryptedDataFromFile(File file, Class<T> tClass) {
+
+        return convertToDataFromJson(tClass, readFromFile(file));
+    }
+
     public static <T> T getDataFromFile(File file, Class<T> tClass) {
 
         return convertToDataFromJson(tClass, readFromFile(file));
     }
+
 
     /**
      * 从文件里面读取出对象，这个对象是一个List<T>

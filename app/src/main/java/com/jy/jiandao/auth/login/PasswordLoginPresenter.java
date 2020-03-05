@@ -35,6 +35,8 @@ public class PasswordLoginPresenter extends BasePresenter<PasswordLoginContract.
         params.put(PASSWORD_LOGIN_USER_NAME, phoneNum);
         params.put(PASSWORD_LOGIN_PASSWORD, password);
 
+
+
         mRepository.login((LifecycleProvider) mView, params, new IBaseCallBack<User>() {
             @Override
             public void onSuccess(User data) {

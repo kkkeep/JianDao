@@ -6,7 +6,7 @@ import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.entity.RecommendPageData;
 import com.jy.jiandao.data.repository.NewsPageRepository;
 import com.jy.jiandao.utils.ParamsUtils;
-import com.mr.k.libmvp.MvpManager;
+import com.mr.k.libmvp.manager.MvpManager;
 import com.mr.k.libmvp.base.BasePresenter;
 import com.mr.k.libmvp.base.ICachedCallBack;
 import com.mr.k.libmvp.exception.ResultException;

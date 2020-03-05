@@ -11,9 +11,8 @@ import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.BaseNews;
 import com.jy.jiandao.data.entity.TopicPageData;
 import com.jy.jiandao.detail.vp.DetailVpFragment;
-import com.jy.jiandao.home.video.VideoAdapter;
 import com.jy.jiandao.video.RecyclerViewVideoScrollListener;
-import com.mr.k.libmvp.MvpManager;
+import com.mr.k.libmvp.manager.MvpManager;
 import com.mr.k.libmvp.base.BaseMvpFragment;
 import com.mr.k.libmvp.base.OnItemClickListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -22,12 +21,11 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mr.k.libmvp.MvpManager.REQUEST_FIRST_LOAD;
+import static com.mr.k.libmvp.manager.MvpManager.REQUEST_FIRST_LOAD;
 
 public class TopicFragment extends BaseMvpFragment<TopicContract.ITopicPresenter> implements TopicContract.ITopicView{
 

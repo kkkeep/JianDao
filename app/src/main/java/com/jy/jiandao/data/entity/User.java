@@ -1,12 +1,14 @@
 package com.jy.jiandao.data.entity;
 
 
+import com.mr.k.libmvp.base.IUser;
+
 import org.jetbrains.annotations.NotNull;
 
 /*
  * created by Cherry on 2019-08-26
  **/
-public class User {
+public class User implements IUser {
 
     private Token token;
     private UserInfo user_info;
@@ -41,9 +43,16 @@ public class User {
                 '}';
     }
 
+    @Override
+    public String getTokenValue() {
+        if(token != null){
+            if(token.expire_time > System.currentTimeMillis()){
+                return token.value;
+            }
+        }
+        return null;
 
-
-
+    }
 
 
     public class Token {

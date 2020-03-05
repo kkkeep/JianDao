@@ -1,4 +1,6 @@
-package com.mr.k.libmvp;
+package com.mr.k.libmvp.manager;
+
+import android.content.Context;
 
 import androidx.annotation.IntDef;
 
@@ -17,6 +19,9 @@ public class MvpManager {
     public static final int RESPONSE_FROM_SDCARD = 0X200; // 数据从sdcard 返回，
     public static final int RESPONSE_FROM_SERVER = 0X300; // 数据从服务器返回
 
+
+    public static Context mContext;
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({REQUEST_FIRST_LOAD, REQUEST_REFRESH_LOAD, REQUEST_LOAD_MORE_LOAD})
     public @interface RequestType {
@@ -26,5 +31,12 @@ public class MvpManager {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({RESPONSE_FROM_MEMORY, RESPONSE_FROM_SDCARD, RESPONSE_FROM_SERVER})
     public @interface ResponseType {
+    }
+
+
+    public static void initMvp(Context context){
+        mContext = context.getApplicationContext();
+
+        MvpUserManager.init();
     }
 }

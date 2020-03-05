@@ -91,7 +91,6 @@ public class NewsAdVideoHolder<T extends BaseNews> extends VideoHolder<T> {
 
 
     public void play(){
-
         if(!getGsyVideoPlayer().isInPlayingState()){
             getGsyVideoPlayer().startPrepare();
         }

@@ -1,6 +1,6 @@
 package com.mr.k.libmvp.base;
 
-import com.mr.k.libmvp.MvpManager;
+import com.mr.k.libmvp.manager.MvpManager;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.util.Map;

@@ -7,7 +7,7 @@ import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.entity.RecommendPageData;
 import com.jy.jiandao.data.ok.JDDataService;
 import com.jy.jiandao.home.recommend.page.NewsContract;
-import com.mr.k.libmvp.MvpManager;
+import com.mr.k.libmvp.manager.MvpManager;
 import com.mr.k.libmvp.Utils.DataFileCacheUtils;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.ICachedCallBack;

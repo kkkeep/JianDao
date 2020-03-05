@@ -1,7 +1,7 @@
 package com.jy.jiandao.home.recommend.page;
 
 import com.jy.jiandao.data.entity.RecommendPageData;
-import com.mr.k.libmvp.MvpManager;
+import com.mr.k.libmvp.manager.MvpManager;
 import com.mr.k.libmvp.base.IBaseMvpPresenter;
 import com.mr.k.libmvp.base.IBaseMvpView;
 import com.mr.k.libmvp.base.ICachedCallBack;

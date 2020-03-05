@@ -1,6 +1,9 @@
 package com.jy.jiandao.utils;
 
+import android.text.TextUtils;
+
 import com.jy.jiandao.AppConstant;
+import com.mr.k.libmvp.manager.MvpUserManager;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -34,6 +37,14 @@ public class ParamsUtils {
         hashMap.put(RequestKey.TIMESTAMP, timestamp);
 
         hashMap.put(RequestKey.SIGNATURE,getSHA1(timestamp, nonce));
+
+
+        String toke = MvpUserManager.getToke();
+
+        if(!TextUtils.isEmpty(toke)){
+
+            hashMap.put("token",toke);
+        }
 
 
         return hashMap;

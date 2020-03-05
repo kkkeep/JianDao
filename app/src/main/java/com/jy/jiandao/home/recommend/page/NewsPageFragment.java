@@ -13,14 +13,10 @@ import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.BaseNews;
 import com.jy.jiandao.data.entity.RecommendPageData;
 import com.jy.jiandao.detail.vp.DetailVpFragment;
-import com.jy.jiandao.home.OnNewItemClickListener;
-import com.jy.jiandao.video.JDVideo;
 import com.jy.jiandao.video.RecyclerViewVideoScrollListener;
-import com.jy.jiandao.video.VideoHolder;
-import com.mr.k.libmvp.MvpManager;
+import com.mr.k.libmvp.manager.MvpManager;
 import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.base.BaseMvpFragment;
-import com.mr.k.libmvp.base.OnItemClickListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -32,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mr.k.libmvp.MvpManager.*;
+import static com.mr.k.libmvp.manager.MvpManager.*;
 
 /*
  * created by Cherry on 2020-01-14

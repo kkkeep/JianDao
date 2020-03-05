@@ -6,6 +6,7 @@ import com.jy.jiandao.data.entity.User;
 import com.jy.jiandao.data.ok.JDDataService;
 import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.exception.ResultException;
+import com.mr.k.libmvp.manager.MvpUserManager;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.util.Map;
@@ -14,6 +15,7 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /*
@@ -23,7 +25,12 @@ public class PasswordLoginRepository extends BaseRepository implements PasswordL
 
     @Override
     public void login(LifecycleProvider provider, Map<String, String> params, IBaseCallBack<User> callBack) {
-        observer(provider,JDDataService.getApiService().login(params), this::getConvertObservable,callBack);
+        observer(provider, JDDataService.getApiService().login(params), this::getConvertObservable, new Consumer<User>() {
+            @Override
+            public void accept(User user) throws Exception {
+                MvpUserManager.login(user);
+            }
+        },callBack);
     }
 
 

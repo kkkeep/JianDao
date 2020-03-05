@@ -8,6 +8,7 @@ import androidx.multidex.MultiDexApplication;
 
 import com.jy.jiandao.data.ok.ApiService;
 import com.jy.jiandao.data.ok.converter.MyGsonConverterFactory;
+import com.mr.k.libmvp.manager.MvpManager;
 import com.mr.k.libmvp.oknet.DataService;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -28,7 +29,7 @@ public class JDApplication extends MultiDexApplication {
         super.onCreate();
         DataService.init(ApiService.class, AppConstant.BASE_URL, MyGsonConverterFactory.create());
 
-
+        MvpManager.initMvp(this);
         initRefreshLayout();
 
     }
