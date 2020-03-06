@@ -12,6 +12,7 @@ public class ParamsMap extends HashMap<String,String> {
 
     public ParamsMap(String url) {
         this.url = url;
+
     }
 
     public String getUrl(){

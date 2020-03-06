@@ -21,6 +21,7 @@ import com.jy.jiandao.data.entity.RelativeNewsData;
 import com.jy.jiandao.detail.widget.CommentsView;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseRecyclerAdapter2;
+import com.mr.k.libmvp.widget.ToggleStateView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +103,7 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
         private TextView nickName;
         private TextView time;
 
-        private CheckBox like;
+        private ToggleStateView like;
 
         private TextView content;
 
@@ -135,6 +136,16 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
 
             });
 
+
+
+            like.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(itemOnClickListener != null){
+                        itemOnClickListener.onLickClick(getData2ByPosition(getAdapterPosition()),getAdapterPosition());
+                    }
+                }
+            });
 
 
 
@@ -212,10 +223,14 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
 
     public interface OnDetailItemOnClickListener{
 
+        //相关新闻被点击
         void onNewsClick(ArrayList<RelativeNewsData.News> news, int position);
 
+        // 评论里面查看更多回复
         void onLoadMoreClick(Comment comment,int position);
 
+
+        // 评论点赞
         void onLickClick(Comment comment,int position);
 
     }

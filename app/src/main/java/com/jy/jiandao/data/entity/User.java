@@ -46,7 +46,7 @@ public class User implements IUser {
     @Override
     public String getTokenValue() {
         if(token != null){
-            if(token.expire_time > System.currentTimeMillis()){
+            if(token.expire_time > System.currentTimeMillis() /1000){
                 return token.value;
             }
         }

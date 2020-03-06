@@ -9,7 +9,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,10 +26,9 @@ import com.jy.jiandao.detail.widget.CommentDecoration;
 import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseMvpFragment;
+import com.mr.k.libmvp.manager.MvpUserManager;
 import com.mr.k.libmvp.widget.LoadingView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -67,7 +65,7 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
     private long mCommentPointTime;
 
 
-    private int mLoadMoreReplayListPosition;
+    private int mClickItemPosition;
 
 
 
@@ -124,7 +122,7 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
 
                 showPopLoadingView(getRootViewId());
 
-                mLoadMoreReplayListPosition = position;
+                mClickItemPosition = position;
 
 
                 loadMoreReplay(comment);
@@ -134,7 +132,14 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
             @Override
             public void onLickClick(Comment comment,int position) {
 
-                doCommentLike();
+                if(MvpUserManager.getToke() == null){
+                    showToast(R.string.text_error_un_loign);
+                    return;
+                }
+
+                showPopLoadingView(getRootViewId());
+                mClickItemPosition = position;
+                doCommentLike(comment);
 
 
             }
@@ -207,8 +212,8 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
 
     // 对评论点赞
 
-    private void doCommentLike(){
-
+    private void doCommentLike(Comment comment){
+        mPresenter.doCommentLike(comment.getCommentId());
     }
     @Override
     public IDetalContract.IDetailPagePresenter createPresenter() {
@@ -271,6 +276,24 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
     }
 
 
+    // 评论点赞回调
+    @Override
+    public void onDoCommentLikeResult(String data, String msg) {
+
+        closeLoadingView();
+        if(data != null && msg == null){ // 点赞成功
+            Comment comment = mDetailPageListAdapter.getData2ByPosition(mClickItemPosition);
+            comment.setIsPraise(1); // 状态改为点赞
+
+            comment.addLikeCount(); // 点赞数加一
+            mDetailPageListAdapter.notifyItemChanged(mClickItemPosition);
+        }else{
+            showToast(msg);
+        }
+
+        mClickItemPosition = -1;
+    }
+
     private void handResponseData() {
 
         if (mResponseCount == 0) { // 只有最后一个请求完成后，才能关闭loading 页，并显示数据
@@ -314,15 +337,19 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
     }
 
 
+    // 评论里面的回复列表数据加载回调
     @Override
     public void onCommentRelayListResult(ReplayListData data, String msg) {
 
         closeLoadingView();
+
+
+
         if(data != null){
 
             List<Replay> replayList = data.getReplyList();
 
-            Comment comment =  mDetailPageListAdapter.getData2ByPosition(mLoadMoreReplayListPosition);
+            Comment comment =  mDetailPageListAdapter.getData2ByPosition(mClickItemPosition);
 
             if(SystemFacade.isListEmpty(replayList)){
 
@@ -336,12 +363,13 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
 
             }
 
-            mDetailPageListAdapter.notifyItemChanged(mLoadMoreReplayListPosition);
+            mDetailPageListAdapter.notifyItemChanged(mClickItemPosition);
 
         }else {
             showToast(msg);
         }
 
+        mClickItemPosition = -1;
 
     }
 

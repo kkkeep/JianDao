@@ -1,5 +1,6 @@
 package com.jy.jiandao.auth.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import com.jy.jiandao.R;
 import com.jy.jiandao.auth.BaseAuthFragment;
 import com.jy.jiandao.auth.register.RegisterFragment;
 import com.jy.jiandao.data.entity.User;
+import com.jy.jiandao.home.HomeActivity;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseMvpFragment;
 import com.mr.k.libmvp.base.IBaseMvpPresenter;
@@ -121,6 +123,8 @@ public class PasswordLoginFragment extends BaseAuthFragment<PasswordLoginContrac
                     showToast(R.string.error_invalid_null_password);
                     return;
                 }
+
+                showPopLoadingView(getRootViewId());
                 mPresenter.login(phoneNum,password);
 
               //  getActivity().finish();
@@ -132,8 +136,12 @@ public class PasswordLoginFragment extends BaseAuthFragment<PasswordLoginContrac
 
     @Override
     public void onLoginResult(User user, String msg) {
+        closeLoadingView();
         if(user != null){
             showToast("登录成功");
+
+            startActivity(new Intent(getActivity(), HomeActivity.class));
+
         }else{
             showToast( msg);
         }

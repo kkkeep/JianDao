@@ -1,5 +1,6 @@
 package com.jy.jiandao.auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -7,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.jy.jiandao.auth.login.PasswordLoginFragment;
 import com.jy.jiandao.auth.login.VerificationLoginFragment;
 import com.jy.jiandao.auth.register.RegisterFragment;
+import com.jy.jiandao.home.HomeActivity;
 import com.mr.k.libmvp.base.BaseActivity;
 import com.mr.k.libmvp.manager.EncryptUtils;
 import com.mr.k.libmvp.manager.MvpFragmentManager;
@@ -21,11 +23,13 @@ public class AuthActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
        // setContentView(R.layout.activity_auth);
 
-        MvpFragmentManager.addOrShowFragment(getSupportFragmentManager(), PasswordLoginFragment.class,null, android.R.id.content );
+       // MvpFragmentManager.addOrShowFragment(getSupportFragmentManager(), PasswordLoginFragment.class,null, android.R.id.content );
+
+        startActivity(new Intent(this, HomeActivity.class));
 
 
 
-        String cotent = "abcden年后123.。，";
+       /* String cotent = "abcden年后123.。，";
 
 
         String e =  EncryptUtils.decrypt(cotent,EncryptUtils.key,EncryptUtils.iv);
@@ -34,7 +38,7 @@ public class AuthActivity extends BaseActivity {
         String d = EncryptUtils.decrypt(e,EncryptUtils.key,EncryptUtils.iv);
 
         System.out.println("e = " + e  + " ----" + "d = " + d);
-
+*/
 
     }
 }

@@ -40,9 +40,6 @@ public class RecommendFragment extends BaseMvpFragment<RecommendContract.IRecomm
             mTabLayout.setViewPager(mViewPager);
 
 
-
-
-
         }else{
             showErrorLoadingView(msg, () -> {
                 loadData();

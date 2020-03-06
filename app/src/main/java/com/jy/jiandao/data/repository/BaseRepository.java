@@ -43,11 +43,77 @@ import io.reactivex.schedulers.Schedulers;
 public class BaseRepository {
 
 
+
+
+
     public <T> void get(LifecycleProvider provider, ParamsMap params, IBaseCallBack<T> baseCallBack) {
         get(provider, null, params, baseCallBack);
 
 
     }
+    public <T> void post(LifecycleProvider provider, ParamsMap params, IBaseCallBack<T> baseCallBack) {
+        post(provider, null, params, baseCallBack);
+
+
+    }
+
+    public <T> void post(LifecycleProvider provider, Consumer<T> consumer, ParamsMap params, IBaseCallBack<T> baseCallBack) {
+
+
+        Observable<T> observable = JDDataService.getApiService().post(params.getUrl(), params)
+                .map(s -> {
+                    Type[] types = baseCallBack.getClass().getGenericInterfaces();
+
+                    ParameterizedType pType = (ParameterizedType) types[0];
+
+
+                    DataFileCacheUtils.ParameterizedTypeImpl parameterizedType = new DataFileCacheUtils.ParameterizedTypeImpl(HttpResult.class, pType.getActualTypeArguments());
+
+                    Gson gson = new Gson();
+
+                    return gson.<HttpResult<T>>fromJson(s, parameterizedType);
+                })
+                .flatMap(this::getConvertObservable).observeOn(AndroidSchedulers.mainThread());
+
+
+        if (consumer != null) {
+            observable = observable.doOnNext(consumer);
+        }
+
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(provider instanceof RxActivity ? (((RxActivity) provider).bindUntilEvent(ActivityEvent.DESTROY)) : ((RxFragment) provider).bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .subscribe(new Observer<T>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(T d) {
+                        baseCallBack.onSuccess(d);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof ResultException) {
+                            baseCallBack.onFail((ResultException) e);
+                        } else {
+                            baseCallBack.onFail(new ResultException(e));
+                        }
+
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
+
 
     public <T> void get(LifecycleProvider provider, Consumer<T> consumer, ParamsMap params, IBaseCallBack<T> baseCallBack) {
 

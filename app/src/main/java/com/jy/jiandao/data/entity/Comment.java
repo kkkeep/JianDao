@@ -111,4 +111,12 @@ public class Comment {
     public List<Replay> getReplyList() {
         return reply_list;
     }
+
+    public void setIsPraise(int isPraise) {
+        this.is_praise = isPraise;
+    }
+
+    public void addLikeCount(){
+        this.praise_count_describe++;
+    }
 }

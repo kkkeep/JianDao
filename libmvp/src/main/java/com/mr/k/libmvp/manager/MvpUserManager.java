@@ -54,7 +54,7 @@ public class MvpUserManager {
     }
 
 
-    public static IUser getUserFromSdard() {
+    public static <U extends IUser> U getUserFromSdard(Class<U> aClass) {
         if (SystemFacade.isMainThread()) {
             throw new IllegalThreadStateException("MvpUserManager.getUserFromSdard() 必须调用在子线程");
         }
@@ -63,20 +63,19 @@ public class MvpUserManager {
         File file = SystemFacade.getExternalCacheDir(MvpManager.mContext, USER_CACHE_FILE);
 
         if (file != null) {
-            return DataFileCacheUtils.getDataFromFile(file, IUser.class);
+            return DataFileCacheUtils.getDataFromFile(file, aClass);
         }
 
         return null;
     }
 
 
-    static void init() {
-        mLock.lock();
+    static <U extends IUser> void init(Class<U> aClass) {
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mUser = getUserFromSdard();
-                mLock.unlock();
+                mUser = getUserFromSdard(aClass);
             }
 
         }).start();
@@ -88,21 +87,20 @@ public class MvpUserManager {
     public  static IUser getUser() {
 
         try{
-            mLock.lock();
             return mUser;
         }finally {
-            mLock.unlock();
         }
 
     }
 
     public  static String getToke() {
-        mLock.lock();
+        if(mUser == null){
+            return null;
+        }
         String toke = mUser.getTokenValue();
         if (toke == null) {
             loginOut();
         }
-        mLock.unlock();
 
         return toke;
     }

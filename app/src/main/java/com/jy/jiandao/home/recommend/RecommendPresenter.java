@@ -1,11 +1,15 @@
 package com.jy.jiandao.home.recommend;
 
+import android.util.Log;
+
 import com.jy.jiandao.data.entity.ColumnData;
 import com.jy.jiandao.data.repository.RecommendRepository;
 import com.jy.jiandao.utils.ParamsUtils;
+import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.base.BasePresenter;
 import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.exception.ResultException;
+import com.mr.k.libmvp.manager.MvpUserManager;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
 /*
@@ -22,6 +26,7 @@ public class RecommendPresenter extends BasePresenter<RecommendContract.IRecomme
     @Override
     public void getColumnList() {
 
+        Logger.d("token = %s", MvpUserManager.getToke());
         mRepository.getColumnList((LifecycleProvider) mView, ParamsUtils.getCommonParams(),new IBaseCallBack<ColumnData>() {
             @Override
             public void onSuccess(ColumnData data) {

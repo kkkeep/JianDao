@@ -12,6 +12,9 @@ import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.base.ParamsMap;
 import com.mr.k.libmvp.exception.ResultException;
 
+import static com.jy.jiandao.AppConstant.RequestKey.DETAIL_DO_COMMENT_LIKE_COMMENT_ID;
+import static com.jy.jiandao.AppConstant.Url.DO_DETAIL_COMMNET_LIKE;
+
 public class DetailPagePresenter extends BasePresenter<IDetalContract.IDetailPageView> implements IDetalContract.IDetailPagePresenter {
 
 
@@ -130,5 +133,34 @@ public class DetailPagePresenter extends BasePresenter<IDetalContract.IDetailPag
     @Override
     public void doReplay(String newsId, String commentId, String content, String toUserId, int type, String replayId) {
 
+    }
+
+    @Override
+    public void doCommentLike(String commentId) {
+
+        ParamsMap paramsMap = new ParamsMap(DO_DETAIL_COMMNET_LIKE);
+        paramsMap.put(DETAIL_DO_COMMENT_LIKE_COMMENT_ID,commentId);
+
+        paramsMap.putAll(ParamsUtils.getCommonParams());
+
+
+
+
+        mBaseRepository.post(getProvider(), paramsMap, new IBaseCallBack<String>() {
+            @Override
+            public void onSuccess(String data) {
+                if(mView != null){
+                    mView.onDoCommentLikeResult(data,null);
+                }
+
+            }
+
+            @Override
+            public void onFail(ResultException e) {
+                if(mView != null){
+                    mView.onDoCommentLikeResult(null,e.getMessage());
+                }
+            }
+        });
     }
 }

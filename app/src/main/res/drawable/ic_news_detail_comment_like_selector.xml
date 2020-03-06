@@ -3,7 +3,5 @@
 
 
     <item android:state_checked="true" android:drawable="@drawable/ic_news_detail_like"/>
-
-
     <item android:drawable="@drawable/ic_news_detail_like_no"/>
 </selector>

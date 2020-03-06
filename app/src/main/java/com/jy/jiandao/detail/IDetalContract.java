@@ -65,6 +65,8 @@ public interface IDetalContract {
 
         void onDoReplayResult(Replay data, String msg);
 
+        void onDoCommentLikeResult(String data,String msg);
+
 
     }
 
@@ -93,6 +95,9 @@ public interface IDetalContract {
         // 回复别人的评论，
         void doReplay(String newsId,String commentId,String content,String toUserId,int type,String replayId);
 
+
+
+        void doCommentLike(String commentId);
     }
 
 

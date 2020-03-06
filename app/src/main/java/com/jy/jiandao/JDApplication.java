@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
+import com.jy.jiandao.data.entity.User;
 import com.jy.jiandao.data.ok.ApiService;
 import com.jy.jiandao.data.ok.converter.MyGsonConverterFactory;
 import com.mr.k.libmvp.manager.MvpManager;
@@ -29,7 +30,7 @@ public class JDApplication extends MultiDexApplication {
         super.onCreate();
         DataService.init(ApiService.class, AppConstant.BASE_URL, MyGsonConverterFactory.create());
 
-        MvpManager.initMvp(this);
+        MvpManager.initMvp(this, User.class);
         initRefreshLayout();
 
     }

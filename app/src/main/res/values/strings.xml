@@ -22,6 +22,7 @@
     <string name="text_auth_forget_password">忘记密码?</string>
     <string name="text_error_refresh_fail">刷新失败</string>
     <string name="text_error_load_more_fail">加载更多失败</string>
+    <string name="text_error_un_loign">需要登录</string>
     <string name="text_ad">广告</string>
     <string name="text_replay">重复</string>
     <string name="text_video">视频</string>

@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.annotation.IntDef;
 
+import com.mr.k.libmvp.base.IUser;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -34,9 +36,9 @@ public class MvpManager {
     }
 
 
-    public static void initMvp(Context context){
+    public static <U extends IUser> void initMvp(Context context,Class<U> uClass){
         mContext = context.getApplicationContext();
 
-        MvpUserManager.init();
+        MvpUserManager.init(uClass);
     }
 }
