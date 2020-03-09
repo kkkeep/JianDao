@@ -3,7 +3,10 @@ package com.jy.jiandao.detail.vp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
@@ -17,6 +20,7 @@ import com.jy.jiandao.data.entity.NewsAttributeData;
 import com.jy.jiandao.data.entity.RecommendPageData;
 import com.jy.jiandao.data.entity.RelativeNewsData;
 import com.jy.jiandao.detail.IDetalContract;
+import com.jy.jiandao.detail.widget.CommentPopView;
 import com.mr.k.libmvp.base.BaseFragment;
 import com.mr.k.libmvp.base.BaseMvpFragment;
 import com.mr.k.libmvp.manager.MvpFragmentManager;
@@ -33,9 +37,14 @@ public class DetailVpFragment extends BaseMvpFragment<IDetalContract.IDetailVpPr
 
     private ViewPager mViewPager;
 
+    private TextView mTvWriteComment;
+
+
     private ArrayList<? extends BaseNews> mDataList;
 
     private int position;
+
+
 
 
 
@@ -76,9 +85,26 @@ public class DetailVpFragment extends BaseMvpFragment<IDetalContract.IDetailVpPr
     protected void initView(@NotNull View view, @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.initView(view, savedInstanceState);
         mViewPager = findViewById(R.id.newsDetailVp);
+        mTvWriteComment = findViewById(R.id.newsDetailWriteComment);
 
 
-    }
+
+        mTvWriteComment.setOnClickListener( (View v) ->{
+
+            CommentPopView commentPopView = new CommentPopView(getContext());
+
+
+            commentPopView.showAtLocation(v, Gravity.NO_GRAVITY,100,100);
+
+           // backgroundAlpha(getActivity(),0.5f);
+        });
+
+
+
+
+
+
+}
 
 
     @Override
