@@ -23,6 +23,7 @@ import com.jy.jiandao.data.entity.ReplayListData;
 import com.jy.jiandao.detail.IDetalContract;
 import com.jy.jiandao.detail.vp.DetailVpFragment;
 import com.jy.jiandao.detail.widget.CommentDecoration;
+import com.jy.jiandao.detail.widget.CommentPopView;
 import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseMvpFragment;
@@ -215,6 +216,61 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
     private void doCommentLike(Comment comment){
         mPresenter.doCommentLike(comment.getCommentId());
     }
+
+
+    // 对新闻进行评论
+    public void doCommentNews(BaseNews news){
+
+        CommentPopView commentPopView = new CommentPopView(getContext());
+
+
+        commentPopView.show(getView());
+
+        commentPopView.setActionListener(new CommentPopView.OnSendActionListener() {
+            @Override
+            public void onClick( String content) {
+
+
+
+            }
+        });
+
+    }
+
+    //对别人的评论进行回复
+    public void doCommentReplay(Comment comment){
+        CommentPopView commentPopView = new CommentPopView(getContext());
+
+
+        commentPopView.show(getView());
+
+        commentPopView.setActionListener(new CommentPopView.OnSendActionListener() {
+            @Override
+            public void onClick( String content) {
+
+            }
+        });
+    }
+
+    // 对别人的回进行回复
+    public void doReplayReplay(Replay replay){
+
+        CommentPopView commentPopView = new CommentPopView(getContext());
+
+
+        commentPopView.show(getView());
+
+        commentPopView.setActionListener(new CommentPopView.OnSendActionListener() {
+            @Override
+            public void onClick( String content) {
+
+            }
+        });
+
+    }
+
+
+
     @Override
     public IDetalContract.IDetailPagePresenter createPresenter() {
         return new DetailPagePresenter();

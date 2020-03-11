@@ -1,16 +1,40 @@
 package com.jy.jiandao.detail.widget;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.jy.jiandao.widgets.CommonPopView;
+import androidx.annotation.IntDef;
+
+import com.jy.jiandao.R;
+import com.mr.k.libmvp.Utils.SystemFacade;
+import com.mr.k.libmvp.widget.CommonPopView;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 public class CommentPopView extends CommonPopView {
 
 
+    private OnSendActionListener mActionListener;
+
+    private EditText mEtContent;
+    private TextView mTvCancel;
+    private TextView mTvSent;
+
+
+
     public CommentPopView(Context context) {
+
         super(context);
     }
 
@@ -19,20 +43,81 @@ public class CommentPopView extends CommonPopView {
         super.init(context);
 
 
-        ImageView contentView = new ImageView(context);
+        View contentView  = LayoutInflater.from(context).inflate(R.layout.layout_comment,null);
+
+        mEtContent = contentView.findViewById(R.id.commentEtContent);
+        mTvCancel = contentView.findViewById(R.id.commentTvCancel);
+        mTvSent = contentView.findViewById(R.id.commentTvSent);
 
 
+        mEtContent.requestFocus();
 
-       // contentView.setLayoutParams(new ViewGroup.LayoutParams(400, ViewGroup.Layou));
 
+        mTvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        contentView.setBackgroundColor(Color.RED);
+                dismiss();
+            }
+        });
+
+        mTvSent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String content = mEtContent.getText().toString();
+
+                if(TextUtils.isEmpty(content)){
+                    Toast.makeText(v.getContext(),"内容不能为空",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(mActionListener != null){
+                    mActionListener.onClick(content);
+                }
+            }
+        });
 
         setContentView(contentView);
 
 
+        setTouchOutsideDismiss(false);
 
-        contentView.requestLayout();
+       // setOnBackKeyDismiss(false);
 
+
+
+    }
+
+    public void setActionListener(OnSendActionListener actionListener) {
+        this.mActionListener = actionListener;
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        hideKeyboard(getContentView().getContext());
+
+    }
+
+    public void show(View view){
+
+        showAtLocation(view, Gravity.LEFT|Gravity.BOTTOM,0,0);
+        showKeyboard(view.getContext());
+    }
+
+    private void hideKeyboard (Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    }
+    private void showKeyboard (Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        //imm.showSoftInput(mEtContent,SHOW_FORCED)
+    }
+
+
+    public interface OnSendActionListener{
+
+        void onClick(String content);
     }
 }

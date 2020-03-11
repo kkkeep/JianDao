@@ -15,7 +15,7 @@ public class MvpUserManager {
     private static final String USER_CACHE_FILE = "user_cache_file";
 
 
-    private static Lock mLock = new ReentrantLock();
+    private static ReentrantLock mLock = new ReentrantLock();
     // 登录，注册 时调用
 
     public static void login(IUser user) {
@@ -71,10 +71,10 @@ public class MvpUserManager {
 
 
     static <U extends IUser> void init(Class<U> aClass) {
-
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 mUser = getUserFromSdard(aClass);
             }
 
@@ -86,23 +86,32 @@ public class MvpUserManager {
 
     public  static IUser getUser() {
 
+        mLock.lock();
         try{
             return mUser;
         }finally {
+            mLock.unlock();
         }
 
     }
 
     public  static String getToke() {
-        if(mUser == null){
-            return null;
-        }
-        String toke = mUser.getTokenValue();
-        if (toke == null) {
-            loginOut();
+        mLock.lock();
+        try {
+            if(mUser == null){
+                return null;
+            }
+            String toke = mUser.getTokenValue();
+            if (toke == null) {
+                loginOut();
+            }
+
+            return toke;
+        }finally {
+
+            mLock.unlock();
         }
 
-        return toke;
     }
 
 

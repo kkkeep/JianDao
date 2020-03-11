@@ -1,26 +1,18 @@
 package com.jy.jiandao.detail.vp;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.BaseNews;
 import com.jy.jiandao.data.entity.NewsAttributeData;
-import com.jy.jiandao.data.entity.RecommendPageData;
-import com.jy.jiandao.data.entity.RelativeNewsData;
 import com.jy.jiandao.detail.IDetalContract;
-import com.jy.jiandao.detail.widget.CommentPopView;
+import com.jy.jiandao.detail.page.DetailPageFragment;
 import com.mr.k.libmvp.base.BaseFragment;
 import com.mr.k.libmvp.base.BaseMvpFragment;
 import com.mr.k.libmvp.manager.MvpFragmentManager;
@@ -28,7 +20,6 @@ import com.mr.k.libmvp.manager.MvpFragmentManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.jy.jiandao.AppConstant.BundleKey.*;
 
@@ -91,12 +82,10 @@ public class DetailVpFragment extends BaseMvpFragment<IDetalContract.IDetailVpPr
 
         mTvWriteComment.setOnClickListener( (View v) ->{
 
-            CommentPopView commentPopView = new CommentPopView(getContext());
+         DetailPageFragment detailPageFragment = (DetailPageFragment) mViewPager.getAdapter().instantiateItem(mViewPager,mViewPager.getCurrentItem());
 
+         detailPageFragment.doCommentNews(mDataList.get(mViewPager.getCurrentItem()));
 
-            commentPopView.showAtLocation(v, Gravity.NO_GRAVITY,100,100);
-
-           // backgroundAlpha(getActivity(),0.5f);
         });
 
 

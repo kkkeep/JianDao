@@ -2,6 +2,7 @@ package com.jy.jiandao;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
@@ -19,6 +20,7 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.test.commons.utils.EncryptUtils;
 
 /*
  * created by Cherry on 2019-12-26
@@ -32,6 +34,27 @@ public class JDApplication extends MultiDexApplication {
 
         MvpManager.initMvp(this, User.class);
         initRefreshLayout();
+
+
+        try {
+
+            String key = "V+ypmmsvexBTNVVxtvQAow==";
+            Log.d("Test","key = " + key);
+           String s =  EncryptUtils.encrypt(key, "hello world");
+
+            Log.d("Test","s = " + s);
+
+
+
+             s  = EncryptUtils.decrypt(key,s);
+
+
+            Log.d("Test","s = " + s);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
     protected void attachBaseContext(Context base) {

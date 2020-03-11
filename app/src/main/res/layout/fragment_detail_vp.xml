@@ -75,6 +75,8 @@
 
     <ImageView style="@style/JianDao.LineHorizontal"
         android:id="@+id/newsDetailBottomLine"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
         app:layout_constraintBottom_toTopOf="@+id/newsDetailBottomIv"
          />
 

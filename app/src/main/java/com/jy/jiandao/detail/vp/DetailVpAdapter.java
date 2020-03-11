@@ -1,6 +1,7 @@
 package com.jy.jiandao.detail.vp;
 
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -34,8 +35,6 @@ public class DetailVpAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-
-
         DetailPageFragment detailPageFragment = new DetailPageFragment();
 
         Bundle bundle = new Bundle();
@@ -44,6 +43,12 @@ public class DetailVpAdapter extends FragmentStatePagerAdapter {
 
         detailPageFragment.setArguments(bundle);
         return detailPageFragment;
+    }
+
+    @NonNull
+    @Override
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        return super.instantiateItem(container, position);
     }
 
     @Override

@@ -10,7 +10,6 @@ import com.jy.jiandao.auth.login.VerificationLoginFragment;
 import com.jy.jiandao.auth.register.RegisterFragment;
 import com.jy.jiandao.home.HomeActivity;
 import com.mr.k.libmvp.base.BaseActivity;
-import com.mr.k.libmvp.manager.EncryptUtils;
 import com.mr.k.libmvp.manager.MvpFragmentManager;
 
 /*
