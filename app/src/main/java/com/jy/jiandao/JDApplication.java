@@ -27,34 +27,19 @@ import com.test.commons.utils.EncryptUtils;
  **/
 public class JDApplication extends MultiDexApplication {
 
+    public static Context mContext;
     @Override
     public void onCreate() {
         super.onCreate();
+
+        mContext = this;
         DataService.init(ApiService.class, AppConstant.BASE_URL, MyGsonConverterFactory.create());
 
         MvpManager.initMvp(this, User.class);
         initRefreshLayout();
 
 
-        try {
 
-            String key = "V+ypmmsvexBTNVVxtvQAow==";
-            Log.d("Test","key = " + key);
-           String s =  EncryptUtils.encrypt(key, "hello world");
-
-            Log.d("Test","s = " + s);
-
-
-
-             s  = EncryptUtils.decrypt(key,s);
-
-
-            Log.d("Test","s = " + s);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
     protected void attachBaseContext(Context base) {

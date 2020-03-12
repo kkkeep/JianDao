@@ -30,10 +30,13 @@ public class DetailVpFragment extends BaseMvpFragment<IDetalContract.IDetailVpPr
 
     private TextView mTvWriteComment;
 
+    private DetailVpAdapter mDetailVpAdapter;
 
     private ArrayList<? extends BaseNews> mDataList;
 
     private int position;
+
+
 
 
 
@@ -49,7 +52,6 @@ public class DetailVpFragment extends BaseMvpFragment<IDetalContract.IDetailVpPr
         super.setArguments(args);
 
         if(args != null){
-
             mDataList = args.getParcelableArrayList(DETAIL_NEWS_LIST);
             this.position = args.getInt(DETAIL_NEWS_LIST_POSTION);
 
@@ -81,12 +83,14 @@ public class DetailVpFragment extends BaseMvpFragment<IDetalContract.IDetailVpPr
 
 
         mTvWriteComment.setOnClickListener( (View v) ->{
-
-         DetailPageFragment detailPageFragment = (DetailPageFragment) mViewPager.getAdapter().instantiateItem(mViewPager,mViewPager.getCurrentItem());
+            // 获取当前显示的fragment,
+         DetailPageFragment detailPageFragment = (DetailPageFragment) mDetailVpAdapter.getCurrentFragment(mViewPager);
 
          detailPageFragment.doCommentNews(mDataList.get(mViewPager.getCurrentItem()));
 
         });
+
+
 
 
 
@@ -100,7 +104,7 @@ public class DetailVpFragment extends BaseMvpFragment<IDetalContract.IDetailVpPr
     protected void loadData() {
         super.loadData();
 
-        mViewPager.setAdapter(new DetailVpAdapter(getChildFragmentManager(),mDataList));
+        mViewPager.setAdapter((mDetailVpAdapter = new DetailVpAdapter(getChildFragmentManager(),mDataList)));
 
 
         mViewPager.setCurrentItem(position);

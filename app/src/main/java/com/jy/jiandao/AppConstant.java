@@ -31,6 +31,8 @@ public interface AppConstant {
         String GET_DETAIL_COMMNETS = "/api/comment_reply/commentlist";
         String GET_DETAIL_COMMNET_REPLAY = "/api/comment_reply/replylist";
         String DO_DETAIL_COMMNET_LIKE = "/api/comment_reply/commentpraise";
+        String DO_DETAIL_COMMNET_NEWS = "/api/comment_reply/usercomment";
+        String DO_DETAIL_COMMNET_RELAY = "/api/comment_reply/userreply";
     }
 
 
@@ -78,6 +80,13 @@ public interface AppConstant {
         String DETAIL_COMMENT_REPLAY_START = RECOMMOND_NEWS_START_;
         String DETAIL_COMMENT_REPLAY_POINT_TIME = RECOMMOND_NEWS_POINT_TIME;
         String DETAIL_DO_COMMENT_LIKE_COMMENT_ID = DETAIL_COMMENT_REPLAY_COMMENT_ID;
+        String DETAIL_DO_COMMENT_NEWS_CONTENT = "content";
+        String DETAIL_DO_COMMENT_REPLAY_CONTENT = "content";
+        String DETAIL_DO_COMMENT_REPLAY_TO_USER_ID = "to_id";
+        String DETAIL_DO_COMMENT_REPLAY_TYPE = "type";
+        String DETAIL_DO_COMMENT_REPLAY_REPLAY_ID = "reply_id";
+
+
 
 
 

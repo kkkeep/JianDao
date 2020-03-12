@@ -1,6 +1,6 @@
 package com.jy.jiandao.data.entity;
 
-import com.jy.jiandao.detail.widget.CommentsView;
+import com.mr.k.libmvp.widget.CommentsView;
 
 public class Replay implements CommentsView.ReplayData {
 
@@ -17,7 +17,7 @@ public class Replay implements CommentsView.ReplayData {
      */
 
 
-    private String id;
+    private String reply_id;
     private int type;
     private String comment_id;
     private String content;
@@ -28,7 +28,7 @@ public class Replay implements CommentsView.ReplayData {
 
 
     public String getId() {
-        return id;
+        return reply_id;
     }
 
     public int getType() {

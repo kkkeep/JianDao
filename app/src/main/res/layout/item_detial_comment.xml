@@ -73,7 +73,7 @@
         tools:text="评论内容" />
 
 
-    <com.jy.jiandao.detail.widget.CommentsView
+    <com.mr.k.libmvp.widget.CommentsView
 
         android:id="@+id/detail_comment_item_reply"
         android:layout_width="0dp"

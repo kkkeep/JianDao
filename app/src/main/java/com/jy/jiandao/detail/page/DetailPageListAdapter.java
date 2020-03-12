@@ -14,16 +14,10 @@ import com.jy.jiandao.GlideApp;
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.Comment;
 import com.jy.jiandao.data.entity.RelativeNewsData;
-import com.jy.jiandao.detail.widget.CommentsView;
 import com.mr.k.libmvp.Utils.SystemFacade;
-import com.mr.k.libmvp.base.BaseAdapterHolder;
-import com.mr.k.libmvp.base.BaseRecyclerAdapter;
-
-import org.w3c.dom.Text;
+import com.mr.k.libmvp.widget.CommentsView;
 
 import java.util.List;
-
-import retrofit2.http.HEAD;
 
 public class DetailPageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

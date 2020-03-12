@@ -1,16 +1,19 @@
 package com.jy.jiandao.auth;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import com.jy.jiandao.JDApplication;
 import com.jy.jiandao.auth.login.PasswordLoginFragment;
 import com.jy.jiandao.auth.login.VerificationLoginFragment;
 import com.jy.jiandao.auth.register.RegisterFragment;
 import com.jy.jiandao.home.HomeActivity;
 import com.mr.k.libmvp.base.BaseActivity;
 import com.mr.k.libmvp.manager.MvpFragmentManager;
+import com.mr.k.libmvp.manager.MvpUserManager;
 
 /*
  * created by Cherry on 2019-12-27
@@ -22,9 +25,15 @@ public class AuthActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
        // setContentView(R.layout.activity_auth);
 
-       // MvpFragmentManager.addOrShowFragment(getSupportFragmentManager(), PasswordLoginFragment.class,null, android.R.id.content );
+        if(MvpUserManager.isLoginIn()){
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+            return;
+        }
 
-        startActivity(new Intent(this, HomeActivity.class));
+        MvpFragmentManager.addOrShowFragment(getSupportFragmentManager(), PasswordLoginFragment.class,null, android.R.id.content );
+
+        //
 
 
 
@@ -38,6 +47,13 @@ public class AuthActivity extends BaseActivity {
 
         System.out.println("e = " + e  + " ----" + "d = " + d);
 */
+
+    }
+
+
+    public static void open(){
+
+        JDApplication.mContext.startActivity(new Intent(JDApplication.mContext,AuthActivity.class));
 
     }
 }

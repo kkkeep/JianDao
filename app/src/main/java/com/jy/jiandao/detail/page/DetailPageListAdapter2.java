@@ -1,26 +1,19 @@
 package com.jy.jiandao.detail.page;
 
-import android.graphics.Color;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.jy.jiandao.GlideApp;
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.entity.Comment;
-import com.jy.jiandao.data.entity.CommentListData;
 import com.jy.jiandao.data.entity.RelativeNewsData;
-import com.jy.jiandao.detail.widget.CommentsView;
+import com.jy.jiandao.data.entity.Replay;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseRecyclerAdapter2;
+import com.mr.k.libmvp.widget.CommentsView;
 import com.mr.k.libmvp.widget.ToggleStateView;
 
 import java.util.ArrayList;
@@ -68,6 +61,8 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
 
 
 
+
+
     private class BaseAdapter extends  BaseRecyclerAdapter2.BaseAdapterHolder2<RelativeNewsData.News,Comment>{
 
         public BaseAdapter(@NonNull View itemView) {
@@ -84,8 +79,7 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
     }
 
     @Override
-    protected void onData1ItemClicke(RelativeNewsData.News data1, int postion) {
-        super.onData1ItemClicke(data1, postion);
+    protected void onData1ItemClick(RelativeNewsData.News data1, int postion) {
 
         if(itemOnClickListener != null){
             itemOnClickListener.onNewsClick((ArrayList<RelativeNewsData.News>) getData1List(),postion);
@@ -94,7 +88,39 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
     }
 
 
+    @Override
+    protected void onData2ItemClick(Comment data2, int postion) {
 
+        if(itemOnClickListener != null){
+            itemOnClickListener.onCommentClick(data2,postion);
+        }
+
+    }
+
+    public void insertComment(Comment comment){
+
+        getData2List().add(0,comment);
+
+        notifyItemInserted(0);
+    }
+    public void insertCommentRelay(int commentPoisiton,Replay replay){
+
+       Comment comment =  getData2ByPosition(commentPoisiton);
+
+
+
+        List<Replay> replayList =  comment.getReplyList();
+
+        if(replayList ==  null){
+            replayList = new ArrayList<>();
+            replayList.add(replay);
+            comment.setReplyList(replayList);
+        }else{
+            replayList.add(0,replay);
+        }
+
+       notifyItemChanged(commentPoisiton);
+    }
 
 
     private class CommentHolder extends BaseAdapter{
@@ -148,6 +174,18 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
             });
 
 
+            replayListView.setOnItemClickListener(new CommentsView.onItemClickListener() {
+                @Override
+                public void onItemClick(int position, CommentsView.ReplayData bean) {
+
+                    if(itemOnClickListener != null){
+
+                        itemOnClickListener.onReplayClick((Replay)bean,getAdapterPosition());
+                    }
+
+                }
+            });
+
 
         }
 
@@ -170,6 +208,8 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
 
 
             // 设置回复列表数据
+
+
             replayListView.setList(data.getReplyList());
             replayListView.notifyDataSetChanged();
 
@@ -232,6 +272,14 @@ public class DetailPageListAdapter2 extends BaseRecyclerAdapter2<RelativeNewsDat
 
         // 评论点赞
         void onLickClick(Comment comment,int position);
+
+        // 对别人的评论进行点击了
+
+        void onCommentClick(Comment comment,int postion);
+
+
+        //对别人的回复进行点击了
+        void onReplayClick(Replay replay,int position);
 
     }
 

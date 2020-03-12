@@ -163,9 +163,9 @@ public class CommonPopView extends PopupWindow {
                         && ((x < 0) || (x >= v.getWidth()) || (y < 0) || (y >= v.getHeight()))) {
                     if (isOutsideTouchDismiss) {
                         dismiss();
-                    } else {
-                        return true;// 拦截，什么都不敢，意思就是不关闭
+
                     }
+                    return true;
 
                 }
 
@@ -230,14 +230,14 @@ public class CommonPopView extends PopupWindow {
         String fileName = traceElement.getFileName(); // 拿到调用 dismiss 方法的类名
         fileName = fileName.substring(0, fileName.lastIndexOf("."));
         if (!fileName.equals(PopupWindow.class.getSimpleName())) { // 如果调用者不是从系统来的，那么就是我们认为的
-            super.dismiss();
             destroy();
+            super.dismiss();
         } else {
             if (!isBackKeyDismiss) {
                 return;
             } else {
-                super.dismiss();
                 destroy();
+                super.dismiss();
             }
         }
 

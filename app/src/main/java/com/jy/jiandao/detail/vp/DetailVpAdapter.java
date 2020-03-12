@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.entity.BaseNews;
@@ -22,11 +23,15 @@ public class DetailVpAdapter extends FragmentStatePagerAdapter {
 
     private ArrayList<? extends BaseNews> list;
 
+    private FragmentManager fragmentManager;
 
+    private String tag;
 
     public DetailVpAdapter(@NonNull FragmentManager fm, ArrayList<? extends BaseNews> data) {
 
         super(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+
+        fragmentManager = fm;
 
         list = data;
     }
@@ -55,4 +60,21 @@ public class DetailVpAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return  list == null ? 0 : list.size();
     }
+
+
+    public Fragment getCurrentFragment(ViewPager viewPager){
+
+        int position = viewPager.getCurrentItem();
+        if(this instanceof FragmentStatePagerAdapter){
+            return (Fragment) instantiateItem(viewPager,position);
+        }else{
+            return fragmentManager.findFragmentByTag("android:switcher:" + viewPager.getId() + ":" + position);
+        }
+
+
+
+        //
+
+    }
+
 }

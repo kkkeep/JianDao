@@ -112,6 +112,10 @@ public class Comment {
         return reply_list;
     }
 
+    public void setReplyList(List<Replay> reply_list) {
+        this.reply_list = reply_list;
+    }
+
     public void setIsPraise(int isPraise) {
         this.is_praise = isPraise;
     }

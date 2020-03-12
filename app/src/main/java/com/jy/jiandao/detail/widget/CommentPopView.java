@@ -30,14 +30,23 @@ public class CommentPopView extends CommonPopView {
     private EditText mEtContent;
     private TextView mTvCancel;
     private TextView mTvSent;
+    private String mHintContent;
 
 
+
+    public CommentPopView(Context context,String hintContent) {
+
+        super(context);
+
+        mHintContent = hintContent;
+    }
 
     public CommentPopView(Context context) {
 
         super(context);
-    }
 
+        mHintContent = null;
+    }
     @Override
     protected void init(Context context) {
         super.init(context);
@@ -51,6 +60,8 @@ public class CommentPopView extends CommonPopView {
 
 
         mEtContent.requestFocus();
+
+
 
 
         mTvCancel.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +84,7 @@ public class CommentPopView extends CommonPopView {
                 }
                 if(mActionListener != null){
                     mActionListener.onClick(content);
+                    dismiss();
                 }
             }
         });
@@ -80,9 +92,9 @@ public class CommentPopView extends CommonPopView {
         setContentView(contentView);
 
 
-        setTouchOutsideDismiss(false);
+        setTouchOutsideDismiss(true);
 
-       // setOnBackKeyDismiss(false);
+        setOnBackKeyDismiss(true);
 
 
 
@@ -94,12 +106,18 @@ public class CommentPopView extends CommonPopView {
 
     @Override
     public void dismiss() {
-        super.dismiss();
         hideKeyboard(getContentView().getContext());
+        super.dismiss();
 
     }
 
     public void show(View view){
+        if(mHintContent != null){
+
+            mEtContent.setHint("回复：" + mHintContent );
+        }else{
+            mEtContent.setHint("写评论");
+        }
 
         showAtLocation(view, Gravity.LEFT|Gravity.BOTTOM,0,0);
         showKeyboard(view.getContext());

@@ -108,12 +108,12 @@ public abstract class BaseRecyclerAdapter2<D1,D2> extends RecyclerView.Adapter<B
     }
 
 
-    protected void onData1ItemClicke(D1 data1,int postion){
+    protected void onData1ItemClick(D1 data1, int postion){
 
     }
 
 
-    protected void onData2ItemClicke(D2 data2,int postion){
+    protected void onData2ItemClick(D2 data2, int postion){
 
     }
 
@@ -147,9 +147,9 @@ public abstract class BaseRecyclerAdapter2<D1,D2> extends RecyclerView.Adapter<B
 
                     if(reference != null && (adapter2 = reference.get()) != null){
                         if(position >= adapter2.getData1StartPosition() && position < adapter2.getData2StartPosition()){
-                            adapter2.onData1ItemClicke(adapter2.getData1ByPosition(position),position);
+                            adapter2.onData1ItemClick(adapter2.getData1ByPosition(position),position);
                         }else{
-                            adapter2.onData2ItemClicke(adapter2.getData2ByPosition(position),position);
+                            adapter2.onData2ItemClick(adapter2.getData2ByPosition(position),position);
                         }
                     }else{
                         throw new NullPointerException("实例化 holder 后请调用 setAdapter 为holder 绑定adapter");

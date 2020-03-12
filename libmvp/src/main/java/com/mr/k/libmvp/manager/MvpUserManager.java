@@ -71,6 +71,7 @@ public class MvpUserManager {
 
 
     static <U extends IUser> void init(Class<U> aClass) {
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -86,17 +87,14 @@ public class MvpUserManager {
 
     public  static IUser getUser() {
 
-        mLock.lock();
         try{
             return mUser;
         }finally {
-            mLock.unlock();
         }
 
     }
 
     public  static String getToke() {
-        mLock.lock();
         try {
             if(mUser == null){
                 return null;
@@ -109,9 +107,13 @@ public class MvpUserManager {
             return toke;
         }finally {
 
-            mLock.unlock();
         }
 
+    }
+
+
+    public static boolean isLoginIn(){
+        return getToke() != null;
     }
 
 

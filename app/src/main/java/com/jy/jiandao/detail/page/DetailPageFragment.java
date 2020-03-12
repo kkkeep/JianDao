@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.R;
+import com.jy.jiandao.auth.AuthActivity;
 import com.jy.jiandao.data.entity.BaseNews;
 import com.jy.jiandao.data.entity.Comment;
 import com.jy.jiandao.data.entity.CommentListData;
@@ -133,15 +134,25 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
             @Override
             public void onLickClick(Comment comment,int position) {
 
-                if(MvpUserManager.getToke() == null){
-                    showToast(R.string.text_error_un_loign);
-                    return;
-                }
 
-                showPopLoadingView(getRootViewId());
+
+
                 mClickItemPosition = position;
                 doCommentLike(comment);
 
+
+            }
+
+            @Override
+            public void onCommentClick(Comment comment, int postion) {
+                mClickItemPosition = postion;
+                doCommentReplay(comment);
+            }
+
+            @Override
+            public void onReplayClick(Replay replay, int position) {
+                mClickItemPosition = position;
+                doReplayReplay(replay);
 
             }
         });
@@ -149,6 +160,7 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
 
             loadMoreComments();
         });
+
 
 
         // mWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
@@ -214,12 +226,21 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
     // 对评论点赞
 
     private void doCommentLike(Comment comment){
+        if(!isLogin()){
+            return;
+        }
+
+        showPopLoadingView(getRootViewId());
         mPresenter.doCommentLike(comment.getCommentId());
     }
 
 
     // 对新闻进行评论
     public void doCommentNews(BaseNews news){
+
+        if(!isLogin()){
+            return;
+        }
 
         CommentPopView commentPopView = new CommentPopView(getContext());
 
@@ -229,8 +250,8 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
         commentPopView.setActionListener(new CommentPopView.OnSendActionListener() {
             @Override
             public void onClick( String content) {
-
-
+                showPopLoadingView(getRootViewId());
+                mPresenter.doCommnet(news.getId(),content);
 
             }
         });
@@ -239,7 +260,15 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
 
     //对别人的评论进行回复
     public void doCommentReplay(Comment comment){
-        CommentPopView commentPopView = new CommentPopView(getContext());
+
+
+
+        if(!isLogin()){
+            return;
+        }
+
+
+        CommentPopView commentPopView = new CommentPopView(getContext(),comment.getUserName());
 
 
         commentPopView.show(getView());
@@ -247,15 +276,23 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
         commentPopView.setActionListener(new CommentPopView.OnSendActionListener() {
             @Override
             public void onClick( String content) {
+
+                showPopLoadingView(getRootViewId());
+
+                mPresenter.doReplay(mNews.getId(),comment.getCommentId(),content,comment.getUserId(),1,String.valueOf(0));
 
             }
         });
     }
 
-    // 对别人的回进行回复
+    // 对别人的回复进行回复
     public void doReplayReplay(Replay replay){
 
-        CommentPopView commentPopView = new CommentPopView(getContext());
+        if(!isLogin()){
+            return;
+        }
+
+        CommentPopView commentPopView = new CommentPopView(getContext(),replay.getFromUserName());
 
 
         commentPopView.show(getView());
@@ -263,6 +300,8 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
         commentPopView.setActionListener(new CommentPopView.OnSendActionListener() {
             @Override
             public void onClick( String content) {
+                showPopLoadingView(getRootViewId());
+                mPresenter.doReplay(mNews.getId(),replay.getCommentId(),content,replay.getFromUserId(),2,replay.getId());
 
             }
         });
@@ -429,13 +468,37 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
 
     }
 
+    // 评论新闻回调
     @Override
     public void onDoCommentResult(Comment data, String msg) {
 
+        closeLoadingView();
+        if(data != null){
+            mDetailPageListAdapter.insertComment(data);
+
+        }else{
+            showToast(msg);
+        }
+
+
     }
 
+    // 对别人评论的回复或者对评论回复的回复 的回调
     @Override
     public void onDoReplayResult(Replay data, String msg) {
+
+        closeLoadingView();
+
+        if(data != null){
+            mDetailPageListAdapter.insertCommentRelay(mClickItemPosition,data);
+        }else{
+            showToast(msg);
+        }
+
+        mClickItemPosition = -1;
+
+
+
 
     }
 
@@ -536,6 +599,19 @@ public class DetailPageFragment extends BaseMvpFragment<IDetalContract.IDetailPa
         });
 
 
+    }
+
+    private boolean isLogin(){
+
+        if(!MvpUserManager.isLoginIn()){
+
+            AuthActivity.open();
+
+            showToast(getString(R.string.text_error_un_loign));
+            return false;
+        }
+
+        return true;
     }
 
 }
