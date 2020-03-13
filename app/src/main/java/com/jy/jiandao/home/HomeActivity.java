@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.jy.jiandao.R;
 import com.jy.jiandao.data.repository.NewsPageRepository;
 import com.jy.jiandao.home.Topic.TopicFragment;
+import com.jy.jiandao.home.mime.MineFragment;
 import com.jy.jiandao.home.recommend.RecommendFragment;
 import com.jy.jiandao.home.recommend.page.NewsPageAdapter;
 import com.jy.jiandao.home.video.VideoFragment;
@@ -52,6 +53,13 @@ public class HomeActivity extends BaseActivity {
 
                     case R.id.mvp_tab_layout_tab3:{
                         mCurrentFragment =   MvpFragmentManager.addOrShowFragment(getSupportFragmentManager(), TopicFragment.class,mCurrentFragment,R.id.home_fragment_container);
+                        break;
+                    }
+
+                    case R.id.mvp_tab_layout_tab4:{
+
+                        mCurrentFragment = MvpFragmentManager.addOrShowFragment(getSupportFragmentManager(), MineFragment.class,mCurrentFragment,R.id.home_fragment_container);
+
                         break;
                     }
                 }

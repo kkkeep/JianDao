@@ -1,4 +1,4 @@
-package com.test.commons.utils;
+package com.mr.k.libmvp.Utils;
 
 import android.util.Base64;
 

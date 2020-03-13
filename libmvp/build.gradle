@@ -47,8 +47,10 @@ dependencies {
     api deps.retrofitX.retrofit2_adapter_rxjava
     api deps.retrofitX.retrofit2_rxjava_components
 
+
     api deps.rxJavaX.rxjava
     api deps.rxJavaX.rxAndroid
+    api deps.rxJavaX.rxPermissions
 
   //  implementation 'com.github.Cutta:GifView:1.4'
     implementation deps.other.gifView

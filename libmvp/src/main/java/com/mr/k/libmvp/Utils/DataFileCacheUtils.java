@@ -21,6 +21,7 @@ import java.util.Map;
 public class DataFileCacheUtils {
 
 
+    private static final String SECRET_KEY = "tnKqXmiVZFYXIit9uYmnrg==";
     //
 
     /**
@@ -155,12 +156,17 @@ public class DataFileCacheUtils {
 
 
 
+
+
         if (TextUtils.isEmpty(json)) {
             return;
         }
 
         FileOutputStream outputStream = null;
         try {
+
+            json = EncryptUtils.encrypt(SECRET_KEY,json); // 加密
+
             outputStream = new FileOutputStream(file);
 
             outputStream.write(json.getBytes("utf-8"));
@@ -169,7 +175,7 @@ public class DataFileCacheUtils {
             outputStream.flush();
 
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (outputStream != null) {
@@ -194,7 +200,18 @@ public class DataFileCacheUtils {
 
     public static <T> T getencryptedDataFromFile(File file, Class<T> tClass) {
 
-        return convertToDataFromJson(tClass, readFromFile(file));
+        String json= readFromFile(file);
+
+
+        try {
+            json = EncryptUtils.decrypt(SECRET_KEY,json);// 解密
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+
+        return convertToDataFromJson(tClass, json);
     }
 
     public static <T> T getDataFromFile(File file, Class<T> tClass) {

@@ -5,12 +5,21 @@ import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.IUser;
 
 import java.io.File;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MvpUserManager {
 
-    public static IUser mUser;
+    public static volatile IUser mUser;
+
+    private static Future<IUser> future;
 
     private static final String USER_CACHE_FILE = "user_cache_file";
 
@@ -19,6 +28,7 @@ public class MvpUserManager {
     // 登录，注册 时调用
 
     public static void login(IUser user) {
+
         if (SystemFacade.isMainThread()) {
             throw new IllegalThreadStateException("MvpUserManager.saveUser(IUser user) 必须调用在子线程");
         }
@@ -28,7 +38,7 @@ public class MvpUserManager {
         File file = SystemFacade.getExternalCacheDir(MvpManager.mContext, USER_CACHE_FILE);
 
         if (file != null && user != null) {
-            DataFileCacheUtils.saveDataToFile(file, user);
+            DataFileCacheUtils.saveEncryptedDataToFile(file, user);
         }
 
 
@@ -63,7 +73,7 @@ public class MvpUserManager {
         File file = SystemFacade.getExternalCacheDir(MvpManager.mContext, USER_CACHE_FILE);
 
         if (file != null) {
-            return DataFileCacheUtils.getDataFromFile(file, aClass);
+            return DataFileCacheUtils.getencryptedDataFromFile(file, aClass);
         }
 
         return null;
@@ -72,32 +82,51 @@ public class MvpUserManager {
 
     static <U extends IUser> void init(Class<U> aClass) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+      ExecutorService executorService =   Executors.newSingleThreadExecutor();
 
-                mUser = getUserFromSdard(aClass);
-            }
+      future = executorService.submit(new Callable<IUser>() {
+          @Override
+          public IUser call() throws Exception {
+              try{
+                  mUser = getUserFromSdard(aClass);
+                  return mUser;
+              }finally {
+                  executorService.shutdown();
+              }
 
-        }).start();
+          }
+      });
 
 
     }
 
 
-    public  static IUser getUser() {
+    public  static  <T extends IUser> T getUser() {
 
         try{
-            return mUser;
-        }finally {
+            if(mUser == null){
+                mUser = future.get();
+                future = null;
+            }
+            return (T) mUser;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } finally {
         }
+        return null;
 
     }
 
     public  static String getToke() {
+
         try {
             if(mUser == null){
-                return null;
+                mUser = getUser();
+                if(mUser == null){
+                    return null;
+                }
             }
             String toke = mUser.getTokenValue();
             if (toke == null) {

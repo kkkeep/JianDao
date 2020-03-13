@@ -30,7 +30,7 @@
     <string name="text_detail_share">分享</string>
     <string name="text_detail_you_may_be_want_to_look">您可能还想看</string>
     <string name="text_write_comment">写评论</string>
-    <string name="text_comment_cancel">取消</string>
+    <string name="text_cancel">取消</string>
     <string name="text_comment_send">发送</string>
     <string name="text_detail_show_more_reply">查看更多回复</string>
     <string name="text_detail_write_comment">写评论</string>
@@ -39,4 +39,6 @@
     <string name="text_detail_comment">评论成功</string>
     <string name="text_detail_do_lick_toast">已赞过</string>
     <string name="text_need_login">需要登录</string>
+    <string name="text_camera">相机</string>
+    <string name="text_select_from_gallery">从相册选择</string>
 </resources>

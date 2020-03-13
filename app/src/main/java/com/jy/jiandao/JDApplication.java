@@ -1,6 +1,5 @@
 package com.jy.jiandao;
 
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
@@ -10,7 +9,9 @@ import androidx.multidex.MultiDexApplication;
 import com.jy.jiandao.data.entity.User;
 import com.jy.jiandao.data.ok.ApiService;
 import com.jy.jiandao.data.ok.converter.MyGsonConverterFactory;
+import com.mr.k.libmvp.Utils.EncryptUtils;
 import com.mr.k.libmvp.manager.MvpManager;
+import com.mr.k.libmvp.manager.MvpUserManager;
 import com.mr.k.libmvp.oknet.DataService;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -20,7 +21,6 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.test.commons.utils.EncryptUtils;
 
 /*
  * created by Cherry on 2019-12-26
@@ -35,8 +35,12 @@ public class JDApplication extends MultiDexApplication {
         mContext = this;
         DataService.init(ApiService.class, AppConstant.BASE_URL, MyGsonConverterFactory.create());
 
+
         MvpManager.initMvp(this, User.class);
         initRefreshLayout();
+
+
+
 
 
 
