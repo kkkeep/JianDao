@@ -2,6 +2,9 @@
 <resource xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--比如我么头像存在 /Android/data/packagename/cache/head/****.jpg-->
+
+    <!--path 指的是 external-cache-path 下面的子目录，也就是对于你存头像所在的目录，必须一致，如果没有子目录就写 "." 表示当前目录-->
+    <!--name 指的是 path 的一个别名，你随便取就可以，当我们通过 fileprovider 得的 Uri 时就是用得别名，而不是真正的path-->
     <external-cache-path
         name="user_head"
         path="head" />
