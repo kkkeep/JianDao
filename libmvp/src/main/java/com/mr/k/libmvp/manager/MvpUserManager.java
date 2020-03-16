@@ -104,7 +104,7 @@ public class MvpUserManager {
     public  static  <T extends IUser> T getUser() {
 
         try{
-            if(mUser == null){
+            if(mUser == null && future != null){
                 mUser = future.get();
                 future = null;
             }

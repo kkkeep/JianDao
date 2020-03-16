@@ -1,6 +1,7 @@
 package com.jy.jiandao.home.mime;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,8 +10,12 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.core.content.FileProvider;
+
+import com.jy.jiandao.GlideApp;
 import com.jy.jiandao.R;
 import com.mr.k.libmvp.Utils.PermissionUtils;
+import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseMvpFragment;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +27,12 @@ import java.io.File;
 public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> implements MineContract.IMineView {
 
 
+
+    private static final String USER_HEAD_IMG_PATH = "head";
+    private static final String USER_HEAD_IMG_NAME = "head.jpg";
+
+    private static final int CAMERA = 0X100;
+    private static final int GALLERY = 0X101;
 
     private RoundImageView mRoundImageView;
 
@@ -58,11 +69,14 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
         headPicPopView.setOnClickListener(new HeadPicPopView.OnClickListener() {
             @Override
             public void onCamera() {
-                checkCameraPermisss();
+                checkCameraPermisss(CAMERA);
             }
 
             @Override
             public void onGallery() {
+
+                checkCameraPermisss(GALLERY);
+
 
             }
         });
@@ -73,7 +87,7 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
 
 
 
-    private void checkCameraPermisss(){
+    private void checkCameraPermisss(int type){
         PermissionUtils permissionUtils = new PermissionUtils(this);
 
         String permiss [] = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -82,7 +96,11 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
             @Override
             public void onAllMustAccept() {
 
-                openCamera();
+                if(type == GALLERY){
+                    openGallery();
+                }else {
+                    openCamera();
+                }
 
             }
 
@@ -110,16 +128,66 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  //跳转到 ACTION_IMAGE_CAPTURE
         //判断内存卡是否可用，可用的话就进行存储
         //putExtra：取值，Uri.fromFile：传一个拍照所得到的文件，fileImg.jpg：文件名
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"fileImg.jpg")));
-        startActivityForResult(intent,101); // 101: 相机的返回码参数（随便
+
+        File path = SystemFacade.getExternalCacheDir(getContext(),USER_HEAD_IMG_PATH);
+
+        if(!path.exists()){
+            path.mkdir();
+        }
+
+        File file =  new File(path,USER_HEAD_IMG_NAME);
+        Uri uri = null;
+
+        if(SystemFacade.hasN()){
+            uri = FileProvider.getUriForFile(getContext(),getContext().getPackageName() + ".userhead.HeadProvider",file);
+        }else{
+            uri = Uri.fromFile(file);
+        }
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
+
+        startActivityForResult(intent,CAMERA);
+    }
+
+    private void openGallery(){
+        Intent picture = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(picture, GALLERY);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if(resultCode != Activity.RESULT_CANCELED){
 
+            if(requestCode == CAMERA){
+
+
+
+                File file =  SystemFacade.getExternalCacheDir(getContext(),USER_HEAD_IMG_PATH + File.separator + USER_HEAD_IMG_NAME);
+
+                if(file != null && file .exists()){
+                    GlideApp.with(mRoundImageView).load(file).into(mRoundImageView);
+                }
+
+
+
+            }else if(requestCode == GALLERY){
+
+                Uri uri = data.getData();
+
+                if(uri != null){
+                    GlideApp.with(mRoundImageView).load(uri).into(mRoundImageView);
+                }
+            }
+        }
     }
+
+
+
+
+
+
 
     @Override
     public MineContract.IMinePresenter createPresenter() {

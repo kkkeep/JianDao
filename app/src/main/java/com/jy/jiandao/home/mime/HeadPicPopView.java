@@ -47,6 +47,18 @@ public class HeadPicPopView extends CommonPopView {
             }
         });
 
+        mOpenGallery = contentView.findViewById(R.id.mine_pop_btn_gallery);
+
+        mOpenGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mOnClickListener != null){
+                    mOnClickListener.onGallery();
+                    dismiss();
+                }
+            }
+        });
+
         setContentView(contentView);
 
         setTouchOutsideDismiss(true);
