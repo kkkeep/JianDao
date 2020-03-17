@@ -201,6 +201,7 @@ public class BaseRepository {
 
                     @Override
                     public void onError(Throwable e) {
+                        e.printStackTrace();
                         if (e instanceof ResultException) {
                             callBack.onFail((ResultException) e);
                         } else {

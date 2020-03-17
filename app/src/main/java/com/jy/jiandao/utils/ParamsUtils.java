@@ -43,7 +43,7 @@ public class ParamsUtils {
 
         if(!TextUtils.isEmpty(toke)){
 
-            hashMap.put("token",toke);
+            hashMap.put(RequestKey.TOKEN,toke);
         }
 
 

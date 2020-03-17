@@ -15,6 +15,10 @@ public class ParamsMap extends HashMap<String,String> {
 
     }
 
+
+    public ParamsMap() {
+    }
+
     public String getUrl(){
         return url;
     }

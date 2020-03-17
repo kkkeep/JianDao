@@ -1,5 +1,6 @@
 package com.jy.jiandao.auth;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,8 +53,10 @@ public class AuthActivity extends BaseActivity {
 
 
     public static void open(){
+        Intent intent = new Intent(JDApplication.mContext,AuthActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        JDApplication.mContext.startActivity(intent);
 
-        JDApplication.mContext.startActivity(new Intent(JDApplication.mContext,AuthActivity.class));
 
     }
 }

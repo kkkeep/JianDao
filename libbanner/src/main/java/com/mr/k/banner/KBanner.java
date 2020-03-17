@@ -324,7 +324,7 @@ public class KBanner extends ConstraintLayout {
 
     // 开启循环轮播
     private void startLoop() {
-        Log.d("Test", "start");
+       // Log.d("Test", "start");
         getHandler().removeCallbacks(mLoopRunnable);
         getHandler().postDelayed(mLoopRunnable, INTERVAL);
     }
@@ -338,7 +338,7 @@ public class KBanner extends ConstraintLayout {
 
     // 停止循环轮播
     private void stopLoop() {
-        Log.d("Test", "stop");
+       // Log.d("Test", "stop");
         getHandler().removeCallbacks(mLoopRunnable);
     }
 
@@ -357,7 +357,7 @@ public class KBanner extends ConstraintLayout {
     private Runnable mLoopRunnable = new Runnable() {
         @Override
         public void run() {
-            Log.d("Test", "switch");
+          //  Log.d("Test", "switch");
             mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
             getHandler().postDelayed(this, INTERVAL);
 

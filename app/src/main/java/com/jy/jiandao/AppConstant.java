@@ -10,8 +10,8 @@ import java.lang.annotation.RetentionPolicy;
  **/
 public interface AppConstant {
 
-    //String BASE_URL = "https://www.seetao.com";
-    String BASE_URL = "http://test.seetaoism.com";
+    String BASE_URL = "https://www.seetao.com";
+    //String BASE_URL = "http://test.seetaoism.com";
 
     String PLATFORM_ANDROID = "android";
     String LANG = "zh";
@@ -42,6 +42,7 @@ public interface AppConstant {
         String NONCE = "nonce";
         String LANG = "lang";
         String FROM = "from";
+        String TOKEN = "token";
         String SIGNATURE = "signature";
 
         String AUTH_REGISTER_MOBILE = "mobile";
@@ -87,10 +88,7 @@ public interface AppConstant {
         String DETAIL_DO_COMMENT_REPLAY_REPLAY_ID = "reply_id";
 
 
-
-
-
-
+        String MINE_FILE = "file";
     }
 
     interface BundleKey {
