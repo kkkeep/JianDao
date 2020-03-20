@@ -1,9 +1,11 @@
 package com.mr.k.libmvp.manager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.annotation.IntDef;
 
+import com.mr.k.libmvp.Utils.SpUtils;
 import com.mr.k.libmvp.base.IUser;
 
 import java.lang.annotation.Retention;
@@ -41,4 +43,30 @@ public class MvpManager {
 
         MvpUserManager.init(uClass);
     }
+
+
+    public static boolean isFirstLaunch(){
+
+        boolean init =  SpUtils.getBoolean("init"); // 返回false 没有初始值，表示第一启动
+
+        if(!init){
+            SpUtils.save("init",true);
+            return true; // 第一次启动
+        }else{
+            return false; // 不是第一次启动
+        }
+
+    }
+
+
+    public static boolean isAgreementForSplash() {
+        return SpUtils.getBoolean("agreement"); // 返回false 没有初始值，表示没有同意协议,true 表示之前用户点击过同意
+
+    }
+
+    public static void agreeFroSpalsh(){
+        SpUtils.save("agreement",true);
+    }
+
+
 }

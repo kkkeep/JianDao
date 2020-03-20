@@ -1,5 +1,13 @@
 package com.mr.k.libmvp.manager;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+
+import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import com.mr.k.libmvp.Utils.DataFileCacheUtils;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.IUser;
@@ -16,6 +24,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MvpUserManager {
+
+    private static final String ACTION_USER_LOGIN = "com.mr.k.libmvp.manager.user.login";
+    private static final String ACTION_USER_LOGOUT = "com.mr.k.libmvp.manager.user.logout";
 
     public static volatile IUser mUser;
 
@@ -42,26 +53,56 @@ public class MvpUserManager {
         }
 
 
+        // 发一个登录广播
+
+
+
+        sentBroadcast(ACTION_USER_LOGIN);
+
     }
 
 
     // 退出登录
-    public static void loginOut() {
+    public synchronized static void loginOut() {
 
         mUser = null;
+        File file = SystemFacade.getExternalCacheDir(MvpManager.mContext, USER_CACHE_FILE);
+        if (file.exists()) {
+            file.delete();
+        }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                
-                File file = SystemFacade.getExternalCacheDir(MvpManager.mContext, USER_CACHE_FILE);
-                if (file.exists()) {
-                    file.delete();
-                }
-            }
-        }).start();
+        sentBroadcast(ACTION_USER_LOGOUT);
 
+        // 发一个登出广播
     }
+
+
+
+
+
+    private static void sentBroadcast(String action){
+       LocalBroadcastManager broadcastManager =  LocalBroadcastManager.getInstance(MvpManager.mContext);
+       broadcastManager.sendBroadcast(new Intent(action));
+    }
+
+
+
+    public static UserStateChangeListener addUserStateChangeListener(@NonNull  UserStateChangeListener listener){
+
+        IntentFilter intentFilter = new IntentFilter();
+
+        intentFilter.addAction(ACTION_USER_LOGOUT);
+        intentFilter.addAction(ACTION_USER_LOGIN);
+
+        LocalBroadcastManager.getInstance(MvpManager.mContext).registerReceiver(listener,intentFilter);
+        return listener;
+    }
+
+    public static void removeUserStateChangeListener(@NonNull  UserStateChangeListener listener){
+
+        LocalBroadcastManager.getInstance(MvpManager.mContext).unregisterReceiver(listener);
+    }
+
 
 
     public static <U extends IUser> U getUserFromSdard(Class<U> aClass) {
@@ -141,9 +182,40 @@ public class MvpUserManager {
     }
 
 
-    public static boolean isLoginIn(){
+    public synchronized static boolean isLoginIn(){
         return getToke() != null;
     }
+
+
+
+    public static class UserStateChangeListener extends BroadcastReceiver {
+
+       public void onLogin(IUser user){
+
+        }
+       public void onLogout(){
+
+        }
+
+        @Override
+        final public void onReceive(Context context, Intent intent) {
+
+            switch (intent.getAction()){
+
+                case ACTION_USER_LOGIN:{
+                    onLogin(mUser);
+                    break;
+                }
+                case ACTION_USER_LOGOUT:{
+                    onLogout();
+                    break;
+                }
+            }
+
+        }
+    }
+
+
 
 
 }

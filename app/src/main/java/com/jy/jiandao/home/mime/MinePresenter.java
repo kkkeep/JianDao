@@ -28,6 +28,25 @@ public class MinePresenter extends BasePresenter<MineContract.IMineView> impleme
     @Override
     public void loginOut() {
 
+        ParamsMap paramsMap = new ParamsMap(ParamsUtils.getCommonParams(),AppConstant.Url.LOGOUT);
+
+        mineRepository.loginOut(getProvider(), paramsMap, new IBaseCallBack<String>() {
+            @Override
+            public void onSuccess(String data) {
+                if(mView != null){
+                    mView.onLoginOutSuccess();
+                }
+            }
+
+            @Override
+            public void onFail(ResultException e) {
+                if(mView != null){
+                    mView.onLoginOutFail();
+                }
+
+            }
+        });
+
     }
 
     @Override

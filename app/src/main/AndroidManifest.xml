@@ -25,7 +25,9 @@
         <meta-data android:name="android.notch_support" android:value="false"/>
 
 
-        <activity android:name=".auth.AuthActivity">
+        <activity android:name=".SplashActivity"
+            android:theme="@style/AppTheme.SplashTheme"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +35,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".home.HomeActivity"/>
+        <activity android:name=".home.HomeActivity"
+            android:launchMode="singleTask"
+            />
 
 
         <provider

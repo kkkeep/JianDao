@@ -4,8 +4,10 @@ import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.data.entity.User;
 import com.jy.jiandao.data.ok.JDDataService;
 import com.jy.jiandao.home.mime.MineContract;
+import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.base.IBaseCallBack;
 import com.mr.k.libmvp.base.ParamsMap;
+import com.mr.k.libmvp.exception.ResultException;
 import com.mr.k.libmvp.manager.MvpUserManager;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
@@ -16,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
+import io.reactivex.functions.Consumer;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -26,6 +29,13 @@ public class MineRepository extends BaseRepository implements MineContract.IMine
 
     @Override
     public void loginOut(LifecycleProvider provider, ParamsMap paramsMap, IBaseCallBack<String> callBack) {
+
+        post(provider, new Consumer<String>() {
+            @Override
+            public void accept(String t) throws Exception {
+                MvpUserManager.loginOut();
+            }
+        },paramsMap, callBack);
 
     }
 

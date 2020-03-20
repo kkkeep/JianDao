@@ -71,15 +71,14 @@ public class HomeActivity extends BaseActivity {
         bottomTabLayout.select(R.id.mvp_tab_layout_tab1);
 
 
-
-
-
-
-
-
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
 
+        moveTaskToBack(true);
+    }
 
     @Override
     protected void onDestroy() {

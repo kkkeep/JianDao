@@ -9,6 +9,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.jy.jiandao.auth.AuthActivity;
 import com.mr.k.libmvp.exception.ResultException;
+import com.mr.k.libmvp.manager.MvpUserManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,6 +105,7 @@ public class MyGsonResponseBodyConverter <T> implements Converter<ResponseBody, 
             if(code != 1) { // 如果服务器告诉请求失败
 
                 if(code == 3){ // token 过期需要重新登录
+                    MvpUserManager.loginOut();
                     AuthActivity.open();
                     throw new ResultException("需要重新登录");
                 }

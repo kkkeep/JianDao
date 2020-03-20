@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -16,16 +17,22 @@ import androidx.core.content.FileProvider;
 
 import com.jy.jiandao.GlideApp;
 import com.jy.jiandao.R;
+import com.jy.jiandao.auth.AuthActivity;
 import com.jy.jiandao.data.entity.User;
+import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.Utils.PermissionUtils;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseMvpFragment;
+import com.mr.k.libmvp.base.IUser;
+import com.mr.k.libmvp.manager.MvpManager;
+import com.mr.k.libmvp.manager.MvpUserManager;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.raphets.roundimageview.RoundImageView;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 
 public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> implements MineContract.IMineView {
@@ -42,6 +49,8 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
 
     private Button mLoginInOut;
 
+    private MvpUserManager.UserStateChangeListener mUserStateChangeListener;
+
 
 
     @Override
@@ -57,14 +66,62 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
         mLoginInOut = findViewById(R.id.home_mine_login_in_out);
 
 
+        mLoginInOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(MvpUserManager.isLoginIn()){
+                    logout();
+                }else{
+                    login();
+                }
+            }
+        });
         mRoundImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPopView();
             }
         });
+
+
+     mUserStateChangeListener =  MvpUserManager.addUserStateChangeListener(new MvpUserManager.UserStateChangeListener(){
+            @Override
+            public void onLogin(IUser user) {
+                initData();
+            }
+
+            @Override
+            public void onLogout() {
+                initData();
+            }
+        });
+
+        initData();
+
     }
 
+
+    private void login() {
+        AuthActivity.open();
+    }
+
+    private void logout() {
+        mPresenter.loginOut();
+    }
+
+
+    private void initData(){
+        User user = MvpUserManager.getUser();
+
+        if(user != null){
+            GlideApp.with(mRoundImageView).load(user.getUserInfo().getHeadUrl()).into(mRoundImageView);
+            mLoginInOut.setText("退出登录");
+        }else{
+            mRoundImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_auth_sina));
+            mLoginInOut.setText("登录");
+        }
+    }
 
     private void showPopView(){
 
@@ -168,14 +225,11 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
 
             if(requestCode == CAMERA){
 
-
-
                 File file =  SystemFacade.getExternalCacheDir(getContext(),USER_HEAD_IMG_PATH + File.separator + USER_HEAD_IMG_NAME);
 
                 if(file != null && file .exists()){
                     //GlideApp.with(mRoundImageView).load(file).into(mRoundImageView);
-
-                    uploadFile(file.getAbsolutePath());
+                     uploadFile(file.getAbsolutePath());
                 }
 
 
@@ -187,13 +241,14 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
                 if(uri != null){
                    // GlideApp.with(mRoundImageView).load(uri).into(mRoundImageView);
                     String filepPath = null;
+                    // 在 android 7.0 后从相册返回的 content uri 而 非 file uri.
+                    // 因此 需要 通过ContentResolver 去获取真实的照片所在的文件路径。
                     if(uri.getScheme().equals("content")){
                         String [] keys = {MediaStore.MediaColumns.DATA};
 
                         ContentResolver contentResolver = getContext().getContentResolver();
 
                         Cursor cursor = contentResolver.query(uri,keys,null,null,null);
-
 
                         try {
                             if(cursor != null){
@@ -215,7 +270,6 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
                         showToast("获取相册图片失败");
                         return;
                     }
-
                     GlideApp.with(mRoundImageView).load(filepPath).into(mRoundImageView);
                     uploadFile(filepPath);
                 }
@@ -242,12 +296,10 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
 
     @Override
     public void onLoginOutSuccess() {
-
     }
 
     @Override
     public void onLoginOutFail() {
-
     }
 
     @Override
@@ -274,4 +326,9 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
     }
 
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        MvpUserManager.removeUserStateChangeListener(mUserStateChangeListener);
+    }
 }

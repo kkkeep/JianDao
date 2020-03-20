@@ -33,6 +33,7 @@ public interface AppConstant {
         String DO_DETAIL_COMMNET_LIKE = "/api/comment_reply/commentpraise";
         String DO_DETAIL_COMMNET_NEWS = "/api/comment_reply/usercomment";
         String DO_DETAIL_COMMNET_RELAY = "/api/comment_reply/userreply";
+        String LOGOUT = "/api/user/logout";
     }
 
 

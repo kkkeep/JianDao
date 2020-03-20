@@ -73,7 +73,7 @@ public class BaseRepository {
 
                     return gson.<HttpResult<T>>fromJson(s, parameterizedType);
                 })
-                .flatMap(this::getConvertObservable).observeOn(AndroidSchedulers.mainThread());
+                .flatMap(this::getConvertObservable);
 
 
         if (consumer != null) {
@@ -131,7 +131,7 @@ public class BaseRepository {
 
                     return gson.<HttpResult<T>>fromJson(s, parameterizedType);
                 })
-                .flatMap(this::getConvertObservable).observeOn(AndroidSchedulers.mainThread());
+                .flatMap(this::getConvertObservable);
 
 
         if (consumer != null) {
