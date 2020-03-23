@@ -24,7 +24,7 @@
         <!--没有 titile-->
         <item name="windowNoTitle">true</item>
         <!--窗口的背景-->
-        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowBackground">@drawable/splash_bg</item>
         <!--<item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>-->
         <!-- <item name="android:windowTranslucentNavigation">true</item>-->
     </style>

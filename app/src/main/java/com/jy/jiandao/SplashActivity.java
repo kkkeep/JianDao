@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jy.jiandao.home.HomeActivity;
+import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseMvpActivity;
 import com.mr.k.libmvp.manager.MvpManager;
 
@@ -23,17 +25,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if(MvpManager.isAgreementForSplash()){ // 如果用户之前同意过协议
-
-           showContent();
-
-        }else{
-            //
-
-            showAgreementPop();
-        }
-
 
 
     }
@@ -58,6 +49,8 @@ public class SplashActivity extends AppCompatActivity {
     // 显示引导页，viewpager
 
     private void showGuidePage(){
+
+
 
     }
 

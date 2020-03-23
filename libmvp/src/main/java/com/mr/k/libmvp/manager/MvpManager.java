@@ -60,7 +60,8 @@ public class MvpManager {
 
 
     public static boolean isAgreementForSplash() {
-        return SpUtils.getBoolean("agreement"); // 返回false 没有初始值，表示没有同意协议,true 表示之前用户点击过同意
+       // return SpUtils.getBoolean("agreement"); // 返回false 没有初始值，表示没有同意协议,true 表示之前用户点击过同意
+        return true;
 
     }
 
