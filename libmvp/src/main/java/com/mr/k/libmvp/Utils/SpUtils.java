@@ -21,7 +21,7 @@ public class SpUtils {
 
         SharedPreferences.Editor editor = getGlobalSp().edit();
 
-        editor.putString(key,(String)value);
+        editor.putString(key,value.toString());
 
         editor.commit();
        // editor.apply();

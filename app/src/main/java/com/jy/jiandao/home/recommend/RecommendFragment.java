@@ -88,7 +88,7 @@ public class RecommendFragment extends BaseMvpFragment<RecommendContract.IRecomm
 
     @Override
     public boolean isNeedAnimation() {
-        return true;
+        return false;
     }
 
 

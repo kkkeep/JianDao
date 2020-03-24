@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -217,6 +218,11 @@ public class CommonPopView extends PopupWindow {
 
     }
 
+
+    public void showCenter(View view){
+
+        showAtLocation(view, Gravity.CENTER,0,0);
+    }
 
     public void setOnBackKeyDismiss(boolean dismiss) {
         isBackKeyDismiss = dismiss;

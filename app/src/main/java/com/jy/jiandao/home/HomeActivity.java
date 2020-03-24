@@ -72,13 +72,13 @@ public class HomeActivity extends BaseActivity {
 
 
     }
-
+/*
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
 
         moveTaskToBack(true);
-    }
+    }*/
 
     @Override
     protected void onDestroy() {
