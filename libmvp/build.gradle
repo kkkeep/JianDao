@@ -55,7 +55,7 @@ dependencies {
   //  implementation 'com.github.Cutta:GifView:1.4'
     implementation deps.other.gifView
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
+    api project(path: ':libumeng')
 
 
 

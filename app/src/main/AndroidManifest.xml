@@ -35,6 +35,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".auth.AuthActivity"/>
+
         <activity android:name=".home.HomeActivity"
             android:launchMode="singleTask"
             />

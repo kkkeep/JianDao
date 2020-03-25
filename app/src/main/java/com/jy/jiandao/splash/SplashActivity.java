@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +18,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.jy.jiandao.AppConstant;
 import com.jy.jiandao.R;
+import com.jy.jiandao.data.entity.User;
+import com.jy.jiandao.data.repository.BaseRepository;
 import com.jy.jiandao.home.HomeActivity;
+import com.jy.jiandao.utils.ParamsUtils;
+import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.Utils.SystemFacade;
+import com.mr.k.libmvp.base.BaseActivity;
 import com.mr.k.libmvp.base.BaseMvpActivity;
+import com.mr.k.libmvp.base.IBaseCallBack;
+import com.mr.k.libmvp.base.ParamsMap;
+import com.mr.k.libmvp.exception.ResultException;
 import com.mr.k.libmvp.manager.MvpFragmentManager;
 import com.mr.k.libmvp.manager.MvpManager;
+import com.mr.k.libmvp.manager.MvpUserManager;
 
-public class SplashActivity extends AppCompatActivity {
+import io.reactivex.functions.Consumer;
 
+public class SplashActivity extends BaseActivity {
 
 
     private Handler mHandler = new Handler();
@@ -39,9 +51,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(MvpManager.isAgreementForSplash()){
+        if (MvpManager.isAgreementForSplash()) {
             showContent();
-        }else{
+        } else {
 
             getWindow().getDecorView().post(new Runnable() {
                 @Override
@@ -56,16 +68,16 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
+    private void showContent() {
 
-    private void showContent(){
 
-
-        if(MvpManager.isFirstLaunch()){ // 判断是否第一次启动
+        if (MvpManager.isFirstLaunch()) { // 判断是否第一次启动
             showGuidePage();
-        }else{
+        } else {
             // 第一次 启动延时5s
-            mHandler.postDelayed(mLaunchTask,5000);
+            mHandler.postDelayed(mLaunchTask, 5000);
 
+            getUserInfo();
             showAd();
 
 
@@ -73,17 +85,17 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     // 显示用户同意协议 pop
-    private void showAgreementPop(){
+    private void showAgreementPop() {
 
         AgreementPopView agreementPopView = new AgreementPopView(this);
 
         agreementPopView.setOnClickListener(new AgreementPopView.OnClickListener() {
             @Override
             public void onAgree(boolean agree) {
-                if(agree){
+                if (agree) {
                     MvpManager.agreeFroSpalsh();
                     showContent();
-                }else{
+                } else {
                     finish();
                 }
             }
@@ -100,15 +112,18 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
-    private void showAd(){
+    private void showAd() {
+
         // 如果有广告，那么判断是否有广告，
-            // 如果有广告，把广告加载到内存里面，
-            // 移除倒计时5s
-            // 开始在广告页面做倒计时
+        // 如果有广告，把广告加载到内存里面，
+        // 移除倒计时5s
+        // 开始在广告页面做倒计时
+
+
     }
     // 显示引导页，viewpager
 
-    private void showGuidePage(){
+    private void showGuidePage() {
 
         setContentView(R.layout.activity_splash);
 
@@ -119,6 +134,11 @@ public class SplashActivity extends AppCompatActivity {
 
         mGuildPager.setAdapter(new GuildPageAdpater());
 
+
+
+        findViewById(R.id.splash_btn_jump).setOnClickListener(view ->{
+            startHomeActivity();
+        });
 
 
     }
@@ -133,7 +153,7 @@ public class SplashActivity extends AppCompatActivity {
     };
 
 
-    private void startHomeActivity(){
+    private void startHomeActivity() {
 
         Intent intent = new Intent(this, HomeActivity.class);
 
@@ -143,12 +163,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
+    private class GuildPageAdpater extends PagerAdapter {
 
-
-
-    private class GuildPageAdpater  extends PagerAdapter{
-
-        private int drawableIds [] = new int[]{R.drawable.splash_guild1,R.drawable.splash_guild2,R.drawable.splash_guild3};
+        private int drawableIds[] = new int[]{R.drawable.splash_guild1, R.drawable.splash_guild2, R.drawable.splash_guild3};
 
         @Override
         public int getCount() {
@@ -164,23 +181,23 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
-            View page = LayoutInflater.from(container.getContext()).inflate(R.layout.item_splash_guild_page,container,false);
+            View page = LayoutInflater.from(container.getContext()).inflate(R.layout.item_splash_guild_page, container, false);
 
 
             page.setBackgroundResource(drawableIds[position]);
 
-            if(position == drawableIds.length -1){
+            if (position == drawableIds.length - 1) {
 
-               Button tryNow =  page.findViewById(R.id.splash_guild_item_btn_try_now);
-               tryNow.setVisibility(View.VISIBLE);
-               tryNow.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       startHomeActivity();
-                   }
-               });
+                Button tryNow = page.findViewById(R.id.splash_guild_item_btn_try_now);
+                tryNow.setVisibility(View.VISIBLE);
+                tryNow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startHomeActivity();
+                    }
+                });
 
-            }else{
+            } else {
                 page.findViewById(R.id.splash_guild_item_btn_try_now).setVisibility(View.GONE);
             }
 
@@ -194,6 +211,39 @@ public class SplashActivity extends AppCompatActivity {
 
             container.removeView((View) object);
         }
+    }
+
+    private void getUserInfo() {
+
+        if (!MvpUserManager.isLoginIn()) {
+            return;
+
+        }
+
+        ParamsMap paramsMap = new ParamsMap(ParamsUtils.getCommonParams(), AppConstant.Url.GETUSER);
+
+        new BaseRepository().get(this, user -> {
+
+            User localUser = MvpUserManager.getUser();
+
+            localUser.setUserInfo(user.getUserInfo());
+
+            MvpUserManager.login(localUser);
+
+
+        }, paramsMap, new IBaseCallBack<User>() {
+            @Override
+            public void onSuccess(User data) {
+                Logger.d("Get UserInfo success");
+
+            }
+
+            @Override
+            public void onFail(ResultException e) {
+                Logger.d("Get UserInfo fail msg = %s", e.getMessage());
+
+            }
+        });
     }
 
 

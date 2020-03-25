@@ -4,23 +4,45 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+
+    signingConfigs {
+        release2 {
+            storeFile file('/Users/Developer/AndroidSudioProject/JianDao/app/jiandao.jks')
+            storePassword 'jiandao123'
+            keyAlias = 'jiandao12'
+            keyPassword 'jiandao123'
+        }
+    }
+
+
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
 
     defaultConfig {
-        applicationId "com.jy.jiandao"
+        applicationId "com.seetaoism"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
         multiDexEnabled true
+
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release2
+
         }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release2
+
+        }
+
     }
 
 
@@ -57,7 +79,7 @@ dependencies {
     implementation "org.raphets:roundimageview:1.2.0" // 圆形image
 
     implementation project(path: ':libmvp')
-    implementation project(path: ':libumeng')
+
     implementation project(path: ':libbanner')
 
 

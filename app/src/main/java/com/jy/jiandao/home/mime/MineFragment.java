@@ -19,13 +19,17 @@ import com.jy.jiandao.GlideApp;
 import com.jy.jiandao.R;
 import com.jy.jiandao.auth.AuthActivity;
 import com.jy.jiandao.data.entity.User;
+import com.jy.umeng.share.LinkData;
 import com.mr.k.libmvp.Utils.Logger;
 import com.mr.k.libmvp.Utils.PermissionUtils;
 import com.mr.k.libmvp.Utils.SystemFacade;
 import com.mr.k.libmvp.base.BaseMvpFragment;
 import com.mr.k.libmvp.base.IUser;
 import com.mr.k.libmvp.manager.MvpManager;
+import com.mr.k.libmvp.manager.MvpShareManager;
 import com.mr.k.libmvp.manager.MvpUserManager;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,6 +52,8 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
     private RoundImageView mRoundImageView;
 
     private Button mLoginInOut;
+
+    private Button shareApp;
 
     private MvpUserManager.UserStateChangeListener mUserStateChangeListener;
 
@@ -96,6 +102,36 @@ public class MineFragment extends BaseMvpFragment<MineContract.IMinePresenter> i
                 initData();
             }
         });
+
+
+     shareApp = findViewById(R.id.home_mine_share_app);
+
+     shareApp.setOnClickListener(v -> {
+
+
+         LinkData linkData  = new LinkData("https://www.seetao.com/m_greet","见道","https://www.seetao.com/Public/static/share_logo.png","为您提供最新的全球工程商业新闻内容");
+         MvpShareManager.shareLinkDirectly(getActivity(), linkData, new UMShareListener() {
+             @Override
+             public void onStart(SHARE_MEDIA share_media) {
+
+             }
+
+             @Override
+             public void onResult(SHARE_MEDIA share_media) {
+
+             }
+
+             @Override
+             public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+
+             }
+
+             @Override
+             public void onCancel(SHARE_MEDIA share_media) {
+
+             }
+         },SHARE_MEDIA.WEIXIN);
+     });
 
         initData();
 

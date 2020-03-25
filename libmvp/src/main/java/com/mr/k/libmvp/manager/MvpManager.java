@@ -42,6 +42,8 @@ public class MvpManager {
         mContext = context.getApplicationContext();
 
         MvpUserManager.init(uClass);
+
+        MvpShareManager.init(context);
     }
 
 

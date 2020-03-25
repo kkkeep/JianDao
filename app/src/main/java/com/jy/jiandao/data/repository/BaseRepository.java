@@ -20,6 +20,7 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 import com.trello.rxlifecycle2.components.RxActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import java.lang.annotation.Retention;
@@ -83,7 +84,7 @@ public class BaseRepository {
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(provider instanceof RxActivity ? (((RxActivity) provider).bindUntilEvent(ActivityEvent.DESTROY)) : ((RxFragment) provider).bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .compose(provider instanceof RxAppCompatActivity ? (((RxAppCompatActivity) provider).bindUntilEvent(ActivityEvent.DESTROY)) : ((RxFragment) provider).bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribe(new Observer<T>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -141,7 +142,7 @@ public class BaseRepository {
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(provider instanceof RxActivity ? (((RxActivity) provider).bindUntilEvent(ActivityEvent.DESTROY)) : ((RxFragment) provider).bindUntilEvent(FragmentEvent.DESTROY_VIEW))
+                .compose(provider instanceof RxAppCompatActivity ? (((RxAppCompatActivity) provider).bindUntilEvent(ActivityEvent.DESTROY)) : ((RxFragment) provider).bindUntilEvent(FragmentEvent.DESTROY_VIEW))
                 .subscribe(new Observer<T>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -176,8 +177,8 @@ public class BaseRepository {
     public <D> void observer(LifecycleProvider provider, Observable<HttpResult<D>> observable, Function<HttpResult<D>, ObservableSource<D>> function, IBaseCallBack<D> callBack) {
 
         LifecycleTransformer<D> transformer;
-        if (provider instanceof RxActivity) {
-            transformer = (((RxActivity) provider).bindUntilEvent(ActivityEvent.DESTROY));
+        if (provider instanceof RxAppCompatActivity) {
+            transformer = (((RxAppCompatActivity) provider).bindUntilEvent(ActivityEvent.DESTROY));
         } else {
             transformer = ((RxFragment) provider).bindUntilEvent(FragmentEvent.DESTROY_VIEW);
         }
@@ -219,8 +220,8 @@ public class BaseRepository {
     public <D> void observer(LifecycleProvider provider, Observable<HttpResult<D>> observable, Function<HttpResult<D>, ObservableSource<D>> function, Consumer<D> consumer, IBaseCallBack<D> callBack) {
 
         LifecycleTransformer<D> transformer;
-        if (provider instanceof RxActivity) {
-            transformer = (((RxActivity) provider).bindUntilEvent(ActivityEvent.DESTROY));
+        if (provider instanceof RxAppCompatActivity) {
+            transformer = (((RxAppCompatActivity) provider).bindUntilEvent(ActivityEvent.DESTROY));
         } else {
             transformer = ((RxFragment) provider).bindUntilEvent(FragmentEvent.DESTROY_VIEW);
         }

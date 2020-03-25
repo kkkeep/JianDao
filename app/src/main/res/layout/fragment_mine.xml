@@ -29,5 +29,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_mine_heade_pic" />
 
+    <Button
+        android:id="@+id/home_mine_share_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="share app"
+        app:layout_constraintEnd_toEndOf="@+id/home_mine_login_in_out"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/home_mine_login_in_out"
+        app:layout_constraintTop_toBottomOf="@+id/home_mine_login_in_out" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

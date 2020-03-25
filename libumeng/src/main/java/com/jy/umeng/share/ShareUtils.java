@@ -1,10 +1,19 @@
 package com.jy.umeng.share;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.text.TextUtils;
 
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.PlatformName;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+
+import java.io.File;
 
 /*
  * created by Cherry on 2019-11-27
@@ -40,4 +49,13 @@ public class ShareUtils {
         PlatformConfig.setSinaWeibo("110298133","afb59986db07d0b9b0886e9980d28d1c","https://www.seetao.com");
 
     }
+
+
+
+
+
+
+
+
+
 }
